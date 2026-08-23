@@ -18,10 +18,15 @@ export default async function DashboardPage() {
 
         <h2 style={{ marginTop: "var(--space-lg)" }}>Your documents</h2>
         {documents.length === 0 ? (
-          <p style={{ color: "var(--color-ink-soft)" }}>
-            Nothing here yet — your intake forms and visit records will
-            appear once they&apos;re added to your file.
-          </p>
+          <div className="card">
+            <p style={{ marginBottom: "var(--space-sm)" }}>
+              You haven&apos;t completed your health history yet — it takes about 20 minutes and
+              helps your Biology of You team understand the full picture before your first review.
+            </p>
+            <a href="/portal/intake" className="btn btn-primary">
+              Complete your health history
+            </a>
+          </div>
         ) : (
           <ul style={{ listStyle: "none", padding: 0 }}>
             {documents.map((doc) => (
