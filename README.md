@@ -79,4 +79,4 @@ holds real records.
 - Swap placeholder copy on the About and Contact pages for Jen's real bio, services, and hours
 - Replace the placeholder palette in `app/globals.css` once branding files arrive
 - Decide how documents land in a client's portal — likely: reuse the existing intake-form `.docx` generator, then `uploadClientDocument()` from `lib/blob.ts` and insert a row into `documents`
-- Contact form currently doesn't send anywhere — wire to an email provider (e.g. Resend) or a booking tool once chosen
+- Contact form now sends via Resend to `ugeniquehq@gmail.com` from the sandbox address `onboarding@resend.dev` (see `app/api/contact/route.ts`) — once the domain's verified in Resend, update the `FROM` constant there to a branded address

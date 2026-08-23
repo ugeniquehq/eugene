@@ -16,6 +16,11 @@ async function main() {
     );
   `;
 
+  // Safe to run even if the table already existed before this column was added.
+  await sql`
+    ALTER TABLE users ADD COLUMN IF NOT EXISTS role TEXT NOT NULL DEFAULT 'client';
+  `;
+
   await sql`
     CREATE TABLE IF NOT EXISTS documents (
       id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
