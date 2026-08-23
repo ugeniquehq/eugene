@@ -19,7 +19,7 @@ export default function Footer() {
           color: "var(--color-ink-soft)",
         }}
       >
-        <span>&copy; {new Date().getFullYear()} Well Adjusted</span>
+        <span>&copy; {new Date().getFullYear()} Eugene</span>
         <span>Placeholder branding — swap in app/globals.css</span>
       </div>
     </footer>

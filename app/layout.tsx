@@ -24,8 +24,8 @@ const plexMono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Well Adjusted",
-  description: "Chiropractic and wellness care with Dr. Jen.",
+  title: "Eugene",
+  description: "Wellness care with Dr. Jen.",
 };
 
 export default function RootLayout({

@@ -27,7 +27,7 @@ export default function Nav() {
             color: "var(--color-ink)",
           }}
         >
-          Well Adjusted
+          Eugene
         </Link>
         <nav
           style={{
