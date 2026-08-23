@@ -9,6 +9,7 @@ export default async function DashboardPage() {
   }
 
   const documents = await getDocumentsForUser(session.user.id as string);
+  const hasHealthHistory = documents.some((doc) => doc.title === "Health History");
 
   return (
     <section className="section">
@@ -28,18 +29,26 @@ export default async function DashboardPage() {
             </a>
           </div>
         ) : (
-          <ul style={{ listStyle: "none", padding: 0 }}>
-            {documents.map((doc) => (
-              <li key={doc.id} className="card" style={{ marginBottom: "var(--space-sm)" }}>
-                <a href={`/api/documents/${doc.id}`} target="_blank" rel="noreferrer">
-                  {doc.title}
-                </a>
-                <p style={{ fontFamily: "var(--font-mono)", fontSize: "var(--step-1)", color: "var(--color-ink-soft)", margin: 0 }}>
-                  {new Date(doc.uploaded_at).toLocaleDateString()}
-                </p>
-              </li>
-            ))}
-          </ul>
+          <>
+            <ul style={{ listStyle: "none", padding: 0 }}>
+              {documents.map((doc) => (
+                <li key={doc.id} className="card" style={{ marginBottom: "var(--space-sm)" }}>
+                  <a href={`/api/documents/${doc.id}`} target="_blank" rel="noreferrer">
+                    {doc.title}
+                  </a>
+                  <p style={{ fontFamily: "var(--font-mono)", fontSize: "var(--step-1)", color: "var(--color-ink-soft)", margin: 0 }}>
+                    {new Date(doc.uploaded_at).toLocaleDateString()}
+                  </p>
+                </li>
+              ))}
+            </ul>
+
+            {hasHealthHistory && (
+              <a href="/portal/intake" className="btn btn-secondary" style={{ marginTop: "var(--space-xs)" }}>
+                Update your health history
+              </a>
+            )}
+          </>
         )}
 
         <form

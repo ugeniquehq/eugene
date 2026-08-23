@@ -1,4 +1,4 @@
-import { put, issueSignedToken, presignUrl } from "@vercel/blob";
+import { put, del, issueSignedToken, presignUrl } from "@vercel/blob";
 
 /**
  * Uploads a client document (e.g. a generated intake .docx) to Vercel Blob
@@ -19,6 +19,14 @@ export async function uploadClientDocument(
     addRandomSuffix: true,
   });
   return { pathname: blob.pathname };
+}
+
+/**
+ * Deletes a previously-uploaded document — used when a client updates
+ * their health history, so the old version doesn't linger in storage.
+ */
+export async function deleteClientDocument(pathname: string): Promise<void> {
+  await del(pathname);
 }
 
 /**

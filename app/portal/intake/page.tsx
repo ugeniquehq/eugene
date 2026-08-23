@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { INTAKE_STEPS } from "@/lib/intake-schema";
 import { IntakeAnswers } from "@/lib/intake-answers";
@@ -10,13 +10,36 @@ export default function IntakePage() {
   const router = useRouter();
   const [stepIndex, setStepIndex] = useState(0);
   const [answers, setAnswers] = useState<IntakeAnswers>({});
+  const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState<"idle" | "submitting" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch("/api/intake")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.answers) setAnswers(data.answers);
+      })
+      .catch(() => {
+        // If this fails, the form just starts blank — not worth blocking on.
+      })
+      .finally(() => setLoading(false));
+  }, []);
 
   const step = INTAKE_STEPS[stepIndex];
   const isFirst = stepIndex === 0;
   const isLast = stepIndex === INTAKE_STEPS.length - 1;
   const progress = Math.round(((stepIndex + 1) / INTAKE_STEPS.length) * 100);
+
+  if (loading) {
+    return (
+      <section className="section">
+        <div className="container" style={{ maxWidth: "40rem" }}>
+          <p style={{ color: "var(--color-ink-soft)" }}>Loading your health history…</p>
+        </div>
+      </section>
+    );
+  }
 
   async function handleSubmit() {
     setStatus("submitting");
@@ -75,7 +98,7 @@ export default function IntakePage() {
 
           {isLast ? (
             <button type="button" className="btn btn-primary" onClick={handleSubmit} disabled={status === "submitting"}>
-              {status === "submitting" ? "Saving…" : "Submit health history"}
+              {status === "submitting" ? "Saving…" : "Save health history"}
             </button>
           ) : (
             <button
@@ -89,8 +112,9 @@ export default function IntakePage() {
         </div>
 
         <p style={{ fontSize: "var(--step-1)", color: "var(--color-ink-soft)", marginTop: "var(--space-md)" }}>
-          Your answers aren&apos;t saved until you submit on the final step — if you need to stop partway
-          through, you&apos;ll need to start again next time for now.
+          Your answers save once you reach the final step and click Save — if you close the tab
+          partway through, you can come back and pick up from your last saved version, but changes
+          made in this session before saving won&apos;t be kept.
         </p>
       </div>
     </section>

@@ -1,8 +1,18 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { sql } from "@/lib/db";
-import { uploadClientDocument } from "@/lib/blob";
+import { getHealthHistoryForUser, insertHealthHistory, updateHealthHistory } from "@/lib/db";
+import { uploadClientDocument, deleteClientDocument } from "@/lib/blob";
 import { generateIntakeDocx } from "@/lib/intake-docx";
+
+export async function GET() {
+  const session = await auth();
+  if (!session?.user) {
+    return NextResponse.json({ error: "Not logged in." }, { status: 401 });
+  }
+
+  const existing = await getHealthHistoryForUser(session.user.id as string);
+  return NextResponse.json({ answers: existing?.answers ?? null });
+}
 
 export async function POST(req: Request) {
   const session = await auth();
@@ -18,15 +28,24 @@ export async function POST(req: Request) {
 
   try {
     const buffer = await generateIntakeDocx(answers, session.user.name ?? "Client");
-
     const safeName = (session.user.name ?? "client").replace(/[^a-z0-9]+/gi, "-").toLowerCase();
     const fileName = `health-history-${safeName}-${Date.now()}.docx`;
     const { pathname } = await uploadClientDocument(fileName, buffer);
 
-    await sql`
-      INSERT INTO documents (user_id, title, blob_url)
-      VALUES (${session.user.id as string}, ${"Health History"}, ${pathname});
-    `;
+    const existing = await getHealthHistoryForUser(session.user.id as string);
+
+    if (existing) {
+      await updateHealthHistory(existing.id, pathname, answers);
+      // Best-effort cleanup of the superseded file — if this fails, the
+      // old blob just lingers unused rather than breaking the update.
+      try {
+        await deleteClientDocument(existing.blob_url);
+      } catch (cleanupErr) {
+        console.error("Failed to delete superseded health history blob:", cleanupErr);
+      }
+    } else {
+      await insertHealthHistory(session.user.id as string, pathname, answers);
+    }
 
     return NextResponse.json({ ok: true });
   } catch (err) {

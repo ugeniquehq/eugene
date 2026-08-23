@@ -87,6 +87,45 @@ export async function getAllClients(): Promise<ClientSummary[]> {
   return rows;
 }
 
+export type HealthHistoryDoc = {
+  id: string;
+  blob_url: string;
+  answers: Record<string, unknown> | null;
+};
+
+export async function getHealthHistoryForUser(userId: string): Promise<HealthHistoryDoc | null> {
+  const { rows } = await sql<HealthHistoryDoc>`
+    SELECT id, blob_url, answers
+    FROM documents
+    WHERE user_id = ${userId} AND title = 'Health History'
+    LIMIT 1;
+  `;
+  return rows[0] ?? null;
+}
+
+export async function insertHealthHistory(
+  userId: string,
+  blobUrl: string,
+  answers: Record<string, unknown>
+): Promise<void> {
+  await sql`
+    INSERT INTO documents (user_id, title, blob_url, answers)
+    VALUES (${userId}, 'Health History', ${blobUrl}, ${JSON.stringify(answers)});
+  `;
+}
+
+export async function updateHealthHistory(
+  documentId: string,
+  blobUrl: string,
+  answers: Record<string, unknown>
+): Promise<void> {
+  await sql`
+    UPDATE documents
+    SET blob_url = ${blobUrl}, answers = ${JSON.stringify(answers)}, uploaded_at = now()
+    WHERE id = ${documentId};
+  `;
+}
+
 export async function getClientById(userId: string): Promise<Pick<ClientUser, "id" | "name" | "email"> | null> {
   const { rows } = await sql<Pick<ClientUser, "id" | "name" | "email">>`
     SELECT id, name, email

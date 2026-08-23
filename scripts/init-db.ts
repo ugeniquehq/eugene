@@ -31,6 +31,11 @@ async function main() {
     );
   `;
 
+  // Safe to run even if the table already existed before this column was added.
+  await sql`
+    ALTER TABLE documents ADD COLUMN IF NOT EXISTS answers JSONB;
+  `;
+
   console.log("Tables ready: users, documents");
 }
 
