@@ -1,4 +1,43 @@
+"use client";
+
+import { useState } from "react";
+
 export default function ContactPage() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">("idle");
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setStatus("sending");
+    setError(null);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, message }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error ?? "Something went wrong. Please try again.");
+        setStatus("error");
+        return;
+      }
+
+      setStatus("sent");
+      setName("");
+      setEmail("");
+      setMessage("");
+    } catch {
+      setError("Something went wrong. Please try again.");
+      setStatus("error");
+    }
+  }
+
   return (
     <section className="section">
       <div className="container" style={{ maxWidth: "34rem" }}>
@@ -8,27 +47,55 @@ export default function ContactPage() {
           [Placeholder — add practice address, phone, and hours here, or
           embed a booking widget once one is chosen.]
         </p>
-        <form className="card" style={{ marginTop: "var(--space-md)" }}>
-          <div className="field">
-            <label htmlFor="name">Name</label>
-            <input id="name" name="name" type="text" required />
+
+        {status === "sent" ? (
+          <div className="card" style={{ marginTop: "var(--space-md)" }}>
+            <p style={{ margin: 0 }}>
+              Thanks — your message is on its way. We&apos;ll be in touch soon.
+            </p>
           </div>
-          <div className="field">
-            <label htmlFor="email">Email</label>
-            <input id="email" name="email" type="email" required />
-          </div>
-          <div className="field">
-            <label htmlFor="message">What brings you in?</label>
-            <textarea id="message" name="message" rows={4} />
-          </div>
-          <button type="submit" className="btn btn-primary">
-            Send
-          </button>
-          <p style={{ fontSize: "var(--step-1)", color: "var(--color-ink-soft)", marginTop: "var(--space-sm)" }}>
-            This form doesn&apos;t send anywhere yet — wire it up to an email
-            provider or a booking system once one&apos;s chosen.
-          </p>
-        </form>
+        ) : (
+          <form className="card" style={{ marginTop: "var(--space-md)" }} onSubmit={handleSubmit}>
+            <div className="field">
+              <label htmlFor="name">Name</label>
+              <input
+                id="name"
+                name="name"
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+            </div>
+            <div className="field">
+              <label htmlFor="email">Email</label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+            </div>
+            <div className="field">
+              <label htmlFor="message">What brings you in?</label>
+              <textarea
+                id="message"
+                name="message"
+                rows={4}
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+              />
+            </div>
+
+            {error && <p className="error-text">{error}</p>}
+
+            <button type="submit" className="btn btn-primary" disabled={status === "sending"}>
+              {status === "sending" ? "Sending…" : "Send"}
+            </button>
+          </form>
+        )}
       </div>
     </section>
   );
