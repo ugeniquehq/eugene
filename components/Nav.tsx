@@ -1,0 +1,60 @@
+import Link from "next/link";
+
+export default function Nav() {
+  return (
+    <header
+      style={{
+        borderBottom: "1px solid var(--color-line)",
+        background: "var(--color-bg)",
+      }}
+    >
+      <div
+        className="container"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          paddingTop: "var(--space-sm)",
+          paddingBottom: "var(--space-sm)",
+        }}
+      >
+        <Link
+          href="/"
+          style={{
+            fontFamily: "var(--font-display)",
+            fontSize: "var(--step1)",
+            textDecoration: "none",
+            color: "var(--color-ink)",
+          }}
+        >
+          Well Adjusted
+        </Link>
+        <nav
+          style={{
+            display: "flex",
+            gap: "var(--space-md)",
+            alignItems: "center",
+            fontFamily: "var(--font-mono)",
+            fontSize: "var(--step-1)",
+            letterSpacing: "0.04em",
+            textTransform: "uppercase",
+          }}
+        >
+          <Link href="/about" style={{ textDecoration: "none" }}>
+            About
+          </Link>
+          <Link href="/contact" style={{ textDecoration: "none" }}>
+            Contact
+          </Link>
+          <Link
+            href="/portal/login"
+            className="btn btn-secondary"
+            style={{ textTransform: "none", fontFamily: "var(--font-body)" }}
+          >
+            Client Portal
+          </Link>
+        </nav>
+      </div>
+    </header>
+  );
+}
