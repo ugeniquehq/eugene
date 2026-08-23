@@ -31,7 +31,7 @@ export default async function DashboardPage() {
           <ul style={{ listStyle: "none", padding: 0 }}>
             {documents.map((doc) => (
               <li key={doc.id} className="card" style={{ marginBottom: "var(--space-sm)" }}>
-                <a href={doc.blob_url} target="_blank" rel="noreferrer">
+                <a href={`/api/documents/${doc.id}`} target="_blank" rel="noreferrer">
                   {doc.title}
                 </a>
                 <p style={{ fontFamily: "var(--font-mono)", fontSize: "var(--step-1)", color: "var(--color-ink-soft)", margin: 0 }}>

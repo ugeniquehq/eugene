@@ -37,3 +37,16 @@ export async function getDocumentsForUser(userId: string): Promise<ClientDocumen
   `;
   return rows;
 }
+
+export async function getDocumentForUser(
+  documentId: string,
+  userId: string
+): Promise<ClientDocument | null> {
+  const { rows } = await sql<ClientDocument>`
+    SELECT id, user_id, title, blob_url, uploaded_at
+    FROM documents
+    WHERE id = ${documentId} AND user_id = ${userId}
+    LIMIT 1;
+  `;
+  return rows[0] ?? null;
+}

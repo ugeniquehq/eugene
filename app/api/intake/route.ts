@@ -21,11 +21,11 @@ export async function POST(req: Request) {
 
     const safeName = (session.user.name ?? "client").replace(/[^a-z0-9]+/gi, "-").toLowerCase();
     const fileName = `health-history-${safeName}-${Date.now()}.docx`;
-    const blobUrl = await uploadClientDocument(fileName, buffer);
+    const { pathname } = await uploadClientDocument(fileName, buffer);
 
     await sql`
       INSERT INTO documents (user_id, title, blob_url)
-      VALUES (${session.user.id as string}, ${"Health History"}, ${blobUrl});
+      VALUES (${session.user.id as string}, ${"Health History"}, ${pathname});
     `;
 
     return NextResponse.json({ ok: true });
