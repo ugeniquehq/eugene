@@ -20,16 +20,12 @@ export default function Nav() {
           paddingBottom: "var(--space-sm)",
         }}
       >
-        <Link
-          href="/"
-          style={{
-            fontFamily: "var(--font-display)",
-            fontSize: "var(--step1)",
-            textDecoration: "none",
-            color: "var(--color-ink)",
-          }}
-        >
-          The Biology of You
+        <Link href="/" style={{ display: "flex", alignItems: "center" }}>
+          <img
+            src="/branding/logo-wordmark.png"
+            alt="The Biology of You"
+            style={{ height: "1.1rem", width: "auto", display: "block" }}
+          />
         </Link>
         <nav
           style={{

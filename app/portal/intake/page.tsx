@@ -157,15 +157,7 @@ export default function IntakePage() {
           </div>
         )}
 
-        {step.id === "welcome" ? (
-          <img
-            src="/branding/biology-of-you-header.png"
-            alt="Welcome to The Biology of You — the story only your biology can tell."
-            style={{ width: "100%", maxWidth: "28rem", height: "auto", display: "block", marginBottom: "var(--space-md)" }}
-          />
-        ) : (
-          <h1>{step.title}</h1>
-        )}
+        <h1>{step.title}</h1>
         {step.intro && (
           <p style={{ color: "var(--color-ink-soft)", whiteSpace: "pre-line" }}>{step.intro}</p>
         )}

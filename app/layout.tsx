@@ -1,15 +1,8 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import { IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-
-const plexMono = IBM_Plex_Mono({
-  subsets: ["latin"],
-  variable: "--font-plex-mono",
-  weight: ["400", "500"],
-});
 
 const gatherSerif = localFont({
   src: "../public/fonts/Gather_Collector_s_Edition_Serif.woff",
@@ -34,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${plexMono.variable} ${gatherSerif.variable} ${gatherScript.variable}`}>
+    <html lang="en" className={`${gatherSerif.variable} ${gatherScript.variable}`}>
       <head>
         {/* Adobe Fonts (Typekit) — Neue Haas Grotesk Display & Text */}
         <link rel="stylesheet" href="https://use.typekit.net/sfo4vod.css" />

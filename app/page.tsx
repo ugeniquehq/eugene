@@ -1,5 +1,4 @@
 import Link from "next/link";
-import AlignmentLine from "@/components/AlignmentLine";
 
 export default function HomePage() {
   return (
@@ -12,7 +11,6 @@ export default function HomePage() {
           paddingBottom: "var(--space-xl)",
         }}
       >
-        <AlignmentLine />
         <div className="container" style={{ position: "relative", maxWidth: "40rem" }}>
           <p className="eyebrow">The Biology of You</p>
           <h1>The story only your biology can tell.</h1>
