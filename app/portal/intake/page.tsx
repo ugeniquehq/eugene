@@ -6,6 +6,22 @@ import { INTAKE_STEPS } from "@/lib/intake-schema";
 import { IntakeAnswers } from "@/lib/intake-answers";
 import Field from "@/components/intake/Field";
 
+const PART_PHOTOS: Record<number, string> = {
+  1: "/photography/womans-face.jpg",
+  2: "/photography/spine-body.jpg",
+  3: "/photography/hand-on-stomach.jpg",
+};
+const DEFAULT_PHOTO = "/photography/hand-on-lips.jpg";
+
+function getPhotoForStep(stepIndex: number): string {
+  // Walk backward to find the most recent Part marker at or before this step.
+  for (let i = stepIndex; i >= 0; i--) {
+    const partNumber = INTAKE_STEPS[i].part?.number;
+    if (partNumber) return PART_PHOTOS[partNumber] ?? DEFAULT_PHOTO;
+  }
+  return DEFAULT_PHOTO;
+}
+
 export default function IntakePage() {
   const router = useRouter();
   const [stepIndex, setStepIndex] = useState(0);
@@ -35,6 +51,7 @@ export default function IntakePage() {
   const isFirst = stepIndex === 0;
   const isLast = stepIndex === INTAKE_STEPS.length - 1;
   const progress = Math.round(((stepIndex + 1) / INTAKE_STEPS.length) * 100);
+  const photo = getPhotoForStep(stepIndex);
 
   if (loading) {
     return (
@@ -71,7 +88,7 @@ export default function IntakePage() {
 
   return (
     <section className="section" style={{ paddingTop: 0, paddingBottom: 0 }}>
-      <div className="intake-photo-fixed" />
+      <div className="intake-photo-fixed" style={{ backgroundImage: `url(${photo})` }} />
 
       <div className="intake-form-col">
           <div style={{ maxWidth: "40rem" }}>

@@ -2,7 +2,7 @@
   /* ---- Color tokens (official Biology of You brand palette) ---- */
   --color-bg: #e5decb;
   --color-surface: #ffffff;
-  --color-card: #f1eeea;
+  --color-card: #ebe0d5;
   --color-ink: #37342f;
   --color-ink-soft: #645f58;
   --color-accent: #845334;
@@ -213,9 +213,9 @@ button:focus-visible {
   left: 0;
   width: 30vw;
   height: 100vh;
-  background-image: url("/photography/hand-on-lips.jpg");
   background-size: cover;
   background-position: center;
+  transition: background-image 0.3s ease;
   z-index: 0;
 }
 
