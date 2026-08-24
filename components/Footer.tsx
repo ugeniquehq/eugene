@@ -20,7 +20,7 @@ export default function Footer() {
         }}
       >
         <span>&copy; {new Date().getFullYear()} The Biology of You</span>
-        <span>Placeholder branding — swap in app/globals.css</span>
+        <span>The story only your biology can tell.</span>
       </div>
     </footer>
   );

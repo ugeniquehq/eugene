@@ -195,3 +195,27 @@ button:focus-visible {
   font-size: var(--step-1);
   color: var(--color-danger);
 }
+
+.intake-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 22rem) minmax(0, 1fr);
+  gap: var(--space-xl);
+}
+
+.intake-photo-col img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: var(--radius);
+  position: sticky;
+  top: var(--space-lg);
+}
+
+@media (max-width: 900px) {
+  .intake-layout {
+    grid-template-columns: 1fr;
+  }
+  .intake-photo-col {
+    display: none;
+  }
+}

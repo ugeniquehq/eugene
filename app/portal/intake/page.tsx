@@ -71,7 +71,13 @@ export default function IntakePage() {
 
   return (
     <section className="section">
-      <div className="container" style={{ maxWidth: "40rem" }}>
+      <div className="container" style={{ maxWidth: "68rem" }}>
+        <div className="intake-layout">
+          <div className="intake-photo-col">
+            <img src="/photography/hand-on-lips.jpg" alt="" />
+          </div>
+
+          <div style={{ maxWidth: "40rem" }}>
         <p className="eyebrow">
           Health History &middot; Step {stepIndex + 1} of {INTAKE_STEPS.length}
         </p>
@@ -220,6 +226,8 @@ export default function IntakePage() {
             ? "Your previous answers are already filled in — jump to a section to update it, or use \u201cSave now\u201d from anywhere to save your changes without going through every step."
             : "Your answers save once you reach the final step and click Save \u2014 if you close the tab partway through, changes made in this session won't be kept."}
         </p>
+          </div>
+        </div>
       </div>
     </section>
   );
