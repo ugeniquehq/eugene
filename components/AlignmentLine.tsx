@@ -42,7 +42,7 @@ export default function AlignmentLine() {
         left: "50%",
         width: "1px",
         height: "100%",
-        background: "var(--color-accent)",
+        background: "var(--gradient-brand)",
         transformOrigin: "top center",
         transform: "translateX(14px) rotate(6deg)",
         opacity: 0.55,

@@ -1,21 +1,9 @@
 import type { Metadata } from "next";
-import { Newsreader, Karla, IBM_Plex_Mono } from "next/font/google";
+import localFont from "next/font/local";
+import { IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 import Nav from "@/components/Nav";
 import Footer from "@/components/Footer";
-
-const newsreader = Newsreader({
-  subsets: ["latin"],
-  variable: "--font-newsreader",
-  weight: ["400", "500", "600"],
-  style: ["normal", "italic"],
-});
-
-const karla = Karla({
-  subsets: ["latin"],
-  variable: "--font-karla",
-  weight: ["400", "500", "700"],
-});
 
 const plexMono = IBM_Plex_Mono({
   subsets: ["latin"],
@@ -23,9 +11,21 @@ const plexMono = IBM_Plex_Mono({
   weight: ["400", "500"],
 });
 
+const gatherSerif = localFont({
+  src: "../public/fonts/gather-serif.woff2",
+  variable: "--font-gather-serif",
+  display: "swap",
+});
+
+const gatherScript = localFont({
+  src: "../public/fonts/gather-script.woff2",
+  variable: "--font-gather-script",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "Well Adjusted",
-  description: "Chiropractic and wellness care with Dr. Jen.",
+  title: "The Biology of You",
+  description: "The story only your biology can tell.",
 };
 
 export default function RootLayout({
@@ -34,7 +34,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${newsreader.variable} ${karla.variable} ${plexMono.variable}`}>
+    <html lang="en" className={`${plexMono.variable} ${gatherSerif.variable} ${gatherScript.variable}`}>
+      <head>
+        {/* Adobe Fonts (Typekit) — Neue Haas Grotesk Display & Text */}
+        <link rel="stylesheet" href="https://use.typekit.net/sfo4vod.css" />
+      </head>
       <body>
         <Nav />
         <main>{children}</main>

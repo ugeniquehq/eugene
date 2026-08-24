@@ -1,19 +1,27 @@
 :root {
-  /* ---- Color tokens (from Jen's actual branding) ---- */
-  --color-bg: #e3dfd5;
+  /* ---- Color tokens (official Biology of You brand palette) ---- */
+  --color-bg: #ebe0d5;
   --color-surface: #ffffff;
-  --color-ink: #35332f;
-  --color-ink-soft: #5a564e;
-  --color-accent: #825a37;
-  --color-accent-soft: #d9c7b3;
-  --color-sage: #4e5943;
-  --color-maroon: #4e130f;
-  --color-line: #d3cec0;
-  --color-danger: #a34433;
+  --color-ink: #37342f;
+  --color-ink-soft: #645f58;
+  --color-accent: #845334;
+  --color-accent-soft: #c7bba7;
+  --color-sage: #4b5a43;
+  --color-maroon: #5b0e0e;
+  --color-line: #d9cebe;
+  --color-danger: #5b0e0e;
 
-  /* ---- Type tokens (populated by next/font in app/layout.tsx) ---- */
-  --font-display: var(--font-newsreader), Georgia, serif;
-  --font-body: var(--font-karla), -apple-system, sans-serif;
+  /* Brand gradient (from the palette export) — used sparingly as an accent */
+  --gradient-brand: linear-gradient(90deg, #5b0e0e, #7c3e27, #ad6d36, #deab6f, #ebe0d5);
+
+  /* ---- Type tokens ---- */
+  /* Main headings (h1): Gather Collective Serif */
+  --font-display: var(--font-gather-serif), Georgia, serif;
+  /* Subheadings (h2/h3), used as an accent — not for dense body text */
+  --font-subheading: var(--font-gather-script), var(--font-display);
+  /* Body copy: Neue Haas Grotesk Text (Adobe Fonts) */
+  --font-body: "neue-haas-grotesk-text", -apple-system, sans-serif;
+  /* Labels, eyebrows, data: IBM Plex Mono (next/font, unchanged) */
   --font-mono: var(--font-plex-mono), ui-monospace, monospace;
 
   --step-1: clamp(0.85rem, 0.8rem + 0.2vw, 0.95rem);
@@ -61,17 +69,25 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-h1, h2, h3 {
+h1 {
   font-family: var(--font-display);
-  font-weight: 500;
+  font-weight: 700;
   line-height: 1.1;
   margin: 0 0 var(--space-sm);
   color: var(--color-ink);
 }
 
+h2, h3 {
+  font-family: var(--font-subheading);
+  font-weight: 400;
+  line-height: 1.25;
+  margin: 0 0 var(--space-sm);
+  color: var(--color-ink);
+}
+
 h1 { font-size: var(--step3); }
-h2 { font-size: var(--step2); }
-h3 { font-size: var(--step1); }
+h2 { font-size: clamp(2rem, 1.6rem + 1.6vw, 2.75rem); }
+h3 { font-size: clamp(1.5rem, 1.3rem + 0.8vw, 1.85rem); }
 
 p {
   margin: 0 0 var(--space-sm);
@@ -112,7 +128,7 @@ a {
   align-items: center;
   gap: 0.5rem;
   font-family: var(--font-body);
-  font-weight: 600;
+  font-weight: 700;
   font-size: var(--step0);
   padding: 0.75rem 1.5rem;
   border-radius: var(--radius);

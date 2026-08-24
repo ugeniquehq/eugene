@@ -77,7 +77,7 @@ export default function IntakePage() {
         </p>
 
         <div style={{ height: "4px", background: "var(--color-line)", borderRadius: "2px", marginBottom: "var(--space-sm)", overflow: "hidden" }}>
-          <div style={{ height: "100%", width: `${progress}%`, background: "var(--color-accent)", transition: "width 0.2s ease" }} />
+          <div style={{ height: "100%", width: `${progress}%`, background: "var(--gradient-brand)", transition: "width 0.2s ease" }} />
         </div>
 
         {isEditing && (

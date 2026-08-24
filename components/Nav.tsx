@@ -27,7 +27,7 @@ export default function Nav() {
             color: "var(--color-ink)",
           }}
         >
-          Well Adjusted
+          The Biology of You
         </Link>
         <nav
           style={{
