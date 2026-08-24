@@ -5,6 +5,9 @@ export default function Footer() {
         borderTop: "1px solid var(--color-line)",
         padding: "var(--space-lg) 0",
         marginTop: "var(--space-xl)",
+        position: "relative",
+        zIndex: 10,
+        background: "var(--color-bg)",
       }}
     >
       <div

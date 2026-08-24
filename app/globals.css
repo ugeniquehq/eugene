@@ -196,32 +196,31 @@ button:focus-visible {
   color: var(--color-danger);
 }
 
-.intake-layout {
-  display: grid;
-  grid-template-columns: minmax(18rem, 28vw) minmax(0, 1fr);
-}
-
-.intake-photo-col img {
-  width: 100%;
-  height: calc(100vh - 4.5rem);
-  object-fit: cover;
-  display: block;
-  position: sticky;
-  top: 4.5rem;
+.intake-photo-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30vw;
+  height: 100vh;
+  background-image: url("/photography/hand-on-lips.jpg");
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
 }
 
 .intake-form-col {
+  position: relative;
+  z-index: 1;
+  margin-left: 30vw;
   padding: var(--space-xl) var(--space-md) var(--space-xl) var(--space-xl);
 }
 
 @media (max-width: 900px) {
-  .intake-layout {
-    grid-template-columns: 1fr;
-  }
-  .intake-photo-col {
+  .intake-photo-fixed {
     display: none;
   }
   .intake-form-col {
+    margin-left: 0;
     padding: var(--space-xl) var(--space-md);
   }
 }

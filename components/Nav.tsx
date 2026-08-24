@@ -6,6 +6,8 @@ export default function Nav() {
       style={{
         borderBottom: "1px solid var(--color-line)",
         background: "var(--color-bg)",
+        position: "relative",
+        zIndex: 10,
       }}
     >
       <div
