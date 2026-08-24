@@ -14,21 +14,21 @@ export default function HomePage() {
       >
         <AlignmentLine />
         <div className="container" style={{ position: "relative", maxWidth: "40rem" }}>
-          <p className="eyebrow">Chiropractic &amp; Wellness Care</p>
-          <h1>
-            Care that meets you<br />where your body is.
-          </h1>
+          <p className="eyebrow">The Biology of You</p>
+          <h1>The story only your biology can tell.</h1>
           <p style={{ fontSize: "var(--step1)", color: "var(--color-ink-soft)" }}>
-            Dr. Jen works with patients through hands-on adjustment, honest
-            assessment, and a plan that actually fits your life — not a
-            generic protocol.
+            Energy. Mood. Desire. Curiosity. Strength. They&apos;re more connected
+            than you think. Your health history, genetics, lab work and lifestyle
+            aren&apos;t separate stories — we read them together, so the
+            recommendations are actually built for your biology, not somebody
+            else&apos;s rules.
           </p>
           <div style={{ display: "flex", gap: "var(--space-sm)", marginTop: "var(--space-md)" }}>
             <Link href="/contact" className="btn btn-primary">
-              Book a visit
+              Book a consultation
             </Link>
             <Link href="/about" className="btn btn-secondary">
-              Meet Dr. Jen
+              How it works
             </Link>
           </div>
         </div>
@@ -44,25 +44,24 @@ export default function HomePage() {
             }}
           >
             <div className="card">
-              <h3>Initial assessment</h3>
+              <h3>Energy Is Fundamental</h3>
               <p>
-                A full look at posture, movement, and history before any
-                hands-on work begins, so the plan fits the person, not the
-                other way round.
+                Give your body the energy it needs to regulate, repair and adapt.
+                We don&apos;t want you simply functioning — we want you thriving.
               </p>
             </div>
             <div className="card">
-              <h3>Ongoing adjustment</h3>
+              <h3>Genes Are Clues, Not Destiny</h3>
               <p>
-                Regular sessions built around what your body actually needs
-                this week, not a fixed package.
+                Your genes are clues, not your destiny. We don&apos;t analyse a
+                mutation in isolation — we map the biology of you.
               </p>
             </div>
             <div className="card">
-              <h3>Client portal</h3>
+              <h3>Beyond the Reference Range</h3>
               <p>
-                Complete your intake once, then log in any time to see your
-                visit history and documents in one place.
+                Your blood results are more than &quot;normal&quot; or
+                &quot;abnormal.&quot; A number means very little without context.
               </p>
             </div>
           </div>
@@ -71,12 +70,13 @@ export default function HomePage() {
 
       <section className="section" style={{ borderTop: "1px solid var(--color-line)" }}>
         <div className="container" style={{ maxWidth: "40rem" }}>
-          <p className="eyebrow">New here?</p>
-          <h2>Start with your intake</h2>
+          <p className="eyebrow">Where to start</p>
+          <h2>Where your health story starts to make sense.</h2>
           <p>
-            New patients complete a short health history before their first
-            visit. It takes about ten minutes and means your first
-            appointment can start with care, not paperwork.
+            Your health history is the first piece of the picture — it takes
+            about 20 minutes, and it&apos;s what lets everything else (your labs,
+            your genetics, your day-to-day life) actually be read in context,
+            rather than in isolation.
           </p>
           <Link href="/portal/login" className="btn btn-primary">
             Go to client portal
