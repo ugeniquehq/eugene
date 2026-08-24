@@ -204,11 +204,12 @@ button:focus-visible {
 
 .intake-photo-col img {
   width: 100%;
-  height: auto;
+  height: calc(100vh - 7rem);
+  object-fit: cover;
   display: block;
   border-radius: var(--radius);
   position: sticky;
-  top: var(--space-lg);
+  top: 5rem;
 }
 
 @media (max-width: 900px) {
