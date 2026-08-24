@@ -137,14 +137,43 @@ export default function IntakePage() {
           </div>
         )}
 
-        <h1>{step.title}</h1>
-        {step.intro && <p style={{ color: "var(--color-ink-soft)" }}>{step.intro}</p>}
+        {step.part && (
+          <div style={{ marginBottom: "var(--space-lg)", paddingBottom: "var(--space-md)", borderBottom: "1px solid var(--color-line)" }}>
+            <p className="eyebrow" style={{ marginBottom: "0.25rem" }}>Part {step.part.number}</p>
+            <h2 style={{ marginBottom: "0.5rem" }}>{step.part.title}</h2>
+            <p style={{ color: "var(--color-ink-soft)", margin: 0, whiteSpace: "pre-line" }}>{step.part.subtitle}</p>
+          </div>
+        )}
 
-        <div className="card" style={{ marginTop: "var(--space-md)" }}>
-          {step.fields.map((field) => (
-            <Field key={field.key} field={field} answers={answers} onChange={setAnswers} />
-          ))}
-        </div>
+        {step.sectionHeading && (
+          <div style={{ marginBottom: "var(--space-lg)", paddingBottom: "var(--space-md)", borderBottom: "1px solid var(--color-line)" }}>
+            <h2 style={{ marginBottom: step.sectionHeading.subtitle ? "0.5rem" : 0 }}>{step.sectionHeading.title}</h2>
+            {step.sectionHeading.subtitle && (
+              <p style={{ color: "var(--color-ink-soft)", margin: 0 }}>{step.sectionHeading.subtitle}</p>
+            )}
+          </div>
+        )}
+
+        {step.id === "welcome" ? (
+          <img
+            src="/branding/biology-of-you-header.png"
+            alt="Welcome to The Biology of You — the story only your biology can tell."
+            style={{ width: "100%", maxWidth: "28rem", height: "auto", display: "block", marginBottom: "var(--space-md)" }}
+          />
+        ) : (
+          <h1>{step.title}</h1>
+        )}
+        {step.intro && (
+          <p style={{ color: "var(--color-ink-soft)", whiteSpace: "pre-line" }}>{step.intro}</p>
+        )}
+
+        {step.fields.length > 0 && (
+          <div className="card" style={{ marginTop: "var(--space-md)" }}>
+            {step.fields.map((field) => (
+              <Field key={field.key} field={field} answers={answers} onChange={setAnswers} />
+            ))}
+          </div>
+        )}
 
         {error && <p className="error-text" style={{ marginTop: "var(--space-sm)" }}>{error}</p>}
 

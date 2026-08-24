@@ -1,13 +1,14 @@
 :root {
-  /* ---- Color tokens (placeholder palette — swap here when Jen's branding lands) ---- */
-  --color-bg: #edefe9;
+  /* ---- Color tokens (from Jen's actual branding) ---- */
+  --color-bg: #e3dfd5;
   --color-surface: #ffffff;
-  --color-ink: #1a2e35;
-  --color-ink-soft: #445157;
-  --color-accent: #c08a3e;
-  --color-accent-soft: #e4cfa4;
-  --color-sage: #7a8b6f;
-  --color-line: #d3d7cd;
+  --color-ink: #35332f;
+  --color-ink-soft: #5a564e;
+  --color-accent: #825a37;
+  --color-accent-soft: #d9c7b3;
+  --color-sage: #4e5943;
+  --color-maroon: #4e130f;
+  --color-line: #d3cec0;
   --color-danger: #a34433;
 
   /* ---- Type tokens (populated by next/font in app/layout.tsx) ---- */

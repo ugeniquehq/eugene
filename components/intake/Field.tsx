@@ -41,6 +41,14 @@ export default function Field({ field, answers, onChange }: FieldProps) {
         </div>
       );
 
+    case "date":
+      return (
+        <div className="field">
+          {commonLabel}
+          <input type="date" value={(value as string) ?? ""} onChange={(e) => update(e.target.value)} />
+        </div>
+      );
+
     case "textarea":
       return (
         <div className="field">
@@ -114,7 +122,7 @@ export default function Field({ field, answers, onChange }: FieldProps) {
       return (
         <div className="field">
           {commonLabel}
-          <div style={{ display: "flex", gap: "0.35rem", flexWrap: "wrap", marginBottom: "0.35rem" }}>
+          <div style={{ display: "flex", gap: "0.35rem", flexWrap: "wrap", justifyContent: "center", marginBottom: "0.35rem" }}>
             {Array.from({ length: 11 }, (_, i) => i).map((n) => (
               <button
                 key={n}
@@ -164,6 +172,92 @@ export default function Field({ field, answers, onChange }: FieldProps) {
               </label>
             ))}
           </div>
+        </div>
+      );
+    }
+
+    case "images": {
+      const photos = Array.isArray(value) ? (value as { name: string; dataUrl: string }[]) : [];
+
+      async function resizeToDataUrl(file: File): Promise<string> {
+        const objectUrl = URL.createObjectURL(file);
+        try {
+          const img = await new Promise<HTMLImageElement>((resolve, reject) => {
+            const el = new Image();
+            el.onload = () => resolve(el);
+            el.onerror = reject;
+            el.src = objectUrl;
+          });
+          const maxDim = 1400;
+          const scale = Math.min(1, maxDim / Math.max(img.width, img.height));
+          const canvas = document.createElement("canvas");
+          canvas.width = Math.round(img.width * scale);
+          canvas.height = Math.round(img.height * scale);
+          const ctx = canvas.getContext("2d");
+          ctx?.drawImage(img, 0, 0, canvas.width, canvas.height);
+          return canvas.toDataURL("image/jpeg", 0.75);
+        } finally {
+          URL.revokeObjectURL(objectUrl);
+        }
+      }
+
+      async function handleFiles(fileList: FileList | null) {
+        if (!fileList || fileList.length === 0) return;
+        const newPhotos = await Promise.all(
+          Array.from(fileList).map(async (file) => ({
+            name: file.name,
+            dataUrl: await resizeToDataUrl(file),
+          }))
+        );
+        update([...photos, ...newPhotos]);
+      }
+
+      function removePhoto(index: number) {
+        update(photos.filter((_, i) => i !== index));
+      }
+
+      return (
+        <div className="field">
+          {commonLabel}
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={(e) => handleFiles(e.target.files)}
+          />
+          {photos.length > 0 && (
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(6rem, 1fr))", gap: "0.5rem", marginTop: "0.75rem" }}>
+              {photos.map((photo, i) => (
+                <div key={i} style={{ position: "relative" }}>
+                  <img
+                    src={photo.dataUrl}
+                    alt={photo.name}
+                    style={{ width: "100%", aspectRatio: "1", objectFit: "cover", borderRadius: "var(--radius)", border: "1px solid var(--color-line)" }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removePhoto(i)}
+                    aria-label={`Remove ${photo.name}`}
+                    style={{
+                      position: "absolute",
+                      top: "-0.4rem",
+                      right: "-0.4rem",
+                      width: "1.5rem",
+                      height: "1.5rem",
+                      borderRadius: "50%",
+                      border: "1px solid var(--color-line)",
+                      background: "var(--color-surface)",
+                      cursor: "pointer",
+                      fontSize: "0.85rem",
+                      lineHeight: 1,
+                    }}
+                  >
+                    &times;
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       );
     }
