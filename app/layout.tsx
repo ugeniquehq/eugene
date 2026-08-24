@@ -12,13 +12,13 @@ const plexMono = IBM_Plex_Mono({
 });
 
 const gatherSerif = localFont({
-  src: "../public/fonts/gather-serif-original.woff",
+  src: "../public/fonts/Gather_Collector_s_Edition_Serif.woff",
   variable: "--font-gather-serif",
   display: "swap",
 });
 
 const gatherScript = localFont({
-  src: "../public/fonts/gather-script-original.woff",
+  src: "../public/fonts/Gather_Collector_s_Edition_Script.woff",
   variable: "--font-gather-script",
   display: "swap",
 });
