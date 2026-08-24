@@ -198,18 +198,20 @@ button:focus-visible {
 
 .intake-layout {
   display: grid;
-  grid-template-columns: minmax(0, 22rem) minmax(0, 1fr);
-  gap: var(--space-xl);
+  grid-template-columns: minmax(18rem, 28vw) minmax(0, 1fr);
 }
 
 .intake-photo-col img {
   width: 100%;
-  height: calc(100vh - 7rem);
+  height: calc(100vh - 4.5rem);
   object-fit: cover;
   display: block;
-  border-radius: var(--radius);
   position: sticky;
-  top: 5rem;
+  top: 4.5rem;
+}
+
+.intake-form-col {
+  padding: var(--space-xl) var(--space-md) var(--space-xl) var(--space-xl);
 }
 
 @media (max-width: 900px) {
@@ -218,5 +220,8 @@ button:focus-visible {
   }
   .intake-photo-col {
     display: none;
+  }
+  .intake-form-col {
+    padding: var(--space-xl) var(--space-md);
   }
 }

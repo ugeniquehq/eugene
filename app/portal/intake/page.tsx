@@ -70,13 +70,13 @@ export default function IntakePage() {
   }
 
   return (
-    <section className="section">
-      <div className="container" style={{ maxWidth: "68rem" }}>
-        <div className="intake-layout">
-          <div className="intake-photo-col">
-            <img src="/photography/hand-on-lips.jpg" alt="" />
-          </div>
+    <section className="section" style={{ paddingTop: 0, paddingBottom: 0 }}>
+      <div className="intake-layout">
+        <div className="intake-photo-col">
+          <img src="/photography/hand-on-lips.jpg" alt="" />
+        </div>
 
+        <div className="intake-form-col">
           <div style={{ maxWidth: "40rem" }}>
         <p className="eyebrow">
           Health History &middot; Step {stepIndex + 1} of {INTAKE_STEPS.length}
