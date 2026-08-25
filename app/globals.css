@@ -134,6 +134,10 @@ a {
   padding: var(--space-md);
 }
 
+.card--intake {
+  background: var(--color-accent-soft);
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
