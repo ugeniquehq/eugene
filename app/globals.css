@@ -16,8 +16,8 @@
   --gradient-brand: linear-gradient(90deg, #5b0e0e, #7c3e27, #ad6d36, #deab6f, #ebe0d5);
 
   /* ---- Type tokens ---- */
-  /* h1/h2/h3 headings: Neue Haas Grotesk Display (Adobe Fonts) */
-  --font-heading: "neue-haas-grotesk-display", -apple-system, sans-serif;
+  /* h1/h2/h3 headings: IvyPresto Display (Adobe Fonts) */
+  --font-heading: "ivypresto-display", Georgia, serif;
   /* Body copy: Neue Haas Grotesk Text (Adobe Fonts) */
   --font-body: "neue-haas-grotesk-display", -apple-system, sans-serif;
   /* Labels, eyebrows, data: Neue Haas Grotesk Display */
