@@ -24,7 +24,7 @@ export default function Nav() {
           <img
             src="/branding/logo-wordmark.png"
             alt="The Biology of You"
-            style={{ height: "1.1rem", width: "auto", display: "block" }}
+            style={{ height: "1.6rem", width: "auto", display: "block" }}
           />
         </Link>
         <nav
