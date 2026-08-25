@@ -3,10 +3,14 @@ export default function Footer() {
     <footer
       style={{
         borderTop: "1px solid var(--color-line)",
-        padding: "var(--space-lg) 0",
-        marginTop: "var(--space-xl)",
-        position: "relative",
-        zIndex: 10,
+        position: "fixed",
+        bottom: 0,
+        left: 0,
+        right: 0,
+        height: "var(--footer-height)",
+        display: "flex",
+        alignItems: "center",
+        zIndex: 50,
         background: "var(--color-bg)",
       }}
     >

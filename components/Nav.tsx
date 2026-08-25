@@ -6,8 +6,14 @@ export default function Nav() {
       style={{
         borderBottom: "1px solid var(--color-line)",
         background: "var(--color-bg)",
-        position: "relative",
-        zIndex: 10,
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        height: "var(--header-height)",
+        display: "flex",
+        alignItems: "center",
+        zIndex: 50,
       }}
     >
       <div
@@ -24,7 +30,7 @@ export default function Nav() {
           <img
             src="/branding/logo-wordmark.png"
             alt="The Biology of You"
-            style={{ height: "2.2rem", width: "auto", display: "block" }}
+            style={{ height: "1.1rem", width: "auto", display: "block" }}
           />
         </Link>
         <nav

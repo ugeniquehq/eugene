@@ -16,10 +16,8 @@
   --gradient-brand: linear-gradient(90deg, #5b0e0e, #7c3e27, #ad6d36, #deab6f, #ebe0d5);
 
   /* ---- Type tokens ---- */
-  /* Main headings (h1): Gather Collective Serif */
-  --font-display: var(--font-gather-serif), Georgia, serif;
-  /* Subheadings (h2/h3), used as an accent — not for dense body text */
-  --font-subheading: var(--font-gather-script), var(--font-display);
+  /* h1/h2/h3 headings: Neue Haas Grotesk Display (Adobe Fonts) */
+  --font-heading: "neue-haas-grotesk-display", -apple-system, sans-serif;
   /* Body copy: Neue Haas Grotesk Text (Adobe Fonts) */
   --font-body: "neue-haas-grotesk-display", -apple-system, sans-serif;
   /* Labels, eyebrows, data: Neue Haas Grotesk Display */
@@ -39,6 +37,8 @@
 
   --radius: 3px;
   --max-width: 68rem;
+  --header-height: 4.5rem;
+  --footer-height: 4.5rem;
 }
 
 * {
@@ -68,10 +68,12 @@ body {
   font-size: var(--step0);
   line-height: 1.55;
   -webkit-font-smoothing: antialiased;
+  padding-top: var(--header-height);
+  padding-bottom: var(--footer-height);
 }
 
 h1 {
-  font-family: var(--font-display);
+  font-family: var(--font-heading);
   font-weight: 400;
   -webkit-text-stroke: 0.4px currentColor;
   text-stroke: 0.4px currentColor;
@@ -81,7 +83,7 @@ h1 {
 }
 
 h2 {
-  font-family: var(--font-display);
+  font-family: var(--font-heading);
   font-weight: 400;
   line-height: 1.25;
   margin: 0 0 var(--space-sm);
@@ -89,7 +91,7 @@ h2 {
 }
 
 h3 {
-  font-family: var(--font-display);
+  font-family: var(--font-heading);
   font-weight: 400;
   line-height: 1.25;
   margin: 0 0 var(--space-sm);
@@ -132,10 +134,6 @@ a {
   border: 1px solid var(--color-line);
   border-radius: var(--radius);
   padding: var(--space-md);
-}
-
-.card--intake {
-  background: var(--color-accent-soft);
 }
 
 .btn {
@@ -213,10 +211,10 @@ button:focus-visible {
 
 .intake-photo-fixed {
   position: fixed;
-  top: 0;
+  top: var(--header-height);
   left: 0;
   width: 30vw;
-  height: 100vh;
+  height: calc(100vh - var(--header-height) - var(--footer-height));
   background-size: cover;
   background-position: center;
   transition: background-image 0.3s ease;
