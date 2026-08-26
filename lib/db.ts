@@ -135,3 +135,41 @@ export async function getClientById(userId: string): Promise<Pick<ClientUser, "i
   `;
   return rows[0] ?? null;
 }
+export type FoodDiaryDoc = {
+  id: string;
+  blob_url: string;
+  answers: Record<string, unknown> | null;
+};
+
+export async function getFoodDiaryForUser(userId: string): Promise<FoodDiaryDoc | null> {
+  const { rows } = await sql<FoodDiaryDoc>`
+    SELECT id, blob_url, answers
+    FROM documents
+    WHERE user_id = ${userId} AND title = 'Food Diary'
+    LIMIT 1;
+  `;
+  return rows[0] ?? null;
+}
+
+export async function insertFoodDiary(
+  userId: string,
+  blobUrl: string,
+  answers: Record<string, unknown>
+): Promise<void> {
+  await sql`
+    INSERT INTO documents (user_id, title, blob_url, answers)
+    VALUES (${userId}, 'Food Diary', ${blobUrl}, ${JSON.stringify(answers)});
+  `;
+}
+
+export async function updateFoodDiary(
+  documentId: string,
+  blobUrl: string,
+  answers: Record<string, unknown>
+): Promise<void> {
+  await sql`
+    UPDATE documents
+    SET blob_url = ${blobUrl}, answers = ${JSON.stringify(answers)}, uploaded_at = now()
+    WHERE id = ${documentId};
+  `;
+}

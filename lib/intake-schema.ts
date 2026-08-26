@@ -100,7 +100,9 @@ export const INTAKE_STEPS: IntakeStep[] = [
       subtitle: "Why you're here, what you've experienced, and the health patterns that have shaped you.",
     },
     intro:
-      "You don't need to have a health problem to want to understand your biology. What brought you here?",
+      "You don't need to have a health problem to want to understand your biology.\n\n" +
+      "Maybe there's something you'd like to improve. Maybe your family history has raised questions. Or maybe you feel great and are simply curious about what makes you tick — and how to keep it that way.\n\n" +
+      "So, what brought you here?",
     fields: [
       {
         key: "reason.main",
@@ -152,6 +154,8 @@ export const INTAKE_STEPS: IntakeStep[] = [
         type: "textarea",
       },
     ],
+    intro:
+      "Note: We ask about surgeries, procedures, implants, antibiotics, vaccines and over-the-counter medications in Part 2, so you won't need to enter them twice.",
   },
   {
     id: "spineNervous",
@@ -606,7 +610,7 @@ export const INTAKE_STEPS: IntakeStep[] = [
           "Feeling uncomfortably full after eating", "Difficulty digesting fatty foods", "Other",
         ],
       },
-      { key: "digestion.symptomsDetails", label: "If you've checked anything above, tell us what happens, how often, and any triggers.", type: "textarea" },
+      { key: "digestion.symptomsDetails", label: "If you've checked anything above, tell us what happens, how often and whether you've noticed triggers.", type: "textarea" },
     ],
   },
   {
@@ -882,10 +886,15 @@ export const INTAKE_STEPS: IntakeStep[] = [
       },
       { key: "maleHormonal.testTested", label: "Have you ever tested testosterone levels?", type: "yesno" },
       { key: "maleHormonal.testDetails", label: "If yes, when and what were you told about the result?", type: "textarea" },
-      { key: "maleHormonal.dhtTested", label: "Have you had DHT tested?", type: "yesno" },
+      { key: "maleHormonal.dhtTested", label: "Have you had DHT (dihydrotestosterone) tested?", type: "yesno" },
       { key: "maleHormonal.e2Tested", label: "Have you ever tested oestradiol (E2) / oestrogen?", type: "yesno" },
       { key: "maleHormonal.symptoms", label: "Do you experience hair loss, oily skin or prostate issues?", type: "yesno" },
-      { key: "maleHormonal.medsAffecting", label: "Do you take or have you taken anything that may affect testosterone, DHT or aromatase activity?", type: "textarea" },
+      {
+        key: "maleHormonal.medsAffecting",
+        label: "Do you take or have you taken anything that may affect testosterone, DHT or aromatase activity?",
+        helper: "For example: finasteride, saw palmetto, zinc, DIM, testosterone replacement therapy or other hormone therapy.",
+        type: "textarea",
+      },
       { key: "maleHormonal.fertilityYesNo", label: "Are you currently experiencing, or have you ever experienced, fertility challenges?", type: "yesno" },
       {
         key: "maleHormonal.fertilityChecked",
@@ -904,9 +913,19 @@ export const INTAKE_STEPS: IntakeStep[] = [
     fields: [
       { key: "femaleContraception.currentYesNo", label: "Are you currently using birth control / contraception?", type: "yesno" },
       { key: "femaleContraception.pastYesNo", label: "Have you used hormonal or non-hormonal contraception in the past?", type: "yesno" },
-      { key: "femaleContraception.details", label: "If yes, what type(s), at what ages/dates, and for how long?", type: "textarea" },
+      {
+        key: "femaleContraception.details",
+        label: "If yes, what type(s), at what ages/dates, and for how long?",
+        helper: "For example: oral contraceptive pill, injection, patch, ring, implant, emergency contraception, copper or hormonal IUD.",
+        type: "textarea",
+      },
       { key: "femaleContraception.problems", label: "Did you experience any problems or noticeable changes associated with contraception?", type: "textarea" },
-      { key: "femaleContraception.hormoneTherapy", label: "Have you ever used or are you currently using hormone therapy? (progesterone, oestrogen, testosterone, DHEA, HRT, etc.)", type: "textarea" },
+      {
+        key: "femaleContraception.hormoneTherapy",
+        label: "Have you ever used or are you currently using hormone therapy?",
+        helper: "Include progesterone, oestrogen, testosterone, DHEA, pregnenolone, conventional HRT or bioidentical hormones. Please include product, dose, dates and whether you still use it.",
+        type: "textarea",
+      },
     ],
   },
   {
@@ -941,8 +960,8 @@ export const INTAKE_STEPS: IntakeStep[] = [
       { key: "fertilityPregnancy.everPregnantYesNo", label: "Have you ever been pregnant?", type: "yesno" },
       {
         key: "fertilityPregnancy.pregnancySummary",
-        label:
-          "If yes, please summarise your pregnancy history (total pregnancies, live births, miscarriages/gestation, stillbirths, ectopic pregnancies, terminations, C-sections, complications).",
+        label: "If yes, please summarise your pregnancy history.",
+        helper: "Include total pregnancies, live births, miscarriages and gestation, stillbirths, ectopic pregnancies, terminations/abortions, Caesarean births and any major pregnancy or birth complications.",
         type: "textarea",
       },
     ],
@@ -966,7 +985,12 @@ export const INTAKE_STEPS: IntakeStep[] = [
       { key: "menstrual.spottingDetails", label: "If yes, when does it usually occur?", type: "text" },
       { key: "menstrual.tendernessYesNo", label: "Do you experience breast tenderness or noticeable breast changes across your cycle?", type: "yesno" },
       { key: "menstrual.tendernessDetails", label: "If yes, when and how severe?", type: "textarea" },
-      { key: "menstrual.pmsSymptoms", label: "What symptoms do you notice in the week before or during your period?", type: "textarea" },
+      {
+        key: "menstrual.pmsSymptoms",
+        label: "What symptoms do you notice in the week before or during your period?",
+        helper: "For example: pain, migraines/headaches, mood changes, anxiety, cravings, bloating, diarrhoea/constipation, acne, sleep changes, fatigue or breathlessness.",
+        type: "textarea",
+      },
       { key: "menstrual.treatment", label: "Have you received treatment for menstrual or cycle issues? What was tried and what changed?", type: "textarea" },
     ],
   },
@@ -975,11 +999,21 @@ export const INTAKE_STEPS: IntakeStep[] = [
     title: "Perimenopause & menopause",
     fields: [
       { key: "perimenopause.currentYesNo", label: "Are you currently experiencing changes you believe may be perimenopause?", type: "yesnounsure" },
-      { key: "perimenopause.changes", label: "If yes or unsure, when did the changes begin and what has changed?", type: "textarea" },
+      {
+        key: "perimenopause.changes",
+        label: "If yes or unsure, when did the changes begin and what has changed?",
+        helper: "For example: cycle length/flow, sleep, temperature regulation, mood, libido, body composition, headaches, cognition or energy.",
+        type: "textarea",
+      },
       { key: "perimenopause.effect", label: "How has this transition affected you?", type: "textarea" },
       { key: "menopause.reachedYesNo", label: "Have you reached menopause (12 months without a period, not explained by pregnancy/breastfeeding/other)?", type: "yesnounsure" },
       { key: "menopause.ageYear", label: "If yes, what age/year was your final period?", type: "text" },
-      { key: "menopause.experience", label: "Please describe your experience transitioning through menopause.", type: "textarea" },
+      {
+        key: "menopause.experience",
+        label: "Please describe your experience transitioning through menopause.",
+        helper: "Include physical symptoms, mood/cognitive changes, sleep, libido, body composition and anything else significant.",
+        type: "textarea",
+      },
       { key: "menopause.approaches", label: "Have you used any complementary or lifestyle approaches for perimenopause/menopause? What did you try and did it help?", type: "textarea" },
     ],
   },
@@ -987,18 +1021,18 @@ export const INTAKE_STEPS: IntakeStep[] = [
     id: "finalNotes",
     title: "What to send us",
     intro:
-      "Thank you for completing your health history. Please also gather: a 7-day food and drink diary, clear photos of your supplement labels, requested blood/urine test results, your full DNA/gene report, and any other relevant test results.",
+      "Thank you for completing your health history. Please also gather: a 7-day food and drink diary, clear front and back photos of all supplements you currently take, requested blood/urine test results, your full DNA/gene report, and any other relevant test results.",
     fields: [
       {
         key: "finalNotes.attachments",
         label: "What will you be sending separately?",
         type: "checkboxes",
         options: [
-          "7-day food and drink diary",
-          "Photos of supplement labels",
-          "Blood and urine test results",
-          "Full DNA / gene report",
-          "Other relevant test results",
+          "7-day food and drink diary — all meals, snacks and beverages",
+          "Clear front and back photos of all supplements you currently take",
+          "Requested blood and urine test results",
+          "Your full DNA / gene report",
+          "Any other relevant test results you would like us to review",
         ],
       },
       {

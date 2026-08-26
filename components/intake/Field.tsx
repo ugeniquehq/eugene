@@ -21,17 +21,16 @@ export default function Field({ field, answers, onChange }: FieldProps) {
     if (controllingValue !== field.showIf.equals) return null;
   }
 
-  const commonLabel = (
-    <label style={{ fontFamily: "var(--font-mono)", fontSize: "var(--step-1)", letterSpacing: "0.04em", color: "var(--color-ink-soft)", display: "block", marginBottom: "0.35rem" }}>
-      {field.label}
-      {field.helper && (
-        <span style={{ display: "block", fontFamily: "var(--font-body)", fontSize: "var(--step0)", color: "var(--color-ink-soft)", marginTop: "0.15rem", textTransform: "none", letterSpacing: "normal" }}>
-          {field.helper}
-        </span>
-      )}
-    </label>
-  );
-
+const commonLabel = (
+  <label style={{ fontFamily: "var(--font-mono)", fontSize: "var(--step-1)", letterSpacing: "0.04em", color: "var(--color-ink-soft)", display: "block", marginBottom: "0.35rem", fontWeight: 700 }}>
+    {field.label}
+    {field.helper && (
+      <span style={{ display: "block", fontFamily: "var(--font-body)", fontSize: "var(--step-2)", color: "var(--color-ink-soft)", marginTop: "0.15rem", textTransform: "none", letterSpacing: "normal", fontWeight: 400 }}>
+        {field.helper}
+      </span>
+    )}
+  </label>
+);
   switch (field.type) {
     case "text":
       return (
@@ -118,32 +117,38 @@ export default function Field({ field, answers, onChange }: FieldProps) {
       );
 
     case "scale": {
-      const numeric = typeof value === "number" ? value : null;
-      return (
-        <div className="field">
-          {commonLabel}
-          <div style={{ display: "flex", gap: "0.35rem", flexWrap: "wrap", justifyContent: "center", marginBottom: "0.35rem" }}>
-            {Array.from({ length: 11 }, (_, i) => i).map((n) => (
-              <button
-                key={n}
-                type="button"
-                onClick={() => update(n)}
-                className={numeric === n ? "btn btn-primary" : "btn btn-secondary"}
-                style={{ width: "2.5rem", padding: "0.4rem 0", textAlign: "center" }}
-              >
-                {n}
-              </button>
-            ))}
-          </div>
-          {field.scaleLabels && (
-            <div style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--step-1)", color: "var(--color-ink-soft)" }}>
-              <span>{field.scaleLabels[0]}</span>
-              <span>{field.scaleLabels[1]}</span>
-            </div>
-          )}
+  const numeric = typeof value === "number" ? value : null;
+  return (
+    <div className="field">
+      {commonLabel}
+      <div style={{ display: "flex", gap: "0.35rem", flexWrap: "wrap", justifyContent: "center", marginBottom: "0.35rem" }}>
+        {Array.from({ length: 11 }, (_, i) => i).map((n) => (
+          <button
+            key={n}
+            type="button"
+            onClick={() => update(n)}
+            className={numeric === n ? "btn btn-primary" : "btn btn-secondary"}
+            style={{
+              width: "2.5rem",
+              padding: "0.4rem 0",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            {n}
+          </button>
+        ))}
+      </div>
+      {field.scaleLabels && (
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: "var(--step-1)", color: "var(--color-ink-soft)" }}>
+          <span>{field.scaleLabels[0]}</span>
+          <span>{field.scaleLabels[1]}</span>
         </div>
-      );
-    }
+      )}
+    </div>
+  );
+}
 
     case "checkboxes": {
       const checked = Array.isArray(value) ? (value as string[]) : [];
