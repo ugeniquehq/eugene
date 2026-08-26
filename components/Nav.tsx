@@ -26,11 +26,16 @@ export default function Nav() {
           paddingBottom: "var(--space-sm)",
         }}
       >
-        <Link href="/" style={{ display: "flex", alignItems: "center" }}>
+        <Link href="/" style={{ display: "flex", alignItems: "center", gap: "0.65rem" }}>
+          <img
+            src="/branding/logo-badge.png"
+            alt=""
+            style={{ height: "2.6rem", width: "2.6rem", display: "block", borderRadius: "50%" }}
+          />
           <img
             src="/branding/logo-wordmark.png"
             alt="The Biology of You"
-            style={{ height: "2.1rem", width: "auto", display: "block" }}
+            style={{ height: "1.5rem", width: "auto", display: "block" }}
           />
         </Link>
         <nav

@@ -11,6 +11,8 @@
   --color-maroon: #5b0e0e;
   --color-line: #d9cebe;
   --color-danger: #5b0e0e;
+  --color-forest: #2e382c;
+  --color-copper: #bf7d52;
 
   /* Brand gradient (from the palette export) — used sparingly as an accent */
   --gradient-brand: linear-gradient(90deg, #5b0e0e, #7c3e27, #ad6d36, #deab6f, #ebe0d5);
@@ -236,4 +238,7 @@ button:focus-visible {
     margin-left: 0;
     padding: var(--space-xl) var(--space-md);
   }
+}
+.newsletter-input::placeholder {
+  color: rgba(229, 222, 203, 0.55);
 }
