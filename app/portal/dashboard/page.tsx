@@ -11,6 +11,7 @@ export default async function DashboardPage() {
   const documents = await getDocumentsForUser(session.user.id as string);
   const hasHealthHistory = documents.some((doc) => doc.title === "Health History");
   const hasFoodDiary = documents.some((doc) => doc.title === "Food Diary");
+  const hasTemperatureRecord = documents.some((doc) => doc.title === "Temperature Record");
 
   return (
     <section
@@ -98,6 +99,16 @@ export default async function DashboardPage() {
             ) : (
               <a href="/portal/food-diary" className="btn btn-primary">
                 Complete your 7-day food diary
+              </a>
+            )}
+
+            {hasTemperatureRecord ? (
+              <a href="/portal/temperature" className="btn btn-secondary">
+                Update your temperature record
+              </a>
+            ) : (
+              <a href="/portal/temperature" className="btn btn-primary">
+                Begin your 14-day temperature record
               </a>
             )}
           </div>

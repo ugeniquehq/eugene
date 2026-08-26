@@ -173,3 +173,41 @@ export async function updateFoodDiary(
     WHERE id = ${documentId};
   `;
 }
+export type TemperatureRecordDoc = {
+  id: string;
+  blob_url: string;
+  answers: Record<string, unknown> | null;
+};
+
+export async function getTemperatureRecordForUser(userId: string): Promise<TemperatureRecordDoc | null> {
+  const { rows } = await sql<TemperatureRecordDoc>`
+    SELECT id, blob_url, answers
+    FROM documents
+    WHERE user_id = ${userId} AND title = 'Temperature Record'
+    LIMIT 1;
+  `;
+  return rows[0] ?? null;
+}
+
+export async function insertTemperatureRecord(
+  userId: string,
+  blobUrl: string,
+  answers: Record<string, unknown>
+): Promise<void> {
+  await sql`
+    INSERT INTO documents (user_id, title, blob_url, answers)
+    VALUES (${userId}, 'Temperature Record', ${blobUrl}, ${JSON.stringify(answers)});
+  `;
+}
+
+export async function updateTemperatureRecord(
+  documentId: string,
+  blobUrl: string,
+  answers: Record<string, unknown>
+): Promise<void> {
+  await sql`
+    UPDATE documents
+    SET blob_url = ${blobUrl}, answers = ${JSON.stringify(answers)}, uploaded_at = now()
+    WHERE id = ${documentId};
+  `;
+}
