@@ -17,17 +17,19 @@ export default function Footer() {
       <div
         className="container"
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          flexWrap: "wrap",
+          display: "grid",
+          gridTemplateColumns: "1fr auto 1fr",
+          alignItems: "center",
           gap: "var(--space-sm)",
+          width: "100%",
           fontFamily: "var(--font-mono)",
           fontSize: "var(--step-1)",
           color: "var(--color-ink-soft)",
         }}
       >
         <span>&copy; {new Date().getFullYear()} The Biology of You</span>
-        <span>The story only your biology can tell.</span>
+        <span style={{ textAlign: "center" }}>The story only your biology can tell.</span>
+        <span />
       </div>
     </footer>
   );

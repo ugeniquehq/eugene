@@ -3,12 +3,11 @@ import Link from "next/link";
 export default function HomePage() {
   return (
     <>
-      <section
+<section
         style={{
           position: "relative",
           overflow: "hidden",
-          minHeight: "40vh",
-          maxHeight: "55vh",
+          height: "28rem",
         }}
       >
         {/* Full-bleed hero photo */}
@@ -38,7 +37,7 @@ export default function HomePage() {
             zIndex: 1,
             display: "flex",
             alignItems: "stretch",
-            minHeight: "40vh",
+            height: "100%",
           }}
         >
           {/* Vertical stack of brand dots */}
@@ -171,24 +170,6 @@ export default function HomePage() {
             <p style={{ margin: 0, opacity: 0.85 }}>
               We decode your biology so you can live beyond average.
             </p>
-            <Link
-              href="/about"
-              aria-label="Learn more"
-              style={{
-                width: "2.25rem",
-                height: "2.25rem",
-                borderRadius: "50%",
-                border: "1px solid currentColor",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                textDecoration: "none",
-                color: "inherit",
-                marginTop: "var(--space-xs)",
-              }}
-            >
-              →
-            </Link>
           </div>
           <div
             style={{
@@ -214,24 +195,6 @@ export default function HomePage() {
             <p style={{ margin: 0, opacity: 0.85 }}>
               No one else has your biology. Your plan shouldn&apos;t be one-size-fits-all.
             </p>
-            <Link
-              href="/about"
-              aria-label="Learn more"
-              style={{
-                width: "2.25rem",
-                height: "2.25rem",
-                borderRadius: "50%",
-                border: "1px solid currentColor",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                textDecoration: "none",
-                color: "inherit",
-                marginTop: "var(--space-xs)",
-              }}
-            >
-              →
-            </Link>
           </div>
         </div>
       </section>
@@ -292,7 +255,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section style={{ position: "relative", display: "grid", gridTemplateColumns: "1.1fr 1fr", minHeight: "22rem" }}>
+<section style={{ position: "relative", display: "grid", gridTemplateColumns: "1.1fr 1fr", minHeight: "9rem" }}>
         <div
           style={{
             background: "var(--color-ink)",
@@ -300,8 +263,8 @@ export default function HomePage() {
             display: "flex",
             flexDirection: "column",
             justifyContent: "center",
-            padding: "var(--space-xl)",
-            gap: "var(--space-sm)",
+            padding: "var(--space-lg) var(--space-xl)",
+            gap: "0.65rem",
           }}
         >
           <h2 style={{ color: "var(--color-card)", margin: 0, maxWidth: "22rem" }}>
@@ -311,27 +274,9 @@ export default function HomePage() {
             We combine advanced genetic analysis with human insight to unlock
             your full potential and extend your healthspan.
           </p>
-          <div style={{ display: "flex", alignItems: "center", gap: "var(--space-sm)", marginTop: "var(--space-sm)" }}>
+          <div style={{ marginTop: "0.5rem" }}>
             <Link href="/portal/login" className="btn btn-primary">
               Discover Your Biology
-            </Link>
-            <Link
-              href="/portal/login"
-              aria-label="Discover your biology"
-              style={{
-                width: "2.5rem",
-                height: "2.5rem",
-                borderRadius: "50%",
-                border: "1px solid currentColor",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                textDecoration: "none",
-                color: "inherit",
-                flexShrink: 0,
-              }}
-            >
-              →
             </Link>
           </div>
         </div>
@@ -342,19 +287,45 @@ export default function HomePage() {
             backgroundPosition: "center",
           }}
         />
-        {/* Circular badge — placeholder, straddling the seam between text and photo */}
-        <img
-          src="/branding/logo-badge.png"
-          alt=""
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "52.38%",
-            transform: "translate(-50%, -50%)",
-            width: "9rem",
-            height: "9rem",
-          }}
-        />
+{/* Brand mark — cross with scattered dots around the outside */}
+<div
+  style={{
+    position: "absolute",
+    top: "50%",
+    left: "52.38%",
+    transform: "translate(-50%, -50%)",
+    width: "13rem",
+    height: "13rem",
+  }}
+>
+  {/* Outer scattered dots */}
+  <img
+    src="/branding/mark-dots-ring.png"
+    alt=""
+    style={{
+      position: "absolute",
+      inset: 0,
+      width: "100%",
+      height: "100%",
+      objectFit: "contain",
+      transform: "scale(0.75)",
+    }}
+  />
+  {/* Center cross mark */}
+  <img
+    src="/branding/mark-crossed.png"
+    alt=""
+    style={{
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      width: "35%",
+      height: "35%",
+      filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.35))",
+    }}
+  />
+</div>
       </section>
 
      

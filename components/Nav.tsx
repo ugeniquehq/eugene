@@ -17,15 +17,16 @@ export default function Nav() {
       }}
     >
       <div
-        className="container"
         style={{
+          width: "100%",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
-          paddingTop: "var(--space-sm)",
-          paddingBottom: "var(--space-sm)",
+          paddingLeft: "1.25rem",
+          paddingRight: "1.25rem",
         }}
       >
+        {/* LHS: logo only */}
         <Link href="/" style={{ display: "flex", alignItems: "center", gap: "0.65rem" }}>
           <img
             src="/branding/logo-badge.png"
@@ -33,36 +34,38 @@ export default function Nav() {
             style={{ height: "2.6rem", width: "2.6rem", display: "block", borderRadius: "50%" }}
           />
           <img
-            src="/branding/logo-wordmark.png"
+            src="/branding/logo-wordmark2.png"
             alt="The Biology of You"
-            style={{ height: "1.5rem", width: "auto", display: "block" }}
+            style={{ height: "2.6rem", width: "auto", display: "block" }}
           />
         </Link>
-        <nav
-          style={{
-            display: "flex",
-            gap: "var(--space-md)",
-            alignItems: "center",
-            fontFamily: "var(--font-mono)",
-            fontSize: "var(--step-1)",
-            letterSpacing: "0.04em",
-            textTransform: "uppercase",
-          }}
-        >
-          <Link href="/about" style={{ textDecoration: "none" }}>
-            About
-          </Link>
-          <Link href="/contact" style={{ textDecoration: "none" }}>
-            Contact
-          </Link>
+
+        {/* RHS: nav links + Client Portal CTA */}
+        <div style={{ display: "flex", alignItems: "center", gap: "1.75rem" }}>
+          <nav
+            style={{
+              display: "flex",
+              gap: "var(--space-md)",
+              alignItems: "center",
+              fontFamily: "var(--font-mono)",
+              fontSize: "0.85rem",
+              letterSpacing: "0.04em",
+              textTransform: "uppercase",
+            }}
+          >
+            <Link href="/contact" style={{ textDecoration: "none" }}>
+              Contact
+            </Link>
+          </nav>
+
           <Link
             href="/portal/login"
             className="btn btn-secondary"
-            style={{ textTransform: "none", fontFamily: "var(--font-body)" }}
+            style={{ textTransform: "none", fontFamily: "var(--font-body)", fontSize: "0.9rem" }}
           >
             Client Portal
           </Link>
-        </nav>
+        </div>
       </div>
     </header>
   );
