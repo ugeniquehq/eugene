@@ -12,7 +12,8 @@ export type FieldType =
   | "scale"
   | "checkboxes"
   | "select"
-  | "images";
+  | "images"
+  | "temperature";
 
 export interface IntakeField {
   key: string; // dot-path into the answers object, e.g. "personal.firstName"

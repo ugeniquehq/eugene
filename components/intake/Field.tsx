@@ -2,6 +2,7 @@
 
 import { IntakeField } from "@/lib/intake-schema";
 import { getValue, setValue, IntakeAnswers } from "@/lib/intake-answers";
+import ThermometerPicker from "@/components/intake/ThermometerPicker";
 
 interface FieldProps {
   field: IntakeField;
@@ -149,6 +150,17 @@ const commonLabel = (
     </div>
   );
 }
+
+    case "temperature":
+      return (
+        <div className="field">
+          {commonLabel}
+          <ThermometerPicker
+            value={(value as string) ?? ""}
+            onChange={(v) => update(v)}
+          />
+        </div>
+      );
 
     case "checkboxes": {
       const checked = Array.isArray(value) ? (value as string[]) : [];

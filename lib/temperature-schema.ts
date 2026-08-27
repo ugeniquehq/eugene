@@ -1,14 +1,13 @@
 // Single source of truth for the 14-day body temperature tracking form.
 // Mirrors lib/food-diary-schema.ts so it can reuse the same Field
 // component and wizard pattern.
-
-export type TemperatureFieldType = "text" | "textarea" | "checkboxes";
+import { FieldType } from "@/lib/intake-schema";
 
 export interface TemperatureField {
   key: string;
   label: string;
   helper?: string;
-  type: TemperatureFieldType;
+  type: FieldType;
   options?: string[];
 }
 
@@ -33,7 +32,7 @@ const dayStep = (dayNumber: number): TemperatureStep => ({
       key: `day${dayNumber}.wakingTemp`,
       label: "Waking temperature — reading",
       helper: "Example: 36.2°C",
-      type: "text",
+      type: "temperature",
     },
     {
       key: `day${dayNumber}.breakfastTime`,
@@ -45,7 +44,7 @@ const dayStep = (dayNumber: number): TemperatureStep => ({
       key: `day${dayNumber}.breakfastTemp`,
       label: "After breakfast — reading",
       helper: "Example: 36.7°C",
-      type: "text",
+      type: "temperature",
     },
     {
       key: `day${dayNumber}.exerciseTime`,
@@ -57,7 +56,7 @@ const dayStep = (dayNumber: number): TemperatureStep => ({
       key: `day${dayNumber}.exerciseTemp`,
       label: "After exercise or movement — reading",
       helper: "Example: 37.0°C",
-      type: "text",
+      type: "temperature",
     },
     {
       key: `day${dayNumber}.exerciseType`,
