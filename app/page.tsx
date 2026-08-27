@@ -255,7 +255,7 @@ export default function HomePage() {
         </div>
       </section>
 
-<section style={{ position: "relative", display: "grid", gridTemplateColumns: "1.1fr 1fr", minHeight: "9rem" }}>
+<section style={{ position: "relative", display: "grid", gridTemplateColumns: "3fr 7fr", minHeight: "9rem" }}>
         <div
           style={{
             background: "var(--color-ink)",
@@ -292,10 +292,10 @@ export default function HomePage() {
   style={{
     position: "absolute",
     top: "50%",
-    left: "52.38%",
+    left: "65%",
     transform: "translate(-50%, -50%)",
-    width: "13rem",
-    height: "13rem",
+    width: "18rem",
+    height: "18rem",
   }}
 >
   {/* Outer scattered dots */}
