@@ -30,23 +30,6 @@
           letter-spacing: 0.18em;
         }
 
-        /* ---------- Hero ---------- */
-        .hero {
-          max-width: 960px;
-          margin: 0 auto;
-          padding: 7rem 1.5rem 4rem;
-          text-align: center;
-        }
-
-        .hero h1 {
-          font-family: var(--serif);
-          font-weight: 400;
-          font-size: clamp(2.25rem, 5vw, 3.75rem);
-          line-height: 1.15;
-          margin: 0;
-          letter-spacing: -0.01em;
-        }
-
         /* ---------- Story ---------- */
         .story {
           max-width: 680px;
@@ -64,7 +47,7 @@
           font-family: var(--serif);
           font-style: italic;
           font-size: 1.25rem !important;
-          color: var(--accent);
+          color: var(--ink);
           text-align: center;
           margin: 2.5rem 0 !important;
         }
@@ -82,7 +65,7 @@
           font-size: clamp(2.25rem, 6vw, 3.5rem);
           text-align: center;
           margin: 1.25rem 0 0;
-          color: var(--maroon);
+          color: var(--ink);
         }
 
         /* ---------- Philosophy ---------- */
@@ -103,7 +86,7 @@
           font-family: var(--serif);
           font-size: clamp(1.75rem, 4vw, 2.5rem) !important;
           line-height: 1.25 !important;
-          color: var(--sage);
+          color: var(--ink);
           margin: 0.5rem 0 3rem !important;
         }
 
@@ -132,7 +115,7 @@
           font-family: var(--serif);
           font-style: italic;
           font-size: 1.5rem !important;
-          color: var(--accent);
+          color: var(--ink);
           margin: 2rem 0 !important;
         }
 
@@ -149,7 +132,7 @@
           font-family: var(--serif);
           font-size: clamp(1.25rem, 3vw, 1.75rem);
           line-height: 1.6;
-          color: var(--sage);
+          color: var(--ink);
         }
 
         .philosophy__close p {
@@ -223,7 +206,7 @@
           font-family: var(--serif);
           font-style: italic;
           font-size: 1.5rem !important;
-          color: var(--accent);
+          color: var(--ink);
           margin: 1.5rem 0 !important;
         }
 
