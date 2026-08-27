@@ -2,7 +2,7 @@
 // Mirrors the shape of lib/intake-schema.ts so it can reuse the same
 // Field component and wizard pattern.
 
-export type FoodDiaryFieldType = "text" | "textarea";
+export type FoodDiaryFieldType = "text" | "date" | "textarea";
 
 export interface FoodDiaryField {
   key: string;
@@ -18,16 +18,30 @@ export interface FoodDiaryStep {
   fields: FoodDiaryField[];
 }
 
-const dayStep = (dayNumber: number): FoodDiaryStep => ({
+export const BASE_DAY_COUNT = 7;
+
+export const dayStep = (dayNumber: number): FoodDiaryStep => ({
   id: `day${dayNumber}`,
   title: `Day ${dayNumber}`,
   intro: "Please list any food or drinks you consumed during the day in the corresponding area.",
   fields: [
+    { key: `day${dayNumber}.date`, label: "Date", type: "date" },
+    { key: `day${dayNumber}.breakfastTime`, label: "Breakfast — time", type: "text" },
     { key: `day${dayNumber}.breakfast`, label: "Breakfast", type: "textarea" },
+    { key: `day${dayNumber}.lunchTime`, label: "Lunch — time", type: "text" },
     { key: `day${dayNumber}.lunch`, label: "Lunch", type: "textarea" },
+    { key: `day${dayNumber}.dinnerTime`, label: "Dinner — time", type: "text" },
     { key: `day${dayNumber}.dinner`, label: "Dinner", type: "textarea" },
+    { key: `day${dayNumber}.snacksTime`, label: "Snacks — time(s)", type: "text" },
     { key: `day${dayNumber}.snacks`, label: "Snacks", type: "textarea" },
+    { key: `day${dayNumber}.drinksTime`, label: "Drinks — time(s)", type: "text" },
     { key: `day${dayNumber}.drinks`, label: "Drinks", type: "textarea" },
+    {
+      key: `day${dayNumber}.additionalNotes`,
+      label: "Anything else you'd like to add about this day?",
+      helper: "Use this space for extra detail that didn't fit above — more meals, second helpings, exact quantities, or anything else worth noting.",
+      type: "textarea",
+    },
   ],
 });
 
@@ -37,7 +51,7 @@ export const FOOD_DIARY_STEPS: FoodDiaryStep[] = [
     title: "Seven Days of Meals",
     intro:
       "In the space below, please track your meals, snacks and drinks from the past seven days.\n\n" +
-      "The more detail and information you can provide for our team, the better!",
+      "The more detail and information you can provide for our team, the better! If seven days doesn't feel like enough, you can add extra days at the end.",
     fields: [],
   },
   {
@@ -50,11 +64,5 @@ export const FOOD_DIARY_STEPS: FoodDiaryStep[] = [
       { key: "personal.email", label: "Email address", type: "text" },
     ],
   },
-  dayStep(1),
-  dayStep(2),
-  dayStep(3),
-  dayStep(4),
-  dayStep(5),
-  dayStep(6),
-  dayStep(7),
+  ...Array.from({ length: BASE_DAY_COUNT }, (_, i) => dayStep(i + 1)),
 ];

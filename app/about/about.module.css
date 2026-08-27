@@ -1,0 +1,297 @@
+
+        .about {
+          --bg: #e5decb;
+          --ink: #37342f;
+          --accent: #845334;
+          --sage: #4b5a43;
+          --maroon: #5b0e0e;
+          --serif: "ivypresto-display", Georgia, serif;
+          --sans: "neue-haas-grotesk-display", -apple-system,
+            BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+          background: var(--bg);
+          color: var(--ink);
+          font-family: var(--sans);
+        }
+
+        .eyebrow {
+          font-family: var(--sans);
+          font-size: 0.75rem;
+          letter-spacing: 0.22em;
+          text-transform: uppercase;
+          color: var(--accent);
+          font-weight: 600;
+          margin: 0 0 1.5rem;
+        }
+
+        .eyebrow--light {
+          color: var(--sage);
+          font-size: 0.9375rem;
+          letter-spacing: 0.18em;
+        }
+
+        /* ---------- Hero ---------- */
+        .hero {
+          max-width: 960px;
+          margin: 0 auto;
+          padding: 7rem 1.5rem 4rem;
+          text-align: center;
+        }
+
+        .hero h1 {
+          font-family: var(--serif);
+          font-weight: 400;
+          font-size: clamp(2.25rem, 5vw, 3.75rem);
+          line-height: 1.15;
+          margin: 0;
+          letter-spacing: -0.01em;
+        }
+
+        /* ---------- Story ---------- */
+        .story {
+          max-width: 680px;
+          margin: 0 auto;
+          padding: 2rem 1.5rem 5rem;
+        }
+
+        .story__col p {
+          font-size: 1.125rem;
+          line-height: 1.75;
+          margin: 0 0 1.5rem;
+        }
+
+        .story__beat {
+          font-family: var(--serif);
+          font-style: italic;
+          font-size: 1.25rem !important;
+          color: var(--accent);
+          text-align: center;
+          margin: 2.5rem 0 !important;
+        }
+
+        .story__line {
+          font-family: var(--serif);
+          font-size: 1.25rem !important;
+          line-height: 1.4 !important;
+          margin: 2.5rem 0 !important;
+        }
+
+        .story__signature {
+          font-family: var(--serif);
+          font-weight: 400;
+          font-size: clamp(2.25rem, 6vw, 3.5rem);
+          text-align: center;
+          margin: 1.25rem 0 0;
+          color: var(--maroon);
+        }
+
+        /* ---------- Philosophy ---------- */
+        .philosophy {
+          max-width: 680px;
+          margin: 0 auto;
+          padding: 4rem 1.5rem 5rem;
+          border-top: 1px solid rgba(55, 52, 47, 0.15);
+        }
+
+        .philosophy__intro p {
+          font-size: 1.125rem;
+          line-height: 1.75;
+          margin: 0 0 0.5rem;
+        }
+
+        .philosophy__lede {
+          font-family: var(--serif);
+          font-size: clamp(1.75rem, 4vw, 2.5rem) !important;
+          line-height: 1.25 !important;
+          color: var(--sage);
+          margin: 0.5rem 0 3rem !important;
+        }
+
+        .philosophy__list {
+          list-style: none;
+          margin: 0 0 3rem;
+          padding: 0;
+          border-left: 2px solid var(--sage);
+          padding-left: 1.5rem;
+        }
+
+        .philosophy__list li {
+          font-family: var(--serif);
+          font-size: 1.375rem;
+          line-height: 2;
+          color: var(--ink);
+        }
+
+        .philosophy__body p {
+          font-size: 1.125rem;
+          line-height: 1.75;
+          margin: 0 0 1.5rem;
+        }
+
+        .philosophy__emphasis {
+          font-family: var(--serif);
+          font-style: italic;
+          font-size: 1.5rem !important;
+          color: var(--accent);
+          margin: 2rem 0 !important;
+        }
+
+        .philosophy__spark {
+          list-style: none;
+          margin: 3rem 0;
+          padding: 2.5rem 2rem;
+          background: rgba(75, 90, 67, 0.08);
+          border-radius: 4px;
+          text-align: center;
+        }
+
+        .philosophy__spark li {
+          font-family: var(--serif);
+          font-size: clamp(1.25rem, 3vw, 1.75rem);
+          line-height: 1.6;
+          color: var(--sage);
+        }
+
+        .philosophy__close p {
+          font-size: 1.125rem;
+          line-height: 1.75;
+          margin: 0 0 1rem;
+        }
+
+        .philosophy__manifesto {
+          font-family: var(--serif);
+          font-size: clamp(1.5rem, 3.5vw, 2rem);
+          line-height: 1.4;
+          text-align: center;
+          margin: 3.5rem 0 0;
+          color: var(--ink);
+        }
+
+        /* ---------- Offer ---------- */
+        .offer {
+          max-width: 680px;
+          margin: 0 auto;
+          padding: 5rem 1.5rem 7rem;
+          border-top: 1px solid rgba(55, 52, 47, 0.15);
+        }
+
+        .offer h2 {
+          font-family: var(--serif);
+          font-weight: 400;
+          font-size: clamp(2rem, 4.5vw, 2.75rem);
+          line-height: 1.2;
+          margin: 0 0 2rem;
+        }
+
+        .offer__intro {
+          font-size: 1.125rem;
+          line-height: 1.75;
+          margin: 0 0 0.5rem;
+        }
+
+        .offer__list {
+          list-style: none;
+          margin: 2rem 0 3rem;
+          padding: 0;
+        }
+
+        .offer__list li {
+          font-size: 1.125rem;
+          line-height: 2.1;
+          padding-left: 1.75rem;
+          position: relative;
+        }
+
+        .offer__list li::before {
+          content: "";
+          position: absolute;
+          left: 0;
+          top: 0.85rem;
+          width: 6px;
+          height: 6px;
+          background: var(--accent);
+          border-radius: 50%;
+        }
+
+        .offer__body p {
+          font-size: 1.125rem;
+          line-height: 1.75;
+          margin: 0 0 1.5rem;
+        }
+
+        .offer__emphasis {
+          font-family: var(--serif);
+          font-style: italic;
+          font-size: 1.5rem !important;
+          color: var(--accent);
+          margin: 1.5rem 0 !important;
+        }
+
+        .offer__reframe {
+          margin: 3rem 0;
+          padding: 2rem 0;
+          border-top: 1px solid rgba(55, 52, 47, 0.15);
+          border-bottom: 1px solid rgba(55, 52, 47, 0.15);
+        }
+
+        .offer__reframe p {
+          font-size: 1.125rem;
+          line-height: 1.75;
+          margin: 0 0 0.75rem;
+          color: rgba(55, 52, 47, 0.6);
+        }
+
+        .offer__reframe-final {
+          font-family: var(--serif);
+          font-size: 1.375rem !important;
+          line-height: 1.5 !important;
+          color: var(--ink) !important;
+          margin-top: 1.25rem !important;
+        }
+
+        .offer__cta {
+          display: flex;
+          gap: 1rem;
+          flex-wrap: wrap;
+          margin-top: 3rem;
+        }
+
+        .btn {
+          display: inline-block;
+          font-family: var(--sans);
+          font-size: 0.9375rem;
+          font-weight: 600;
+          letter-spacing: 0.02em;
+          text-decoration: none;
+          padding: 0.9rem 1.75rem;
+          border-radius: 2px;
+          transition: opacity 0.15s ease;
+        }
+
+        .btn--primary {
+          background: var(--accent);
+          color: var(--bg);
+        }
+
+        .btn--ghost {
+          background: transparent;
+          color: var(--ink);
+          border: 1px solid var(--ink);
+        }
+
+        .btn:hover {
+          opacity: 0.8;
+        }
+
+        @media (max-width: 640px) {
+          .hero {
+            padding: 5rem 1.25rem 3rem;
+          }
+          .story,
+          .philosophy,
+          .offer {
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
+          }
+        }
+      

@@ -1,5 +1,5 @@
 import { Document, Packer, Paragraph, HeadingLevel, TextRun } from "docx";
-import { FOOD_DIARY_STEPS } from "@/lib/food-diary-schema";
+import { FOOD_DIARY_STEPS, dayStep, BASE_DAY_COUNT } from "@/lib/food-diary-schema";
 
 type Answers = Record<string, unknown>;
 
@@ -17,6 +17,16 @@ function getValue(answers: Answers, key: string): string {
 }
 
 export async function generateFoodDiaryDocx(answers: Answers, clientName: string): Promise<Buffer> {
+  const extraDays = typeof answers.meta === "object" && answers.meta !== null
+    ? (answers.meta as Record<string, unknown>).extraDays
+    : 0;
+  const extraDayCount = typeof extraDays === "number" ? extraDays : 0;
+
+  const allSteps = [
+    ...FOOD_DIARY_STEPS,
+    ...Array.from({ length: extraDayCount }, (_, i) => dayStep(BASE_DAY_COUNT + i + 1)),
+  ];
+
   const children: Paragraph[] = [
     new Paragraph({
       text: "Seven Days of Meals",
@@ -28,7 +38,7 @@ export async function generateFoodDiaryDocx(answers: Answers, clientName: string
     new Paragraph({ text: "" }),
   ];
 
-  for (const step of FOOD_DIARY_STEPS) {
+  for (const step of allSteps) {
     if (step.fields.length === 0) continue;
 
     children.push(

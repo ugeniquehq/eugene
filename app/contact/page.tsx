@@ -42,11 +42,9 @@ export default function ContactPage() {
     <section className="section">
       <div className="container" style={{ maxWidth: "34rem" }}>
         <p className="eyebrow">Contact</p>
-        <h1>Book a visit</h1>
+        <h1>Begin Your Journey </h1>
         <p>
-          [Placeholder — add practice address, phone, and hours here, or
-          embed a booking widget once one is chosen.]
-        </p>
+                 </p>
 
         {status === "sent" ? (
           <div className="card" style={{ marginTop: "var(--space-md)" }}>

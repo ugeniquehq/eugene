@@ -114,17 +114,17 @@ export default function HomePage() {
             style={{
               display: "grid",
               gridTemplateColumns: "repeat(auto-fit, minmax(9rem, 1fr))",
-              gap: "var(--space-md)",
+              gap: "2.0rem",
               textAlign: "center",
             }}
           >
             {[
-              { dot: "/branding/dots/dot-2-accent-soft.png", title: "Your Biology", desc: "Understand the unique science of you." },
-              { dot: "/branding/dots/dot-3-copper.png", title: "Your Blueprint", desc: "Personalised insights at a deeper level." },
-              { dot: "/branding/dots/dot-6-forest.png", title: "Optimal Health", desc: "Nutrition, lifestyle and biomarker optimisation." },
-              { dot: "/branding/dots/dot-7-maroon.png", title: "Longevity", desc: "Extend healthspan. Live with vitality." },
-              { dot: "/branding/dots/dot-4-accent.png", title: "The Science", desc: "Cutting-edge research. Human insight." },
-              { dot: "/branding/dots/dot-5-ink.png", title: "Begin", desc: "Your journey to a longer, healthier you." },
+              { dot: "/branding/dots/dot-2-accent-soft.png", title: "Your Biology", desc: "Understand why you are uniquely you." },
+              { dot: "/branding/dots/dot-3-copper.png", title: "Your Genetics", desc: "Genes are clues, not destiny." },
+              { dot: "/branding/dots/dot-6-forest.png", title: "Your Blood", desc: "Beyond 'normal'. Understand what your results mean for you." },
+              { dot: "/branding/dots/dot-7-maroon.png", title: "Your Energy", desc: "Because energy changes everything." },
+              { dot: "/branding/dots/dot-4-accent.png", title: "Your Fuel", desc: "Food freedom. Nourish, don't restrict." },
+              { dot: "/branding/dots/dot-5-ink.png", title: "Your Health Story", desc: "Your symptoms aren't random. There is always a why." },
             ].map((item) => (
               <div key={item.title} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
                 <img src={item.dot} alt="" style={{ width: "0.75rem", height: "0.75rem", borderRadius: "50%", display: "block" }} />
@@ -138,11 +138,12 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section>
+      <section style={{ background: "var(--color-card)", padding: "0.5rem" }}>
         <div
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(4, 1fr)",
+            gap: "0.5rem",
             minHeight: "26rem",
           }}
         >
@@ -197,14 +198,14 @@ export default function HomePage() {
             </p>
           </div>
         </div>
-      </section>
 
-      <section>
         <div
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(5, 1fr)",
+            gap: "0.5rem",
             minHeight: "20rem",
+            marginTop: "0.5rem",
           }}
         >
           <div
@@ -268,11 +269,11 @@ export default function HomePage() {
           }}
         >
           <h2 style={{ color: "var(--color-card)", margin: 0, maxWidth: "22rem" }}>
-            Longevity Isn&apos;t Luck. It&apos;s a Strategy.
+            Feeling Good Isn&apos;t Luck. It&apos;s Biology.
           </h2>
           <p style={{ margin: 0, maxWidth: "22rem", opacity: 0.85 }}>
-            We combine advanced genetic analysis with human insight to unlock
-            your full potential and extend your healthspan.
+            We connect your genetics, blood results, health history, nutrtition and lifestyle 
+            to understand what your body needs to thrive.
           </p>
           <div style={{ marginTop: "0.5rem" }}>
             <Link href="/portal/login" className="btn btn-primary">
@@ -304,27 +305,15 @@ export default function HomePage() {
     alt=""
     style={{
       position: "absolute",
+      right: "99%",
       inset: 0,
-      width: "100%",
-      height: "100%",
+      width: "120%",
+      height: "120%",
       objectFit: "contain",
       transform: "scale(0.75)",
     }}
   />
-  {/* Center cross mark */}
-  <img
-    src="/branding/mark-crossed.png"
-    alt=""
-    style={{
-      position: "absolute",
-      top: "50%",
-      left: "50%",
-      transform: "translate(-50%, -50%)",
-      width: "35%",
-      height: "35%",
-      filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.35))",
-    }}
-  />
+
 </div>
       </section>
 
