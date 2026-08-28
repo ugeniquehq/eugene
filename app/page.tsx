@@ -138,7 +138,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section style={{ background: "var(--color-card)", padding: "0.5rem" }}>
+      <section style={{ background: "var(--color-bg)", padding: "0.5rem" }}>
         <div
           style={{
             display: "grid",
