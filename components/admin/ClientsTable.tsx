@@ -213,6 +213,29 @@ export default function ClientsTable({ clients }: ClientsTableProps) {
                 {client.phone ? ` · ${client.phone}` : ""} &middot; {client.document_count} document
                 {client.document_count === 1 ? "" : "s"} &middot; Intake: {formatDate(client.intake_date)}
               </p>
+              <p style={{ margin: "0.35rem 0 0" }}>
+                <span
+                  style={{
+                    display: "inline-block",
+                    fontSize: "var(--step-1)",
+                    fontWeight: 700,
+                    padding: "0.15rem 0.6rem",
+                    borderRadius: "999px",
+                    background: client.intake_complete
+                      ? "var(--color-sage)"
+                      : client.intake_started
+                      ? "var(--color-accent-soft)"
+                      : "var(--color-line)",
+                    color: client.intake_complete ? "#ffffff" : "var(--color-ink)",
+                  }}
+                >
+                  {client.intake_complete
+                    ? "Health History complete"
+                    : client.intake_started
+                    ? "Health History in progress"
+                    : "Health History not started"}
+                </span>
+              </p>
             </li>
           ))}
         </ul>

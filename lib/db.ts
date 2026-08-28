@@ -1,4 +1,6 @@
 import { sql } from "@vercel/postgres";
+import { isIntakeComplete } from "@/lib/intake-completion";
+import type { IntakeAnswers } from "@/lib/intake-answers";
 
 export { sql };
 
@@ -72,6 +74,8 @@ export type ClientDetail = {
   first_name: string;
   last_name: string;
   intake_date: string | null;
+  intake_started: boolean;
+  intake_complete: boolean;
 };
 
 // Splits a single stored "name" field into a best-guess first/last pair.
@@ -102,6 +106,7 @@ export async function getAllClientsDetailed(): Promise<ClientDetail[]> {
     last_name: string | null;
     phone: string | null;
     intake_date: string | null;
+    health_answers: IntakeAnswers | null;
   }>`
     SELECT
       u.id,
@@ -111,7 +116,8 @@ export async function getAllClientsDetailed(): Promise<ClientDetail[]> {
       hh.answers->'personal'->>'firstName' AS first_name,
       hh.answers->'personal'->>'lastName' AS last_name,
       hh.answers->'personal'->>'phone' AS phone,
-      hh.answers->'personal'->>'dateOfJoining' AS intake_date
+      hh.answers->'personal'->>'dateOfJoining' AS intake_date,
+      hh.answers AS health_answers
     FROM users u
     LEFT JOIN documents d ON d.user_id = u.id
     LEFT JOIN documents hh ON hh.user_id = u.id AND hh.title = 'Health History'
@@ -131,6 +137,8 @@ export async function getAllClientsDetailed(): Promise<ClientDetail[]> {
       first_name: row.first_name || fallback.first,
       last_name: row.last_name || fallback.last,
       intake_date: row.intake_date,
+      intake_started: row.health_answers != null,
+      intake_complete: isIntakeComplete(row.health_answers),
     };
   });
 }

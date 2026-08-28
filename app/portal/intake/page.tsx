@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { INTAKE_STEPS } from "@/lib/intake-schema";
 import { IntakeAnswers, getValue, setValue } from "@/lib/intake-answers";
+import { getMissingFields, countRequiredFields } from "@/lib/intake-completion";
 import Field from "@/components/intake/Field";
 
 const PART_PHOTOS: Record<number, string> = {
@@ -32,6 +33,7 @@ export default function IntakePage() {
   const [clientName, setClientName] = useState<string | null>(null);
   const [status, setStatus] = useState<"idle" | "submitting" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
+  const [missingOnFinish, setMissingOnFinish] = useState<ReturnType<typeof getMissingFields> | null>(null);
 
   useEffect(() => {
     fetch("/api/intake")
@@ -64,6 +66,7 @@ export default function IntakePage() {
     return name.endsWith("s") ? `${name}'` : `${name}'s`;
   }
   const heading = clientName ? `${possessive(clientName)} Health History` : "Health History";
+  const { total: totalRequired, answered: answeredRequired } = countRequiredFields(answers);
 
   if (loading) {
     return (
@@ -75,9 +78,20 @@ export default function IntakePage() {
     );
   }
 
-  async function handleSubmit() {
+  async function handleSubmit(requireComplete: boolean) {
     setStatus("submitting");
     setError(null);
+    setMissingOnFinish(null);
+
+    if (requireComplete) {
+      const missing = getMissingFields(answers);
+      if (missing.length > 0) {
+        setMissingOnFinish(missing);
+        // Still save whatever they have so far — being incomplete
+        // shouldn't cost them their progress.
+      }
+    }
+
     try {
       const res = await fetch("/api/intake", {
         method: "POST",
@@ -89,6 +103,10 @@ export default function IntakePage() {
         setError(data.error ?? "Something went wrong saving your health history. Please try again.");
         setStatus("error");
         return;
+      }
+      if (requireComplete && getMissingFields(answers).length > 0) {
+        setStatus("idle");
+        return; // stay on the form — missingOnFinish above tells them what's left
       }
       router.push("/portal/dashboard");
       router.refresh();
@@ -126,6 +144,10 @@ export default function IntakePage() {
         <div style={{ height: "4px", background: "var(--color-line)", borderRadius: "2px", marginBottom: "var(--space-sm)", overflow: "hidden" }}>
           <div style={{ height: "100%", width: `${progress}%`, background: "var(--gradient-brand)", transition: "width 0.2s ease" }} />
         </div>
+
+        <p style={{ fontSize: "var(--step-1)", color: "var(--color-ink-soft)", marginBottom: "var(--space-xs)" }}>
+          {answeredRequired} of {totalRequired} required fields answered
+        </p>
 
         {isEditing && (
           <div style={{ marginBottom: "var(--space-md)" }}>
@@ -216,6 +238,42 @@ export default function IntakePage() {
 
         {error && <p className="error-text" style={{ marginTop: "var(--space-sm)" }}>{error}</p>}
 
+        {missingOnFinish && missingOnFinish.length > 0 && (
+          <div className="card" style={{ marginTop: "var(--space-sm)", borderColor: "var(--color-accent)" }}>
+            <p style={{ fontWeight: 700, marginBottom: "0.35rem" }}>
+              {missingOnFinish.length} field{missingOnFinish.length === 1 ? "" : "s"} still need{missingOnFinish.length === 1 ? "s" : ""} an answer
+            </p>
+            <p style={{ color: "var(--color-ink-soft)", fontSize: "var(--step-1)", marginBottom: "0.75rem" }}>
+              Your progress is saved — if something genuinely doesn't apply to you, write "not applicable" rather than
+              leaving it blank. Click any item below to jump straight to it.
+            </p>
+            <div style={{ display: "grid", gap: "0.25rem", maxHeight: "14rem", overflowY: "auto" }}>
+              {missingOnFinish.map((m, i) => (
+                <button
+                  key={`${m.stepId}-${m.fieldLabel}-${i}`}
+                  type="button"
+                  onClick={() => {
+                    setStepIndex(m.stepIndex);
+                    setMissingOnFinish(null);
+                  }}
+                  style={{
+                    textAlign: "left",
+                    background: "none",
+                    border: "none",
+                    borderRadius: "var(--radius)",
+                    padding: "0.35rem 0.5rem",
+                    cursor: "pointer",
+                    fontSize: "var(--step-1)",
+                    fontFamily: "var(--font-body)",
+                  }}
+                >
+                  <span style={{ color: "var(--color-ink-soft)" }}>{m.stepTitle}:</span> {m.fieldLabel}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginTop: "var(--space-md)", flexWrap: "wrap", gap: "var(--space-sm)" }}>
           <button
             type="button"
@@ -231,7 +289,7 @@ export default function IntakePage() {
               <button
                 type="button"
                 className="btn btn-secondary"
-                onClick={handleSubmit}
+                onClick={() => handleSubmit(false)}
                 disabled={status === "submitting"}
               >
                 {status === "submitting" ? "Saving…" : "Save now"}
@@ -239,7 +297,7 @@ export default function IntakePage() {
             )}
 
             {isLast ? (
-              <button type="button" className="btn btn-primary" onClick={handleSubmit} disabled={status === "submitting"}>
+              <button type="button" className="btn btn-primary" onClick={() => handleSubmit(true)} disabled={status === "submitting"}>
                 {status === "submitting" ? "Saving…" : "Save health history"}
               </button>
             ) : (

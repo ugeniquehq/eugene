@@ -1,7 +1,8 @@
 import { redirect, notFound } from "next/navigation";
 import Link from "next/link";
 import { auth } from "@/auth";
-import { getClientById, getDocumentsForUser } from "@/lib/db";
+import { getClientById, getDocumentsForUser, getHealthHistoryForUser } from "@/lib/db";
+import { getMissingFields } from "@/lib/intake-completion";
 
 export default async function AdminClientPage({ params }: { params: { id: string } }) {
   const session = await auth();
@@ -18,6 +19,8 @@ export default async function AdminClientPage({ params }: { params: { id: string
   }
 
   const documents = await getDocumentsForUser(client.id);
+  const healthHistory = await getHealthHistoryForUser(client.id);
+  const missingFields = healthHistory ? getMissingFields(healthHistory.answers ?? {}) : null;
 
   return (
     <section className="section">
@@ -31,6 +34,27 @@ export default async function AdminClientPage({ params }: { params: { id: string
         </p>
         <h1>{client.name}</h1>
         <p style={{ color: "var(--color-ink-soft)" }}>{client.email}</p>
+
+        <h2 style={{ marginTop: "var(--space-lg)" }}>Health History</h2>
+        {!healthHistory ? (
+          <p style={{ color: "var(--color-ink-soft)" }}>Not started yet.</p>
+        ) : missingFields && missingFields.length === 0 ? (
+          <p style={{ color: "var(--color-sage)", fontWeight: 700 }}>Complete — every required field has an answer.</p>
+        ) : (
+          <div>
+            <p style={{ fontWeight: 700 }}>
+              In progress — {missingFields?.length} field{missingFields?.length === 1 ? "" : "s"} still need
+              {missingFields?.length === 1 ? "s" : ""} an answer
+            </p>
+            <div className="card" style={{ maxHeight: "14rem", overflowY: "auto", display: "grid", gap: "0.15rem" }}>
+              {missingFields?.map((m, i) => (
+                <p key={`${m.stepId}-${m.fieldLabel}-${i}`} style={{ margin: 0, fontSize: "var(--step-1)" }}>
+                  <span style={{ color: "var(--color-ink-soft)" }}>{m.stepTitle}:</span> {m.fieldLabel}
+                </p>
+              ))}
+            </div>
+          </div>
+        )}
 
         <h2 style={{ marginTop: "var(--space-lg)" }}>Documents</h2>
         {documents.length === 0 ? (
