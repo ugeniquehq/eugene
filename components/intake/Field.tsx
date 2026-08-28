@@ -171,7 +171,6 @@ const commonLabel = (
             <input
               type="text"
               inputMode="numeric"
-              placeholder="7:30"
               value={timePart}
               onChange={(e) => updateTime(e.target.value)}
               style={{ width: "4.5rem", flex: "0 0 auto", textAlign: "center" }}
@@ -195,6 +194,7 @@ const commonLabel = (
               fontFamily: "var(--font-body)",
               fontSize: "var(--step-2)",
               color: "var(--color-ink-soft)",
+              opacity: 0.65,
               margin: 0,
             }}
           >
