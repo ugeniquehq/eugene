@@ -293,7 +293,7 @@ export default function HomePage() {
   style={{
     position: "absolute",
     top: "50%",
-    left: "65%",
+    left: "38%",
     transform: "translate(-50%, -50%)",
     width: "18rem",
     height: "18rem",
