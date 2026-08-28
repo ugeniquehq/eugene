@@ -212,31 +212,8 @@ export default function LoginPage() {
             height: "13rem",
           }}
         >
-          <img
-            src="/branding/mark-dots-ring.png"
-            alt=""
-            style={{
-              position: "absolute",
-              inset: 0,
-              width: "100%",
-              height: "100%",
-              objectFit: "contain",
-              transform: "scale(0.75)",
-            }}
-          />
-          <img
-            src="/branding/mark-crossed.png"
-            alt=""
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: "35%",
-              height: "35%",
-              filter: "drop-shadow(0 4px 12px rgba(0,0,0,0.35))",
-            }}
-          />
+          
+          
         </div>
         <p
           style={{

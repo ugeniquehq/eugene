@@ -193,7 +193,7 @@ export default function AboutPage() {
               entire morning before most people have made coffee.
             </p>
 
-            <p className={`${styles.heading} ${styles.headingCenter}`}>
+            <p className={styles.heading}>
               And yet, something still doesn&rsquo;t quite add up.
             </p>
           </div>
@@ -229,7 +229,7 @@ export default function AboutPage() {
               rather important variable that is often missing:
             </p>
 
-            <p className={`${styles.heading} ${styles.headingCenter}`}>You.</p>
+            <p className={styles.heading}>You.</p>
           </div>
         </section>
 
@@ -286,7 +286,7 @@ export default function AboutPage() {
         {/* ---------- 5. Spark stanza + manifesto (cream) ---------- */}
         <section className={`${styles.section} ${styles.sectionCream}`}>
           <div className={styles.sectionInner}>
-            <p className={`${styles.heading} ${styles.headingCenter} ${styles.headingTight}`}>
+            <p className={`${styles.heading} ${styles.headingTight}`}>
               Your spark comes back.
               <br />
               Your sense of humour.
@@ -305,7 +305,7 @@ export default function AboutPage() {
               fully alive in your own life.
             </p>
 
-            <p className={`${styles.heading} ${styles.headingCenter}`}>
+            <p className={styles.heading}>
               Understand your biology. Elevate your health. Get more out of
               being you.
             </p>
@@ -357,7 +357,7 @@ export default function AboutPage() {
             <div className={styles.reframeBlock}>
               <p>Not another pile of test results.</p>
               <p>Not another generic protocol.</p>
-              <p className={`${styles.heading} ${styles.headingCenter}`}>
+              <p className={styles.heading}>
                 A blueprint for understanding your body &mdash; and the
                 confidence to know what to do with that information.
               </p>

@@ -50,7 +50,7 @@ export const FOOD_DIARY_STEPS: FoodDiaryStep[] = [
     id: "welcome",
     title: "Seven Days of Meals",
     intro:
-      "In the space below, please track your meals, snacks and drinks from the past seven days.\n\n" +
+      "On the next pages, please track your meals, snacks and drinks for at least seven days.\n\n" +
       "The more detail and information you can provide for our team, the better! If seven days doesn't feel like enough, you can add extra days at the end.",
     fields: [],
   },

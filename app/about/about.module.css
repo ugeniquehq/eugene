@@ -119,10 +119,6 @@
           border-top: 1px solid rgba(55, 52, 47, 0.15);
         }
 
-        .reframeBlock p {
-          color: rgba(55, 52, 47, 0.6);
-        }
-
         /* ---------- CTA ---------- */
         .ctaRow {
           display: flex;
