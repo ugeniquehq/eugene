@@ -8,14 +8,12 @@ const contactSchema = z.object({
   message: z.string().optional(),
 });
 
-// The address the form actually delivers to. Sandbox mode (no verified
-// domain yet) only allows sending to the address tied to the Resend
-// account itself — this needs to match that account's email.
+// Where contact form submissions actually land.
 const RECIPIENT = "ugeniquehq@gmail.com";
 
-// Sandbox "from" address. Swap for something branded (e.g.
-// contact@welladjusted.com) once the domain is verified in Resend.
-const FROM = "onboarding@resend.dev";
+// Real, verified sending address now that thebiologyofyou.com is set up in
+// Resend (previously onboarding@resend.dev as a sandbox workaround).
+const FROM = "info@thebiologyofyou.com";
 
 export async function POST(req: Request) {
   const body = await req.json();
