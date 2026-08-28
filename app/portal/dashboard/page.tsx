@@ -83,8 +83,13 @@ export default async function DashboardPage() {
                   style={{
                     border: "1px solid var(--color-line)",
                     borderRadius: "var(--radius)",
-                    padding: "var(--space-sm)",
-                    background: "var(--color-bg)",
+                    padding: "var(--space-lg) var(--space-sm)",
+                    minHeight: "6rem",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    background: "#ffffff",
+                    boxShadow: "0 4px 12px rgba(20,17,14,0.06)",
                   }}
                 >
                   {item.doc ? (
