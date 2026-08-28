@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { INTAKE_STEPS } from "@/lib/intake-schema";
-import { IntakeAnswers } from "@/lib/intake-answers";
+import { IntakeAnswers, getValue, setValue } from "@/lib/intake-answers";
 import Field from "@/components/intake/Field";
 
 const PART_PHOTOS: Record<number, string> = {
@@ -38,10 +38,15 @@ export default function IntakePage() {
       .then((res) => res.json())
       .then((data) => {
         if (data?.name) setClientName(data.name);
+        let loaded: IntakeAnswers = {};
         if (data?.answers) {
-          setAnswers(data.answers);
+          loaded = data.answers;
           setIsEditing(true);
         }
+        if (!getValue(loaded, "personal.dateOfJoining")) {
+          loaded = setValue(loaded, "personal.dateOfJoining", new Date().toISOString().slice(0, 10));
+        }
+        setAnswers(loaded);
       })
       .catch(() => {
         // If this fails, the form just starts blank — not worth blocking on.

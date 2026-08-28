@@ -204,6 +204,49 @@ const commonLabel = (
       );
     }
 
+    case "phone": {
+      const raw = typeof value === "string" ? value : "";
+      const match = raw.match(/^(\+\d{1,4})?\s*(.*)$/);
+      const code = match?.[1] ?? "+61";
+      const number = match?.[2] ?? "";
+
+      const codes = ["+61", "+64", "+1", "+44", "+27", "+971"];
+
+      function updateCode(newCode: string) {
+        update(number ? `${newCode} ${number}` : newCode);
+      }
+      function updateNumber(newNumber: string) {
+        update(newNumber ? `${code} ${newNumber}` : "");
+      }
+
+      return (
+        <div className="field">
+          {commonLabel}
+          <div style={{ display: "flex", gap: "0.4rem", alignItems: "flex-start" }}>
+            <select
+              value={code}
+              onChange={(e) => updateCode(e.target.value)}
+              style={{ flex: "0 0 5.5rem", width: "5.5rem" }}
+            >
+              {codes.map((c) => (
+                <option key={c} value={c}>
+                  {c}
+                </option>
+              ))}
+            </select>
+            <input
+              type="tel"
+              inputMode="tel"
+              value={number}
+              onChange={(e) => updateNumber(e.target.value)}
+              placeholder="412 345 678"
+              style={{ flex: "1 1 auto", minWidth: 0 }}
+            />
+          </div>
+        </div>
+      );
+    }
+
     case "temperature":
       return (
         <div className="field">

@@ -14,7 +14,8 @@ export type FieldType =
   | "select"
   | "images"
   | "temperature"
-  | "mealtime";
+  | "mealtime"
+  | "phone";
 
 export interface IntakeField {
   key: string; // dot-path into the answers object, e.g. "personal.firstName"
@@ -72,9 +73,12 @@ export const INTAKE_STEPS: IntakeStep[] = [
     id: "personal",
     title: "Let's get to know you",
     fields: [
+      { key: "personal.dateOfJoining", label: "Today's date", type: "date" },
       { key: "personal.title", label: "Title", type: "text" },
-      { key: "personal.name", label: "First & last name", type: "text" },
+      { key: "personal.firstName", label: "First name", type: "text" },
+      { key: "personal.lastName", label: "Last name", type: "text" },
       { key: "personal.preferredName", label: "Preferred name", type: "text" },
+      { key: "personal.phone", label: "Phone number", type: "phone" },
       { key: "personal.age", label: "Age", type: "text" },
       { key: "personal.dob", label: "Date of birth", type: "date" },
       { key: "personal.addressStreet", label: "Street address", type: "text" },
