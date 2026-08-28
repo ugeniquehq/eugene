@@ -9,9 +9,30 @@ export default async function DashboardPage() {
   }
 
   const documents = await getDocumentsForUser(session.user.id as string);
-  const hasHealthHistory = documents.some((doc) => doc.title === "Health History");
-  const hasFoodDiary = documents.some((doc) => doc.title === "Food Diary");
-  const hasTemperatureRecord = documents.some((doc) => doc.title === "Temperature Record");
+
+  const items = [
+    {
+      title: "Health History",
+      doc: documents.find((d) => d.title === "Health History"),
+      href: "/portal/intake",
+      startLabel: "Complete your health history",
+      updateLabel: "Update Health History",
+    },
+    {
+      title: "Food Diary",
+      doc: documents.find((d) => d.title === "Food Diary"),
+      href: "/portal/food-diary",
+      startLabel: "Complete your 7-day food diary",
+      updateLabel: "Update Food Diary",
+    },
+    {
+      title: "Temperature Record",
+      doc: documents.find((d) => d.title === "Temperature Record"),
+      href: "/portal/temperature",
+      startLabel: "Begin your 14-day temperature record",
+      updateLabel: "Update Temperature Record",
+    },
+  ];
 
   return (
     <section
@@ -30,7 +51,7 @@ export default async function DashboardPage() {
           padding: "var(--space-xl)",
         }}
       >
-        <div style={{ maxWidth: "30rem", width: "100%", marginInline: "auto" }}>
+        <div style={{ maxWidth: "40rem", width: "100%", marginInline: "auto", textAlign: "center" }}>
           <p className="eyebrow" style={{ color: "var(--color-accent)" }}>Client Portal</p>
           <h1 style={{ fontSize: "var(--step2)", marginBottom: "var(--space-md)" }}>
             Welcome back, {session.user.name}
@@ -49,68 +70,48 @@ export default async function DashboardPage() {
             Your documents
           </p>
 
-          {documents.length === 0 ? (
-            <div
-              className="card"
-              style={{ border: "1px solid var(--color-line)", boxShadow: "0 10px 30px rgba(20,17,14,0.08)" }}
-            >
-              <p style={{ marginBottom: "var(--space-sm)" }}>
-                You haven&apos;t completed your health history yet — it takes about 20 minutes and
-                helps your Biology of You team understand the full picture before your first review.
-              </p>
-              <a href="/portal/intake" className="btn btn-primary">
-                Complete your health history
-              </a>
-            </div>
-          ) : (
-            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
-              {documents.map((doc) => (
-                <li
-                  key={doc.id}
-                  className="card"
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fit, minmax(9rem, 1fr))",
+              gap: "var(--space-sm)",
+            }}
+          >
+            {items.map((item) => (
+              <div key={item.title} style={{ display: "flex", flexDirection: "column", gap: "var(--space-xs)" }}>
+                <div
                   style={{
-                    marginBottom: "var(--space-sm)",
                     border: "1px solid var(--color-line)",
-                    boxShadow: "0 10px 30px rgba(20,17,14,0.08)",
+                    borderRadius: "var(--radius)",
+                    padding: "var(--space-sm)",
+                    background: "var(--color-bg)",
                   }}
                 >
-                  <a href={`/api/documents/${doc.id}`} target="_blank" rel="noreferrer">
-                    {doc.title}
-                  </a>
-                  <p style={{ fontFamily: "var(--font-mono)", fontSize: "var(--step-1)", color: "var(--color-ink-soft)", margin: 0 }}>
-                    {new Date(doc.uploaded_at).toLocaleDateString()}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          )}
+                  {item.doc ? (
+                    <a href={`/api/documents/${item.doc.id}`} target="_blank" rel="noreferrer">
+                      {item.title}
+                    </a>
+                  ) : (
+                    <span style={{ color: "var(--color-ink-soft)" }}>{item.title}</span>
+                  )}
+                </div>
 
-          <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-xs)", marginTop: "var(--space-sm)" }}>
-            {hasHealthHistory && (
-              <a href="/portal/intake" className="btn btn-secondary">
-                Update your health history
-              </a>
-            )}
-
-            {hasFoodDiary ? (
-              <a href="/portal/food-diary" className="btn btn-secondary">
-                Update your food diary
-              </a>
-            ) : (
-              <a href="/portal/food-diary" className="btn btn-primary">
-                Complete your 7-day food diary
-              </a>
-            )}
-
-            {hasTemperatureRecord ? (
-              <a href="/portal/temperature" className="btn btn-secondary">
-                Update your temperature record
-              </a>
-            ) : (
-              <a href="/portal/temperature" className="btn btn-primary">
-                Begin your 14-day temperature record
-              </a>
-            )}
+                <a
+                  href={item.href}
+                  className="btn"
+                  style={{
+                    justifyContent: "center",
+                    background: item.doc ? "var(--color-accent-soft)" : "var(--color-ink)",
+                    color: item.doc ? "var(--color-ink)" : "var(--color-bg)",
+                    border: item.doc ? "1px solid var(--color-ink)" : "1px solid transparent",
+                    fontSize: "var(--step-1)",
+                    padding: "0.75rem 1rem",
+                  }}
+                >
+                  {item.doc ? item.updateLabel : item.startLabel}
+                </a>
+              </div>
+            ))}
           </div>
 
           <form
@@ -130,33 +131,45 @@ export default async function DashboardPage() {
       {/* Right: photo panel, echoes login/hero */}
       <div
         style={{
-          position: "relative",
-          overflow: "hidden",
-          backgroundImage: "url(/grid2/photo-ocean-legs.jpg)",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          display: "flex",
+          alignItems: "flex-start",
+          justifyContent: "center",
+          padding: "var(--space-xl)",
         }}
       >
         <div
           style={{
-            position: "absolute",
-            inset: 0,
-            background: "linear-gradient(to top, rgba(20,17,14,0.5) 0%, rgba(20,17,14,0.05) 55%)",
-          }}
-        />
-        <p
-          style={{
-            position: "absolute",
-            bottom: "var(--space-lg)",
-            left: "var(--space-lg)",
-            right: "var(--space-lg)",
-            color: "var(--color-card)",
-            fontSize: "var(--step1)",
-            maxWidth: "22rem",
+            position: "relative",
+            width: "100%",
+            maxWidth: "26rem",
+            aspectRatio: "4 / 3",
+            borderRadius: "var(--radius)",
+            overflow: "hidden",
+            backgroundImage: "url(/grid2/photo-ocean-legs.jpg)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
           }}
         >
-          The story only your biology can tell.
-        </p>
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: "linear-gradient(to top, rgba(20,17,14,0.5) 0%, rgba(20,17,14,0.05) 55%)",
+            }}
+          />
+          <p
+            style={{
+              position: "absolute",
+              bottom: "var(--space-md)",
+              left: "var(--space-md)",
+              right: "var(--space-md)",
+              color: "var(--color-card)",
+              fontSize: "var(--step0)",
+            }}
+          >
+            The story only your biology can tell.
+          </p>
+        </div>
       </div>
     </section>
   );
