@@ -22,7 +22,7 @@ export default async function AdminClientPage({ params }: { params: { id: string
   return (
     <section className="section">
       <div className="container" style={{ maxWidth: "40rem" }}>
-        <Link href="/portal/admin" style={{ fontSize: "var(--step-1)", color: "var(--color-ink-soft)" }}>
+        <Link href="/portal/admin/clients" style={{ fontSize: "var(--step-1)", color: "var(--color-ink-soft)" }}>
           &larr; All clients
         </Link>
 

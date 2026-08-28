@@ -1,9 +1,26 @@
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { auth } from "@/auth";
-import { getAllClients } from "@/lib/db";
 
-export default async function AdminPage() {
+type Tile = {
+  title: string;
+  href?: string;
+  description?: string;
+};
+
+const TILES: Tile[] = [
+  { title: "Clients", href: "/portal/admin/clients", description: "Browse, sort and filter every client account" },
+  { title: "Emails", href: "/portal/admin/emails", description: "Send a template email to selected clients" },
+  { title: "TBA" },
+  { title: "TBA" },
+  { title: "TBA" },
+  { title: "TBA" },
+  { title: "TBA" },
+  { title: "TBA" },
+  { title: "TBA" },
+];
+
+export default async function AdminLandingPage() {
   const session = await auth();
   if (!session?.user) {
     redirect("/portal/login");
@@ -12,31 +29,57 @@ export default async function AdminPage() {
     redirect("/portal/dashboard");
   }
 
-  const clients = await getAllClients();
-
   return (
     <section className="section">
-      <div className="container" style={{ maxWidth: "40rem" }}>
+      <div className="container" style={{ maxWidth: "48rem" }}>
         <p className="eyebrow">Practitioner</p>
-        <h1>Clients</h1>
+        <h1 style={{ marginBottom: "var(--space-lg)" }}>Admin landing page</h1>
 
-        {clients.length === 0 ? (
-          <p style={{ color: "var(--color-ink-soft)" }}>No client accounts yet.</p>
-        ) : (
-          <ul style={{ listStyle: "none", padding: 0 }}>
-            {clients.map((client) => (
-              <li key={client.id} className="card" style={{ marginBottom: "var(--space-sm)" }}>
-                <Link href={`/portal/admin/clients/${client.id}`} style={{ textDecoration: "none" }}>
-                  <strong>{client.name}</strong>
-                </Link>
-                <p style={{ margin: "0.25rem 0 0", fontSize: "var(--step-1)", color: "var(--color-ink-soft)" }}>
-                  {client.email} &middot; {client.document_count} document
-                  {client.document_count === 1 ? "" : "s"}
-                </p>
-              </li>
-            ))}
-          </ul>
-        )}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: "var(--space-sm)",
+          }}
+        >
+          {TILES.map((tile, i) => {
+            const enabled = Boolean(tile.href);
+            const content = (
+              <div
+                style={{
+                  border: `1px solid ${enabled ? "var(--color-ink)" : "var(--color-line)"}`,
+                  borderRadius: "var(--radius)",
+                  background: "var(--color-surface)",
+                  minHeight: "6.5rem",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "0.35rem",
+                  padding: "var(--space-sm)",
+                  textAlign: "center",
+                  boxShadow: enabled ? "0 4px 12px rgba(20,17,14,0.06)" : "none",
+                  opacity: enabled ? 1 : 0.55,
+                }}
+              >
+                <strong style={{ fontSize: "var(--step0)" }}>{tile.title}</strong>
+                {tile.description && (
+                  <span style={{ fontSize: "var(--step-1)", color: "var(--color-ink-soft)" }}>
+                    {tile.description}
+                  </span>
+                )}
+              </div>
+            );
+
+            return enabled ? (
+              <Link key={i} href={tile.href!} style={{ textDecoration: "none", color: "inherit" }}>
+                {content}
+              </Link>
+            ) : (
+              <div key={i}>{content}</div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
