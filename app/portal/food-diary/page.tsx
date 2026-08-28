@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { FOOD_DIARY_STEPS, dayStep, BASE_DAY_COUNT, FoodDiaryStep } from "@/lib/food-diary-schema";
+import { getValue } from "@/lib/intake-answers";
 import Field from "@/components/intake/Field";
 
 const STEP_PHOTOS: Record<string, string> = {
@@ -13,6 +14,30 @@ const DEFAULT_PHOTO = "/photography/food-diary-default.jpg";
 
 function getPhotoForStep(stepId: string): string {
   return STEP_PHOTOS[stepId] ?? DEFAULT_PHOTO;
+}
+
+function buildSteps(extraDays: number): FoodDiaryStep[] {
+  return [
+    ...FOOD_DIARY_STEPS,
+    ...Array.from({ length: extraDays }, (_, i) => dayStep(BASE_DAY_COUNT + i + 1)),
+  ];
+}
+
+// A step counts as "done" once every field on it has something in it.
+// Steps with no fields (like the welcome page) are treated as done —
+// there's nothing to fill in, so they shouldn't block auto-resume.
+function isStepComplete(step: FoodDiaryStep, answers: Record<string, unknown>): boolean {
+  if (step.fields.length === 0) return true;
+  return step.fields.every((field) => {
+    const value = getValue(answers, field.key);
+    return value !== undefined && value !== null && value !== "";
+  });
+}
+
+function shortLabel(step: FoodDiaryStep, index: number): string {
+  if (step.id === "welcome") return "Start";
+  if (step.id === "personal") return "You";
+  return `Day ${index - 1}`; // steps 0 and 1 are welcome/personal, days start at index 2
 }
 
 export default function FoodDiaryPage() {
@@ -29,11 +54,21 @@ export default function FoodDiaryPage() {
       .then((res) => res.json())
       .then((data) => {
         if (data?.answers) {
-          setAnswers(data.answers);
-          const meta = data.answers.meta;
-          if (meta && typeof meta === "object" && typeof meta.extraDays === "number") {
-            setExtraDays(meta.extraDays);
-          }
+          const loadedAnswers = data.answers;
+          setAnswers(loadedAnswers);
+
+          const meta = loadedAnswers.meta;
+          const loadedExtraDays =
+            meta && typeof meta === "object" && typeof meta.extraDays === "number" ? meta.extraDays : 0;
+          setExtraDays(loadedExtraDays);
+
+          // Resume where they left off: jump to the first step that isn't
+          // fully filled in yet, rather than always starting back at the
+          // welcome page. If everything's already filled in, land on the
+          // last step so they can add another day or finish up.
+          const loadedSteps = buildSteps(loadedExtraDays);
+          const firstIncomplete = loadedSteps.findIndex((s) => !isStepComplete(s, loadedAnswers));
+          setStepIndex(firstIncomplete === -1 ? loadedSteps.length - 1 : firstIncomplete);
         }
       })
       .catch(() => {
@@ -42,13 +77,7 @@ export default function FoodDiaryPage() {
       .finally(() => setLoading(false));
   }, []);
 
-  const allSteps: FoodDiaryStep[] = useMemo(
-    () => [
-      ...FOOD_DIARY_STEPS,
-      ...Array.from({ length: extraDays }, (_, i) => dayStep(BASE_DAY_COUNT + i + 1)),
-    ],
-    [extraDays]
-  );
+  const allSteps: FoodDiaryStep[] = useMemo(() => buildSteps(extraDays), [extraDays]);
 
   const step = allSteps[stepIndex];
   const isFirst = stepIndex === 0;
@@ -114,6 +143,11 @@ export default function FoodDiaryPage() {
     setStepIndex(FOOD_DIARY_STEPS.length + nextExtraDays - 1);
   }
 
+  function jumpTo(index: number) {
+    if (status === "submitting") return;
+    setStepIndex(index);
+  }
+
   return (
     <section className="section" style={{ paddingTop: 0, paddingBottom: 0 }}>
       <div className="intake-photo-fixed" style={{ backgroundImage: `url(${photo})` }} />
@@ -126,6 +160,52 @@ export default function FoodDiaryPage() {
 
           <div style={{ height: "4px", background: "var(--color-line)", borderRadius: "2px", marginBottom: "var(--space-sm)", overflow: "hidden" }}>
             <div style={{ height: "100%", width: `${progress}%`, background: "var(--gradient-brand)", transition: "width 0.2s ease" }} />
+          </div>
+
+          <div
+            role="tablist"
+            aria-label="Jump to a step"
+            style={{
+              display: "flex",
+              gap: "0.35rem",
+              overflowX: "auto",
+              paddingBottom: "var(--space-sm)",
+              marginBottom: "var(--space-sm)",
+            }}
+          >
+            {allSteps.map((s, i) => {
+              const complete = isStepComplete(s, answers);
+              const isCurrent = i === stepIndex;
+              return (
+                <button
+                  key={s.id}
+                  type="button"
+                  role="tab"
+                  aria-selected={isCurrent}
+                  title={s.title}
+                  onClick={() => jumpTo(i)}
+                  disabled={status === "submitting"}
+                  style={{
+                    flex: "0 0 auto",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "0.3rem",
+                    padding: "0.3rem 0.6rem",
+                    borderRadius: "999px",
+                    border: `1px solid ${isCurrent ? "transparent" : "var(--color-line)"}`,
+                    background: isCurrent ? "var(--gradient-brand)" : complete ? "var(--color-surface)" : "transparent",
+                    color: isCurrent ? "#fff" : "var(--color-ink)",
+                    fontSize: "var(--step-1)",
+                    fontFamily: "var(--font-mono)",
+                    cursor: status === "submitting" ? "default" : "pointer",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {complete && !isCurrent && <span aria-hidden="true">✓</span>}
+                  {shortLabel(s, i)}
+                </button>
+              );
+            })}
           </div>
 
           <h1>{step.title}</h1>
