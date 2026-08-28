@@ -169,7 +169,7 @@ export default function HomePage() {
               You Are Designed to Thrive.
             </h2>
             <p style={{ margin: 0, opacity: 0.85 }}>
-              We decode your biology so you can live beyond average.
+              Health should give you more life not more rules.
             </p>
           </div>
           <div
