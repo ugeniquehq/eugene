@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import type { ClientDetail } from "@/lib/db";
-import { EMAIL_TEMPLATES, renderTemplate } from "@/lib/email-templates";
+import { EMAIL_TEMPLATES, EMAIL_FROM_ADDRESSES, renderTemplate } from "@/lib/email-templates";
 
 interface EmailComposerProps {
   clients: ClientDetail[];
@@ -10,6 +10,7 @@ interface EmailComposerProps {
 
 export default function EmailComposer({ clients }: EmailComposerProps) {
   const [selected, setSelected] = useState<Set<string>>(new Set());
+  const [from, setFrom] = useState(EMAIL_FROM_ADDRESSES[0] ?? "");
   const [templateId, setTemplateId] = useState(EMAIL_TEMPLATES[0]?.id ?? "");
   const [subject, setSubject] = useState(EMAIL_TEMPLATES[0]?.subject ?? "");
   const [body, setBody] = useState(EMAIL_TEMPLATES[0]?.body ?? "");
@@ -67,6 +68,7 @@ export default function EmailComposer({ clients }: EmailComposerProps) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           clientIds: Array.from(selected),
+          from,
           subject,
           body,
         }),
@@ -90,6 +92,7 @@ export default function EmailComposer({ clients }: EmailComposerProps) {
   }
 
   const previewName = clients.find((c) => selected.has(c.id))?.first_name || "there";
+  const bracketPlaceholders = Array.from(new Set(body.match(/\[[^\]]+\]/g) ?? []));
 
   return (
     <div style={{ display: "grid", gridTemplateColumns: "1fr 1.2fr", gap: "var(--space-lg)", alignItems: "start" }}>
@@ -165,6 +168,17 @@ export default function EmailComposer({ clients }: EmailComposerProps) {
 
       {/* Composer */}
       <div>
+        <div className="field">
+          <label>From</label>
+          <select value={from} onChange={(e) => setFrom(e.target.value)}>
+            {EMAIL_FROM_ADDRESSES.map((addr) => (
+              <option key={addr} value={addr}>
+                {addr}
+              </option>
+            ))}
+          </select>
+        </div>
+
         <p
           style={{
             fontFamily: "var(--font-mono)",
@@ -200,11 +214,32 @@ export default function EmailComposer({ clients }: EmailComposerProps) {
           <label>
             Body
             <span style={{ display: "block", fontWeight: 400, color: "var(--color-ink-soft)", fontSize: "var(--step-1)" }}>
-              Use <code>{"{{firstName}}"}</code> and it'll be swapped for each client's first name.
+              <code>{"{{firstName}}"}</code> and the Health History / Food Diary / Temperature Record links fill in
+              automatically. Anything in [SQUARE BRACKETS] is different for each client — replace it here before sending.
             </span>
           </label>
-          <textarea rows={12} value={body} onChange={(e) => setBody(e.target.value)} />
+          <textarea rows={22} value={body} onChange={(e) => setBody(e.target.value)} style={{ fontFamily: "var(--font-body)" }} />
         </div>
+
+        {bracketPlaceholders.length > 0 && (
+          <div
+            style={{
+              background: "var(--color-card)",
+              border: "1px solid var(--color-line)",
+              borderRadius: "var(--radius)",
+              padding: "var(--space-sm)",
+              marginBottom: "var(--space-sm)",
+              fontSize: "var(--step-1)",
+            }}
+          >
+            <strong>Still needs filling in:</strong>
+            <ul style={{ margin: "0.35rem 0 0", paddingLeft: "1.1rem" }}>
+              {bracketPlaceholders.map((ph) => (
+                <li key={ph}>{ph}</li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         <p style={{ fontSize: "var(--step-1)", color: "var(--color-ink-soft)" }}>
           Preview greeting: "{renderTemplate(body.split("\n")[0] || "", { firstName: previewName })}"
