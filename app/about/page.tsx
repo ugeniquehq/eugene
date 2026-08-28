@@ -10,6 +10,38 @@ export const metadata: Metadata = {
     "Your biology isn't generic. Your healthcare shouldn't be either. Learn how The Biology of You builds a personalised health blueprint from your genetics, metabolism, blood markers and history.",
 };
 
+// Same six brand dots used in the homepage icon strip, cycled for any bulleted list on this page.
+const DOT_PALETTE = [
+  "/branding/dots/dot-2-accent-soft.png",
+  "/branding/dots/dot-3-copper.png",
+  "/branding/dots/dot-6-forest.png",
+  "/branding/dots/dot-7-maroon.png",
+  "/branding/dots/dot-4-accent.png",
+  "/branding/dots/dot-5-ink.png",
+];
+
+const biologyItems = [
+  "Your genetics.",
+  "Your metabolism.",
+  "Your blood markers.",
+  "Your health history.",
+  "Your food.",
+  "Your lifestyle.",
+  "Your environment.",
+  "And the way your body has adapted to all of it.",
+];
+
+const offerItems = [
+  "DNA and genetic pathways",
+  "Blood markers",
+  "Comprehensive health and family history",
+  "Current symptoms and health goals",
+  "Food and nutritional intake",
+  "Supplements",
+  "Lifestyle, movement, sleep and stress",
+  "Metabolic clues, including body temperature and energy patterns",
+];
+
 export default function AboutPage() {
   return (
     <>
@@ -136,9 +168,9 @@ export default function AboutPage() {
           }}
         />
 
-        {/* ---------- Story ---------- */}
-        <section className={styles.story}>
-          <div className={styles.story__col}>
+        {/* ---------- 1. Opening (cream) ---------- */}
+        <section className={`${styles.section} ${styles.sectionCream}`}>
+          <div className={styles.sectionInner}>
             <p>Maybe you&rsquo;ve followed the traditional advice.</p>
             <p>Or maybe you&rsquo;ve done the exact opposite.</p>
 
@@ -161,11 +193,18 @@ export default function AboutPage() {
               entire morning before most people have made coffee.
             </p>
 
-            <p className={styles.story__beat}>
+            <p className={`${styles.heading} ${styles.headingCenter}`}>
               And yet, something still doesn&rsquo;t quite add up.
             </p>
+          </div>
+        </section>
 
-            <p className={styles.story__line}>Maybe you&rsquo;re tired.</p>
+        {/* ---------- 2. Tired / good — You. (alt) ---------- */}
+        <section className={`${styles.section} ${styles.sectionAlt}`}>
+          <div className={styles.sectionInner}>
+            <p className={styles.heading}>
+              Maybe you&rsquo;re tired.
+            </p>
 
             <p>
               Maybe your hormones feel unpredictable. Your digestion
@@ -174,7 +213,7 @@ export default function AboutPage() {
               isn&rsquo;t as sharp. Your resilience has changed.
             </p>
 
-            <p className={styles.story__line}>
+            <p className={styles.heading}>
               Or perhaps you actually feel pretty good.
             </p>
 
@@ -189,33 +228,34 @@ export default function AboutPage() {
               advice or embraced every biohack available, there is one
               rather important variable that is often missing:
             </p>
-          </div>
 
-          <p className={styles.story__signature}>You.</p>
+            <p className={`${styles.heading} ${styles.headingCenter}`}>You.</p>
+          </div>
         </section>
 
-        {/* ---------- Philosophy ---------- */}
-        <section className={styles.philosophy}>
-          <div className={styles.philosophy__intro}>
+        {/* ---------- 3. We begin with your biology (cream) ---------- */}
+        <section className={`${styles.section} ${styles.sectionCream}`}>
+          <div className={styles.sectionInner}>
             <p>
               At The Biology of You, we don&rsquo;t begin with what is
               supposed to work.
             </p>
-            <p className={styles.philosophy__lede}>We begin with your biology.</p>
+            <p className={styles.heading}>We begin with your biology.</p>
+
+            <ul className={styles.dotList}>
+              {biologyItems.map((item, i) => (
+                <li key={item}>
+                  <img src={DOT_PALETTE[i % DOT_PALETTE.length]} alt="" className={styles.dotIcon} />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
           </div>
+        </section>
 
-          <ul className={styles.philosophy__list}>
-            <li>Your genetics.</li>
-            <li>Your metabolism.</li>
-            <li>Your blood markers.</li>
-            <li>Your health history.</li>
-            <li>Your food.</li>
-            <li>Your lifestyle.</li>
-            <li>Your environment.</li>
-            <li>And the way your body has adapted to all of it.</li>
-          </ul>
-
-          <div className={styles.philosophy__body}>
+        {/* ---------- 4. No universal protocol (alt) ---------- */}
+        <section className={`${styles.section} ${styles.sectionAlt}`}>
+          <div className={styles.sectionInner}>
             <p>
               Because there is no universally perfect diet, supplement
               protocol, exercise routine or path to feeling well.
@@ -227,9 +267,7 @@ export default function AboutPage() {
               And when we start putting those pieces together, something
               rather wonderful happens:
             </p>
-            <p className={styles.philosophy__emphasis}>
-              Your body starts making sense.
-            </p>
+            <p className={styles.heading}>Your body starts making sense.</p>
             <p>
               You stop second-guessing every health decision and start
               feeling more confident about what your body actually needs.
@@ -243,17 +281,21 @@ export default function AboutPage() {
               you through the day, life tends to get better too.
             </p>
           </div>
+        </section>
 
-          <ul className={styles.philosophy__spark}>
-            <li>Your spark comes back.</li>
-            <li>Your sense of humour.</li>
-            <li>Your libido.</li>
-            <li>
+        {/* ---------- 5. Spark stanza + manifesto (cream) ---------- */}
+        <section className={`${styles.section} ${styles.sectionCream}`}>
+          <div className={styles.sectionInner}>
+            <p className={`${styles.heading} ${styles.headingCenter} ${styles.headingTight}`}>
+              Your spark comes back.
+              <br />
+              Your sense of humour.
+              <br />
+              Your libido.
+              <br />
               Your desire to move, play, create, connect and enjoy yourself.
-            </li>
-          </ul>
+            </p>
 
-          <div className={styles.philosophy__close}>
             <p>
               Because feeling well isn&rsquo;t just about better blood
               results or fewer symptoms.
@@ -262,42 +304,42 @@ export default function AboutPage() {
               It&rsquo;s about having enough energy and resilience to feel
               fully alive in your own life.
             </p>
-          </div>
 
-          <p className={styles.philosophy__manifesto}>
-            Understand your biology. Elevate your health. Get more out of
-            being you.
-          </p>
+            <p className={`${styles.heading} ${styles.headingCenter}`}>
+              Understand your biology. Elevate your health. Get more out of
+              being you.
+            </p>
+          </div>
         </section>
 
-        {/* ---------- What You Get ---------- */}
-        <section className={styles.offer}>
-          <p className={`${styles.eyebrow} ${styles["eyebrow--light"]}`}>What You Get</p>
-          <h2>A deep dive into the biology of you.</h2>
+        {/* ---------- 6. What You Get (alt) ---------- */}
+        <section className={`${styles.section} ${styles.sectionAlt}`}>
+          <div className={styles.sectionInner}>
+            <p className={`${styles.eyebrow} ${styles["eyebrow--light"]}`}>What You Get</p>
+            <p className={styles.heading}>A deep dive into the biology of you.</p>
 
-          <p className={styles.offer__intro}>
-            Before we ever make a recommendation, we take the time to
-            understand you.
-          </p>
-          <p className={styles.offer__intro}>We bring together your:</p>
+            <p>
+              Before we ever make a recommendation, we take the time to
+              understand you.
+            </p>
+            <p>We bring together your:</p>
 
-          <ul className={styles.offer__list}>
-            <li>DNA and genetic pathways</li>
-            <li>Blood markers</li>
-            <li>Comprehensive health and family history</li>
-            <li>Current symptoms and health goals</li>
-            <li>Food and nutritional intake</li>
-            <li>Supplements</li>
-            <li>Lifestyle, movement, sleep and stress</li>
-            <li>
-              Metabolic clues, including body temperature and energy
-              patterns
-            </li>
-          </ul>
+            <ul className={styles.dotList}>
+              {offerItems.map((item, i) => (
+                <li key={item}>
+                  <img src={DOT_PALETTE[i % DOT_PALETTE.length]} alt="" className={styles.dotIcon} />
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
 
-          <div className={styles.offer__body}>
+        {/* ---------- 7. Connecting the dots + reframe + CTA (cream) ---------- */}
+        <section className={`${styles.section} ${styles.sectionCream}`}>
+          <div className={styles.sectionInner}>
             <p>But the real value isn&rsquo;t simply collecting more data.</p>
-            <p className={styles.offer__emphasis}>It&rsquo;s connecting it.</p>
+            <p className={styles.heading}>It&rsquo;s connecting it.</p>
             <p>
               We look for the patterns between your genetics, metabolism,
               blood results, history and the way you&rsquo;re feeling now
@@ -311,24 +353,24 @@ export default function AboutPage() {
               food, nutrients, movement, lifestyle and the areas of your
               biology that deserve the most attention.
             </p>
-          </div>
 
-          <div className={styles.offer__reframe}>
-            <p>Not another pile of test results.</p>
-            <p>Not another generic protocol.</p>
-            <p className={styles["offer__reframe-final"]}>
-              A blueprint for understanding your body &mdash; and the
-              confidence to know what to do with that information.
-            </p>
-          </div>
+            <div className={styles.reframeBlock}>
+              <p>Not another pile of test results.</p>
+              <p>Not another generic protocol.</p>
+              <p className={`${styles.heading} ${styles.headingCenter}`}>
+                A blueprint for understanding your body &mdash; and the
+                confidence to know what to do with that information.
+              </p>
+            </div>
 
-          <div className={styles.offer__cta}>
-            <a href="/portal" className={`${styles.btn} ${styles["btn--primary"]}`}>
-              Start Your Client Portal
-            </a>
-            <a href="/#contact" className={`${styles.btn} ${styles["btn--ghost"]}`}>
-              Get in Touch
-            </a>
+            <div className={styles.ctaRow}>
+              <a href="/portal" className={`${styles.btn} ${styles["btn--primary"]}`}>
+                Start Your Client Portal
+              </a>
+              <a href="/#contact" className={`${styles.btn} ${styles["btn--ghost"]}`}>
+                Get in Touch
+              </a>
+            </div>
           </div>
         </section>
       </main>
