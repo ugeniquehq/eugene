@@ -11,7 +11,7 @@ export async function GET() {
   }
 
   const existing = await getHealthHistoryForUser(session.user.id as string);
-  return NextResponse.json({ answers: existing?.answers ?? null });
+  return NextResponse.json({ answers: existing?.answers ?? null, name: session.user.name ?? null });
 }
 
 export async function POST(req: Request) {

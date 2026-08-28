@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { TEMPERATURE_STEPS } from "@/lib/temperature-schema";
-import Field from "@/components/intake/Field";
+import FieldGroup from "@/components/intake/FieldGroup";
 
 const STEP_PHOTOS: Record<string, string> = {
   welcome: "/photography/hand-on-lips.jpg",
@@ -14,10 +14,15 @@ function getPhotoForStep(stepId: string): string {
   return STEP_PHOTOS[stepId] ?? DEFAULT_PHOTO;
 }
 
+function possessive(name: string): string {
+  return name.endsWith("s") ? `${name}'` : `${name}'s`;
+}
+
 export default function TemperaturePage() {
   const router = useRouter();
   const [stepIndex, setStepIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, unknown>>({});
+  const [clientName, setClientName] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState<"idle" | "submitting" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
@@ -26,6 +31,7 @@ export default function TemperaturePage() {
     fetch("/api/temperature")
       .then((res) => res.json())
       .then((data) => {
+        if (data?.name) setClientName(data.name);
         if (data?.answers) setAnswers(data.answers);
       })
       .catch(() => {
@@ -39,6 +45,7 @@ export default function TemperaturePage() {
   const isLast = stepIndex === TEMPERATURE_STEPS.length - 1;
   const progress = Math.round(((stepIndex + 1) / TEMPERATURE_STEPS.length) * 100);
   const photo = getPhotoForStep(step.id);
+  const heading = clientName ? `${possessive(clientName)} Temperature Record` : "Temperature Record";
 
   if (loading) {
     return (
@@ -79,8 +86,23 @@ export default function TemperaturePage() {
 
       <div className="intake-form-col">
         <div style={{ maxWidth: "40rem" }}>
+          <a
+            href="/portal/dashboard"
+            style={{
+              display: "inline-block",
+              fontFamily: "var(--font-mono)",
+              fontSize: "var(--step-1)",
+              letterSpacing: "0.04em",
+              color: "var(--color-ink-soft)",
+              textDecoration: "none",
+              marginBottom: "var(--space-sm)",
+            }}
+          >
+            &larr; Back to portal
+          </a>
+
           <p className="eyebrow">
-            Temperature Record &middot; Day {stepIndex === 0 ? "—" : stepIndex} of 14
+            {heading} &middot; Day {stepIndex === 0 ? "—" : stepIndex} of 14
           </p>
 
           <div style={{ height: "4px", background: "var(--color-line)", borderRadius: "2px", marginBottom: "var(--space-sm)", overflow: "hidden" }}>
@@ -94,14 +116,7 @@ export default function TemperaturePage() {
 
           {step.fields.length > 0 && (
             <div className="card" style={{ marginTop: "var(--space-md)" }}>
-              {step.fields.map((field) => (
-                <Field
-                  key={field.key}
-                  field={field}
-                  answers={answers}
-                  onChange={setAnswers}
-                />
-              ))}
+              <FieldGroup fields={step.fields} answers={answers} onChange={setAnswers} />
             </div>
           )}
 

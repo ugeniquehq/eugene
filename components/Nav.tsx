@@ -53,6 +53,9 @@ export default function Nav() {
               textTransform: "uppercase",
             }}
           >
+            <Link href="/about" style={{ textDecoration: "none" }}>
+              About
+            </Link>
             <Link href="/contact" style={{ textDecoration: "none" }}>
               Contact
             </Link>

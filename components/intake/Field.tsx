@@ -151,6 +151,59 @@ const commonLabel = (
   );
 }
 
+    case "mealtime": {
+      const raw = typeof value === "string" ? value : "";
+      const match = raw.match(/^(\d{0,2}:?\d{0,2})\s*(AM|PM)?$/i);
+      const timePart = match ? match[1] : raw;
+      const period = match?.[2]?.toUpperCase() === "PM" ? "PM" : "AM";
+
+      function updateTime(newTime: string) {
+        update(newTime ? `${newTime} ${period}` : "");
+      }
+      function updatePeriod(newPeriod: string) {
+        update(timePart ? `${timePart} ${newPeriod}` : "");
+      }
+
+      return (
+        <div className="field">
+          {commonLabel}
+          <div style={{ display: "flex", gap: "0.4rem", alignItems: "center", flexWrap: "wrap" }}>
+            <input
+              type="text"
+              inputMode="numeric"
+              placeholder="7:30"
+              value={timePart}
+              onChange={(e) => updateTime(e.target.value)}
+              style={{ width: "4.5rem", flex: "0 0 auto", textAlign: "center" }}
+            />
+            <div style={{ display: "flex", gap: "0.25rem", flex: "0 0 auto" }}>
+              {["AM", "PM"].map((p) => (
+                <button
+                  key={p}
+                  type="button"
+                  onClick={() => updatePeriod(p)}
+                  className={period === p ? "btn btn-primary" : "btn btn-secondary"}
+                  style={{ padding: "0.35rem 0.6rem", fontSize: "var(--step-1)" }}
+                >
+                  {p}
+                </button>
+              ))}
+            </div>
+          </div>
+          <p
+            style={{
+              fontFamily: "var(--font-body)",
+              fontSize: "var(--step-2)",
+              color: "var(--color-ink-soft)",
+              margin: 0,
+            }}
+          >
+            Format: h:mm — e.g. 7:30, then AM or PM
+          </p>
+        </div>
+      );
+    }
+
     case "temperature":
       return (
         <div className="field">

@@ -4,11 +4,10 @@ import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { FOOD_DIARY_STEPS, dayStep, BASE_DAY_COUNT, FoodDiaryStep } from "@/lib/food-diary-schema";
 import { getValue } from "@/lib/intake-answers";
-import Field from "@/components/intake/Field";
+import FieldGroup from "@/components/intake/FieldGroup";
 
 const STEP_PHOTOS: Record<string, string> = {
   welcome: "/photography/hand-on-lips.jpg",
-  personal: "/photography/womans-face.jpg",
 };
 const DEFAULT_PHOTO = "/photography/food-diary-default.jpg";
 
@@ -36,8 +35,11 @@ function isStepComplete(step: FoodDiaryStep, answers: Record<string, unknown>): 
 
 function shortLabel(step: FoodDiaryStep, index: number): string {
   if (step.id === "welcome") return "Start";
-  if (step.id === "personal") return "You";
-  return `Day ${index - 1}`; // steps 0 and 1 are welcome/personal, days start at index 2
+  return `Day ${index}`; // step 0 is welcome, day steps start at index 1
+}
+
+function possessive(name: string): string {
+  return name.endsWith("s") ? `${name}'` : `${name}'s`;
 }
 
 export default function FoodDiaryPage() {
@@ -45,6 +47,7 @@ export default function FoodDiaryPage() {
   const [stepIndex, setStepIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, unknown>>({});
   const [extraDays, setExtraDays] = useState(0);
+  const [clientName, setClientName] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState<"idle" | "submitting" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
@@ -53,6 +56,8 @@ export default function FoodDiaryPage() {
     fetch("/api/food-diary")
       .then((res) => res.json())
       .then((data) => {
+        if (data?.name) setClientName(data.name);
+
         if (data?.answers) {
           const loadedAnswers = data.answers;
           setAnswers(loadedAnswers);
@@ -84,6 +89,7 @@ export default function FoodDiaryPage() {
   const isLast = stepIndex === allSteps.length - 1;
   const progress = Math.round(((stepIndex + 1) / allSteps.length) * 100);
   const photo = getPhotoForStep(step.id);
+  const heading = clientName ? `${possessive(clientName)} Food Diary` : "Food Diary";
 
   if (loading) {
     return (
@@ -154,8 +160,23 @@ export default function FoodDiaryPage() {
 
       <div className="intake-form-col">
         <div style={{ maxWidth: "40rem" }}>
+          <a
+            href="/portal/dashboard"
+            style={{
+              display: "inline-block",
+              fontFamily: "var(--font-mono)",
+              fontSize: "var(--step-1)",
+              letterSpacing: "0.04em",
+              color: "var(--color-ink-soft)",
+              textDecoration: "none",
+              marginBottom: "var(--space-sm)",
+            }}
+          >
+            &larr; Back to portal
+          </a>
+
           <p className="eyebrow">
-            Food Diary &middot; Step {stepIndex + 1} of {allSteps.length}
+            {heading} &middot; Step {stepIndex + 1} of {allSteps.length}
           </p>
 
           <div style={{ height: "4px", background: "var(--color-line)", borderRadius: "2px", marginBottom: "var(--space-sm)", overflow: "hidden" }}>
@@ -215,14 +236,7 @@ export default function FoodDiaryPage() {
 
           {step.fields.length > 0 && (
             <div className="card" style={{ marginTop: "var(--space-md)" }}>
-              {step.fields.map((field) => (
-                <Field
-                  key={field.key}
-                  field={{ ...field, options: undefined }}
-                  answers={answers}
-                  onChange={setAnswers}
-                />
-              ))}
+              <FieldGroup fields={step.fields} answers={answers} onChange={setAnswers} />
             </div>
           )}
 

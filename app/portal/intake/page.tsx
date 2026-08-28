@@ -29,6 +29,7 @@ export default function IntakePage() {
   const [loading, setLoading] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [showJumpMenu, setShowJumpMenu] = useState(false);
+  const [clientName, setClientName] = useState<string | null>(null);
   const [status, setStatus] = useState<"idle" | "submitting" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
 
@@ -36,6 +37,7 @@ export default function IntakePage() {
     fetch("/api/intake")
       .then((res) => res.json())
       .then((data) => {
+        if (data?.name) setClientName(data.name);
         if (data?.answers) {
           setAnswers(data.answers);
           setIsEditing(true);
@@ -52,6 +54,11 @@ export default function IntakePage() {
   const isLast = stepIndex === INTAKE_STEPS.length - 1;
   const progress = Math.round(((stepIndex + 1) / INTAKE_STEPS.length) * 100);
   const photo = getPhotoForStep(stepIndex);
+
+  function possessive(name: string): string {
+    return name.endsWith("s") ? `${name}'` : `${name}'s`;
+  }
+  const heading = clientName ? `${possessive(clientName)} Health History` : "Health History";
 
   if (loading) {
     return (
@@ -92,8 +99,23 @@ export default function IntakePage() {
 
       <div className="intake-form-col">
           <div style={{ maxWidth: "40rem" }}>
+        <a
+          href="/portal/dashboard"
+          style={{
+            display: "inline-block",
+            fontFamily: "var(--font-mono)",
+            fontSize: "var(--step-1)",
+            letterSpacing: "0.04em",
+            color: "var(--color-ink-soft)",
+            textDecoration: "none",
+            marginBottom: "var(--space-sm)",
+          }}
+        >
+          &larr; Back to portal
+        </a>
+
         <p className="eyebrow">
-          Health History &middot; Step {stepIndex + 1} of {INTAKE_STEPS.length}
+          {heading} &middot; Step {stepIndex + 1} of {INTAKE_STEPS.length}
         </p>
 
         <div style={{ height: "4px", background: "var(--color-line)", borderRadius: "2px", marginBottom: "var(--space-sm)", overflow: "hidden" }}>

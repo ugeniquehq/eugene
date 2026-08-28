@@ -13,7 +13,8 @@ export type FieldType =
   | "checkboxes"
   | "select"
   | "images"
-  | "temperature";
+  | "temperature"
+  | "mealtime";
 
 export interface IntakeField {
   key: string; // dot-path into the answers object, e.g. "personal.firstName"

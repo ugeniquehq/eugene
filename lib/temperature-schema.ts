@@ -9,6 +9,9 @@ export interface TemperatureField {
   helper?: string;
   type: FieldType;
   options?: string[];
+  // When true, this field is rendered side-by-side with the field that
+  // immediately follows it (used to pair a reading's time with its value).
+  inlineWithNext?: boolean;
 }
 
 export interface TemperatureStep {
@@ -25,8 +28,9 @@ const dayStep = (dayNumber: number): TemperatureStep => ({
     {
       key: `day${dayNumber}.wakingTime`,
       label: "Waking temperature — time",
-      helper: "Immediately upon waking, before getting out of bed if possible, and before eating, drinking, showering or exercising. Example: 7:00 am",
-      type: "text",
+      helper: "Immediately upon waking, before getting out of bed if possible, and before eating, drinking, showering or exercising.",
+      type: "mealtime",
+      inlineWithNext: true,
     },
     {
       key: `day${dayNumber}.wakingTemp`,
@@ -37,8 +41,9 @@ const dayStep = (dayNumber: number): TemperatureStep => ({
     {
       key: `day${dayNumber}.breakfastTime`,
       label: "After breakfast — time",
-      helper: "Approximately 30 minutes after finishing breakfast. Example: 8:15 am",
-      type: "text",
+      helper: "Approximately 30 minutes after finishing breakfast.",
+      type: "mealtime",
+      inlineWithNext: true,
     },
     {
       key: `day${dayNumber}.breakfastTemp`,
@@ -49,8 +54,9 @@ const dayStep = (dayNumber: number): TemperatureStep => ({
     {
       key: `day${dayNumber}.exerciseTime`,
       label: "After exercise or movement — time",
-      helper: "Wait approximately 5–10 minutes after finishing before taking your temperature. Example: 6:15 pm",
-      type: "text",
+      helper: "Wait approximately 5–10 minutes after finishing before taking your temperature.",
+      type: "mealtime",
+      inlineWithNext: true,
     },
     {
       key: `day${dayNumber}.exerciseTemp`,
