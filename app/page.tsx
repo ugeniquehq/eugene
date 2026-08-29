@@ -1,4 +1,5 @@
 import Link from "next/link";
+import BiologyDots from "@/components/BiologyDots";
 
 export default function HomePage() {
   return (
@@ -110,31 +111,7 @@ export default function HomePage() {
 
       <section style={{ borderTop: "1px solid var(--color-line)", borderBottom: "1px solid var(--color-line)", padding: "var(--space-lg) 0" }}>
         <div className="container">
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(9rem, 1fr))",
-              gap: "2.0rem",
-              textAlign: "center",
-            }}
-          >
-            {[
-              { dot: "/branding/dots/dot-2-accent-soft.png", title: "Your Biology", desc: "Understand why you are uniquely you." },
-              { dot: "/branding/dots/dot-3-copper.png", title: "Your Genetics", desc: "Genes are clues, not destiny." },
-              { dot: "/branding/dots/dot-6-forest.png", title: "Your Blood", desc: "Beyond 'normal'. Understand what your results mean for you." },
-              { dot: "/branding/dots/dot-7-maroon.png", title: "Your Energy", desc: "Because energy changes everything." },
-              { dot: "/branding/dots/dot-4-accent.png", title: "Your Fuel", desc: "Food freedom. Nourish, don't restrict." },
-              { dot: "/branding/dots/dot-5-ink.png", title: "Your Health Story", desc: "Your symptoms aren't random. There is always a why." },
-            ].map((item) => (
-              <div key={item.title} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.5rem" }}>
-                <img src={item.dot} alt="" style={{ width: "0.75rem", height: "0.75rem", borderRadius: "50%", display: "block" }} />
-                <p style={{ fontFamily: "var(--font-mono)", fontSize: "var(--step-1)", letterSpacing: "0.04em", textTransform: "uppercase", margin: 0 }}>
-                  {item.title}
-                </p>
-                <p style={{ fontSize: "var(--step-1)", color: "var(--color-ink-soft)", margin: 0 }}>{item.desc}</p>
-              </div>
-            ))}
-          </div>
+          <BiologyDots />
         </div>
       </section>
 
