@@ -1,17 +1,36 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { getTemperatureRecordForUser, insertTemperatureRecord, updateTemperatureRecord } from "@/lib/db";
+import { getTemperatureRecordForUser, getTemperatureRecordRoundsForUser, insertTemperatureRecord, updateTemperatureRecord } from "@/lib/db";
 import { uploadClientDocument, deleteClientDocument } from "@/lib/blob";
 import { generateTemperatureDocx } from "@/lib/temperature-docx";
 
-export async function GET() {
+export async function GET(req: Request) {
   const session = await auth();
   if (!session?.user) {
     return NextResponse.json({ error: "Not logged in." }, { status: 401 });
   }
 
-  const existing = await getTemperatureRecordForUser(session.user.id as string);
-  return NextResponse.json({ answers: existing?.answers ?? null, name: session.user.name ?? null });
+  const { searchParams } = new URL(req.url);
+  const roundParam = searchParams.get("round");
+  const requestedRound = roundParam ? parseInt(roundParam, 10) : undefined;
+
+  const rounds = await getTemperatureRecordRoundsForUser(session.user.id as string);
+  const latestRound = rounds.length > 0 ? rounds[rounds.length - 1].round : 0;
+
+  // A requested round beyond anything saved yet means the client is
+  // starting a fresh one (e.g. clicked "Start a new temperature record") —
+  // that's a deliberate blank slate, not a lookup that should 404.
+  const isNewRound = requestedRound !== undefined && requestedRound > latestRound;
+  const targetRound = requestedRound ?? (latestRound || 1);
+  const existing = isNewRound ? null : rounds.find((r) => r.round === targetRound) ?? null;
+
+  return NextResponse.json({
+    answers: existing?.answers ?? null,
+    name: session.user.name ?? null,
+    round: targetRound,
+    latestRound: latestRound || 1,
+    rounds: rounds.map((r) => ({ round: r.round, uploadedAt: r.uploaded_at })),
+  });
 }
 
 export async function POST(req: Request) {
@@ -22,17 +41,18 @@ export async function POST(req: Request) {
 
   const body = await req.json();
   const answers = body?.answers;
+  const round = typeof body?.round === "number" && body.round > 0 ? Math.floor(body.round) : 1;
   if (!answers || typeof answers !== "object") {
     return NextResponse.json({ error: "Missing form answers." }, { status: 400 });
   }
 
   try {
-    const buffer = await generateTemperatureDocx(answers, session.user.name ?? "Client");
+    const buffer = await generateTemperatureDocx(answers, session.user.name ?? "Client", round);
     const safeName = (session.user.name ?? "client").replace(/[^a-z0-9]+/gi, "-").toLowerCase();
-    const fileName = `temperature-record-${safeName}-${Date.now()}.docx`;
+    const fileName = `temperature-record-${safeName}-round${round}-${Date.now()}.docx`;
     const { pathname } = await uploadClientDocument(fileName, buffer);
 
-    const existing = await getTemperatureRecordForUser(session.user.id as string);
+    const existing = await getTemperatureRecordForUser(session.user.id as string, round);
 
     if (existing) {
       await updateTemperatureRecord(existing.id, pathname, answers);
@@ -42,10 +62,10 @@ export async function POST(req: Request) {
         console.error("Failed to delete superseded temperature record blob:", cleanupErr);
       }
     } else {
-      await insertTemperatureRecord(session.user.id as string, pathname, answers);
+      await insertTemperatureRecord(session.user.id as string, pathname, answers, round);
     }
 
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({ ok: true, round });
   } catch (err) {
     console.error("Temperature record submission failed:", err);
     return NextResponse.json(

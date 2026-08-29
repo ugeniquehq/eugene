@@ -16,7 +16,7 @@ function getValue(answers: Answers, key: string): string {
   return typeof current === "string" ? current : "";
 }
 
-export async function generateFoodDiaryDocx(answers: Answers, clientName: string): Promise<Buffer> {
+export async function generateFoodDiaryDocx(answers: Answers, clientName: string, round: number = 1): Promise<Buffer> {
   const extraDays = typeof answers.meta === "object" && answers.meta !== null
     ? (answers.meta as Record<string, unknown>).extraDays
     : 0;
@@ -29,7 +29,7 @@ export async function generateFoodDiaryDocx(answers: Answers, clientName: string
 
   const children: Paragraph[] = [
     new Paragraph({
-      text: "Seven Days of Meals",
+      text: round > 1 ? `Seven Days of Meals — Round ${round}` : "Seven Days of Meals",
       heading: HeadingLevel.TITLE,
     }),
     new Paragraph({

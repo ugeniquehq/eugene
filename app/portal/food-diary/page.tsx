@@ -42,44 +42,86 @@ function possessive(name: string): string {
   return name.endsWith("s") ? `${name}'` : `${name}'s`;
 }
 
+type RoundInfo = { round: number; uploadedAt: string };
+
 export default function FoodDiaryPage() {
   const router = useRouter();
   const [stepIndex, setStepIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, unknown>>({});
   const [extraDays, setExtraDays] = useState(0);
   const [clientName, setClientName] = useState<string | null>(null);
+  const [round, setRound] = useState(1);
+  const [rounds, setRounds] = useState<RoundInfo[]>([]);
   const [loading, setLoading] = useState(true);
   const [status, setStatus] = useState<"idle" | "submitting" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetch("/api/food-diary")
+  function applyLoadedAnswers(loadedAnswers: Record<string, unknown> | null) {
+    if (!loadedAnswers) {
+      setAnswers({});
+      setExtraDays(0);
+      setStepIndex(0);
+      return;
+    }
+    setAnswers(loadedAnswers);
+    const meta = loadedAnswers.meta;
+    const loadedExtraDays =
+      meta && typeof meta === "object" && typeof (meta as Record<string, unknown>).extraDays === "number"
+        ? (meta as Record<string, number>).extraDays
+        : 0;
+    setExtraDays(loadedExtraDays);
+
+    // Resume where they left off: jump to the first step that isn't fully
+    // filled in yet, rather than always starting back at the welcome page.
+    // If everything's already filled in, land on the last step so they can
+    // add another day or finish up.
+    const loadedSteps = buildSteps(loadedExtraDays);
+    const firstIncomplete = loadedSteps.findIndex((s) => !isStepComplete(s, loadedAnswers));
+    setStepIndex(firstIncomplete === -1 ? loadedSteps.length - 1 : firstIncomplete);
+  }
+
+  function loadRound(targetRound?: number) {
+    setLoading(true);
+    const url = targetRound ? `/api/food-diary?round=${targetRound}` : "/api/food-diary";
+    fetch(url)
       .then((res) => res.json())
       .then((data) => {
         if (data?.name) setClientName(data.name);
-
-        if (data?.answers) {
-          const loadedAnswers = data.answers;
-          setAnswers(loadedAnswers);
-
-          const meta = loadedAnswers.meta;
-          const loadedExtraDays =
-            meta && typeof meta === "object" && typeof meta.extraDays === "number" ? meta.extraDays : 0;
-          setExtraDays(loadedExtraDays);
-
-          // Resume where they left off: jump to the first step that isn't
-          // fully filled in yet, rather than always starting back at the
-          // welcome page. If everything's already filled in, land on the
-          // last step so they can add another day or finish up.
-          const loadedSteps = buildSteps(loadedExtraDays);
-          const firstIncomplete = loadedSteps.findIndex((s) => !isStepComplete(s, loadedAnswers));
-          setStepIndex(firstIncomplete === -1 ? loadedSteps.length - 1 : firstIncomplete);
-        }
+        setRounds(data?.rounds ?? []);
+        setRound(data?.round ?? 1);
+        applyLoadedAnswers(data?.answers ?? null);
       })
       .catch(() => {
         // Starts blank if this fails — not worth blocking on.
       })
       .finally(() => setLoading(false));
+  }
+
+  useEffect(() => {
+    const wantsNew = typeof window !== "undefined" && new URLSearchParams(window.location.search).get("new") === "1";
+    if (!wantsNew) {
+      loadRound();
+      return;
+    }
+    // Client asked to start a fresh diary — find the next round number,
+    // then start it blank (the API treats a round beyond anything saved
+    // yet as a fresh slate once they save).
+    fetch("/api/food-diary")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.name) setClientName(data.name);
+        const existingRounds: RoundInfo[] = data?.rounds ?? [];
+        setRounds(existingRounds);
+        const nextRound = (data?.latestRound ?? 1) + (existingRounds.length > 0 ? 1 : 0);
+        setRound(nextRound || 1);
+        applyLoadedAnswers(null);
+      })
+      .catch(() => {
+        setRound(1);
+        applyLoadedAnswers(null);
+      })
+      .finally(() => setLoading(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const allSteps: FoodDiaryStep[] = useMemo(() => buildSteps(extraDays), [extraDays]);
@@ -90,6 +132,7 @@ export default function FoodDiaryPage() {
   const progress = Math.round(((stepIndex + 1) / allSteps.length) * 100);
   const photo = getPhotoForStep(step.id);
   const heading = clientName ? `${possessive(clientName)} Food Diary` : "Food Diary";
+  const highestKnownRound = Math.max(round, ...rounds.map((r) => r.round), 1);
 
   if (loading) {
     return (
@@ -112,7 +155,7 @@ export default function FoodDiaryPage() {
       const res = await fetch("/api/food-diary", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ answers: toSave }),
+        body: JSON.stringify({ answers: toSave, round }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -154,6 +197,14 @@ export default function FoodDiaryPage() {
     setStepIndex(index);
   }
 
+  function handleStartNew() {
+    if (status === "submitting") return;
+    const nextRound = highestKnownRound + 1;
+    setRound(nextRound);
+    applyLoadedAnswers(null);
+    setError(null);
+  }
+
   return (
     <section className="section" style={{ paddingTop: 0, paddingBottom: 0 }}>
       <div className="intake-photo-fixed" style={{ backgroundImage: `url(${photo})` }} />
@@ -175,8 +226,43 @@ export default function FoodDiaryPage() {
             &larr; Back to portal
           </a>
 
+          {(rounds.length > 1 || round > 1) && (
+            <div
+              role="tablist"
+              aria-label="Switch food diary round"
+              style={{ display: "flex", gap: "0.35rem", flexWrap: "wrap", marginBottom: "var(--space-sm)" }}
+            >
+              {Array.from({ length: highestKnownRound }, (_, i) => i + 1).map((r) => (
+                <button
+                  key={r}
+                  type="button"
+                  role="tab"
+                  aria-selected={r === round}
+                  onClick={() => loadRound(r)}
+                  disabled={status === "submitting"}
+                  className={r === round ? "btn btn-primary" : "btn btn-secondary"}
+                  style={{ padding: "0.3rem 0.75rem", fontSize: "var(--step-1)" }}
+                >
+                  Round {r}
+                </button>
+              ))}
+              {round === highestKnownRound && rounds.some((r) => r.round === round) && (
+                <button
+                  type="button"
+                  onClick={handleStartNew}
+                  disabled={status === "submitting"}
+                  className="btn btn-secondary"
+                  style={{ padding: "0.3rem 0.75rem", fontSize: "var(--step-1)" }}
+                >
+                  + Start new
+                </button>
+              )}
+            </div>
+          )}
+
           <p className="eyebrow">
-            {heading} &middot; Step {stepIndex + 1} of {allSteps.length}
+            {heading}
+            {round > 1 ? ` · Round ${round}` : ""} &middot; Step {stepIndex + 1} of {allSteps.length}
           </p>
 
           <div style={{ height: "4px", background: "var(--color-line)", borderRadius: "2px", marginBottom: "var(--space-sm)", overflow: "hidden" }}>

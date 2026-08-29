@@ -17,10 +17,10 @@ function getValue(answers: Answers, key: string): string {
   return typeof current === "string" ? current : "";
 }
 
-export async function generateTemperatureDocx(answers: Answers, clientName: string): Promise<Buffer> {
+export async function generateTemperatureDocx(answers: Answers, clientName: string, round: number = 1): Promise<Buffer> {
   const children: Paragraph[] = [
     new Paragraph({
-      text: "14-Day Body Temperature Tracking",
+      text: round > 1 ? `14-Day Body Temperature Tracking — Round ${round}` : "14-Day Body Temperature Tracking",
       heading: HeadingLevel.TITLE,
     }),
     new Paragraph({

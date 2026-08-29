@@ -195,13 +195,47 @@ export type FoodDiaryDoc = {
   id: string;
   blob_url: string;
   answers: Record<string, unknown> | null;
+  round: number;
+  uploaded_at: string;
 };
 
-export async function getFoodDiaryForUser(userId: string): Promise<FoodDiaryDoc | null> {
+// A client may run the Food Diary more than once (e.g. a 6- or 12-month
+// re-check) — each run is a "round", stored as its own row rather than
+// overwriting the last one. "Food Diary" is round 1's display title, for
+// continuity with rows saved before rounds existed; later rounds are
+// labelled "Food Diary — Round N" so admin's plain document list can tell
+// them apart. All rounds share kind = 'Food Diary' for lookups.
+function foodDiaryTitle(round: number): string {
+  return round <= 1 ? "Food Diary" : `Food Diary — Round ${round}`;
+}
+
+/** Every Food Diary round a client has saved, oldest first. */
+export async function getFoodDiaryRoundsForUser(userId: string): Promise<FoodDiaryDoc[]> {
   const { rows } = await sql<FoodDiaryDoc>`
-    SELECT id, blob_url, answers
+    SELECT id, blob_url, answers, round, uploaded_at
     FROM documents
-    WHERE user_id = ${userId} AND title = 'Food Diary'
+    WHERE user_id = ${userId} AND kind = 'Food Diary'
+    ORDER BY round ASC;
+  `;
+  return rows;
+}
+
+/** A specific round, or (when omitted) the most recent one the client has saved. */
+export async function getFoodDiaryForUser(userId: string, round?: number): Promise<FoodDiaryDoc | null> {
+  if (round) {
+    const { rows } = await sql<FoodDiaryDoc>`
+      SELECT id, blob_url, answers, round, uploaded_at
+      FROM documents
+      WHERE user_id = ${userId} AND kind = 'Food Diary' AND round = ${round}
+      LIMIT 1;
+    `;
+    return rows[0] ?? null;
+  }
+  const { rows } = await sql<FoodDiaryDoc>`
+    SELECT id, blob_url, answers, round, uploaded_at
+    FROM documents
+    WHERE user_id = ${userId} AND kind = 'Food Diary'
+    ORDER BY round DESC
     LIMIT 1;
   `;
   return rows[0] ?? null;
@@ -210,11 +244,12 @@ export async function getFoodDiaryForUser(userId: string): Promise<FoodDiaryDoc 
 export async function insertFoodDiary(
   userId: string,
   blobUrl: string,
-  answers: Record<string, unknown>
+  answers: Record<string, unknown>,
+  round: number
 ): Promise<void> {
   await sql`
-    INSERT INTO documents (user_id, title, blob_url, answers)
-    VALUES (${userId}, 'Food Diary', ${blobUrl}, ${JSON.stringify(answers)});
+    INSERT INTO documents (user_id, title, kind, blob_url, answers, round)
+    VALUES (${userId}, ${foodDiaryTitle(round)}, 'Food Diary', ${blobUrl}, ${JSON.stringify(answers)}, ${round});
   `;
 }
 
@@ -233,13 +268,44 @@ export type TemperatureRecordDoc = {
   id: string;
   blob_url: string;
   answers: Record<string, unknown> | null;
+  round: number;
+  uploaded_at: string;
 };
 
-export async function getTemperatureRecordForUser(userId: string): Promise<TemperatureRecordDoc | null> {
+// Same "rounds" pattern as the Food Diary above — a client may be asked to
+// repeat the 14-day temperature record months later, so each run is its
+// own row rather than overwriting the last one.
+function temperatureRecordTitle(round: number): string {
+  return round <= 1 ? "Temperature Record" : `Temperature Record — Round ${round}`;
+}
+
+/** Every Temperature Record round a client has saved, oldest first. */
+export async function getTemperatureRecordRoundsForUser(userId: string): Promise<TemperatureRecordDoc[]> {
   const { rows } = await sql<TemperatureRecordDoc>`
-    SELECT id, blob_url, answers
+    SELECT id, blob_url, answers, round, uploaded_at
     FROM documents
-    WHERE user_id = ${userId} AND title = 'Temperature Record'
+    WHERE user_id = ${userId} AND kind = 'Temperature Record'
+    ORDER BY round ASC;
+  `;
+  return rows;
+}
+
+/** A specific round, or (when omitted) the most recent one the client has saved. */
+export async function getTemperatureRecordForUser(userId: string, round?: number): Promise<TemperatureRecordDoc | null> {
+  if (round) {
+    const { rows } = await sql<TemperatureRecordDoc>`
+      SELECT id, blob_url, answers, round, uploaded_at
+      FROM documents
+      WHERE user_id = ${userId} AND kind = 'Temperature Record' AND round = ${round}
+      LIMIT 1;
+    `;
+    return rows[0] ?? null;
+  }
+  const { rows } = await sql<TemperatureRecordDoc>`
+    SELECT id, blob_url, answers, round, uploaded_at
+    FROM documents
+    WHERE user_id = ${userId} AND kind = 'Temperature Record'
+    ORDER BY round DESC
     LIMIT 1;
   `;
   return rows[0] ?? null;
@@ -248,11 +314,12 @@ export async function getTemperatureRecordForUser(userId: string): Promise<Tempe
 export async function insertTemperatureRecord(
   userId: string,
   blobUrl: string,
-  answers: Record<string, unknown>
+  answers: Record<string, unknown>,
+  round: number
 ): Promise<void> {
   await sql`
-    INSERT INTO documents (user_id, title, blob_url, answers)
-    VALUES (${userId}, 'Temperature Record', ${blobUrl}, ${JSON.stringify(answers)});
+    INSERT INTO documents (user_id, title, kind, blob_url, answers, round)
+    VALUES (${userId}, ${temperatureRecordTitle(round)}, 'Temperature Record', ${blobUrl}, ${JSON.stringify(answers)}, ${round});
   `;
 }
 
