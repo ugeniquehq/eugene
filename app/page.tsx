@@ -1,5 +1,6 @@
 import Link from "next/link";
 import BiologyDots from "@/components/BiologyDots";
+import Testimonials from "@/components/Testimonials";
 
 export default function HomePage() {
   return (
@@ -294,7 +295,7 @@ export default function HomePage() {
 </div>
       </section>
 
-     
+      <Testimonials />
     </>
   );
 }
