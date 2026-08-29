@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import styles from "@/app/about/about.module.css";
 
-type TabId = "who-we-are" | "our-founder";
+type TabId = "who-we-are" | "our-founder" | "signature-experience";
 
 export default function AboutTabs() {
   const [active, setActive] = useState<TabId>("who-we-are");
@@ -27,6 +27,7 @@ export default function AboutTabs() {
             [
               { id: "who-we-are", label: "01 Who We Are" },
               { id: "our-founder", label: "02 Our Founder" },
+              { id: "signature-experience", label: "03 Your Signature Experience" },
             ] as { id: TabId; label: string }[]
           ).map((tab) => (
             <button
@@ -95,7 +96,7 @@ export default function AboutTabs() {
             </p>
             <p className={styles.heading}>Less guessing. More understanding. Health personalised to you.</p>
           </div>
-        ) : (
+        ) : active === "our-founder" ? (
           <div>
             <p className="eyebrow" style={{ color: "var(--color-accent)" }}>Our Founder</p>
             <p
@@ -128,6 +129,23 @@ export default function AboutTabs() {
 
             <div className={styles.ctaRow}>
               <Link href="/about/founder" className={`${styles.btn} ${styles["btn--primary"]}`}>
+                Read More &rarr;
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <p className="eyebrow" style={{ color: "var(--color-accent)" }}>Your Signature Experience</p>
+            <p>
+              The Biology of You Signature Experience is our most comprehensive personalised health
+              assessment — bringing together your health history, genetics, blood results, nutrition,
+              supplements, lifestyle and physiology to understand the bigger picture of you.
+            </p>
+            <p>Because collecting more health information isn&rsquo;t the answer.</p>
+            <p>Understanding what it means for you is.</p>
+
+            <div className={styles.ctaRow}>
+              <Link href="/signature-experience" className={`${styles.btn} ${styles["btn--primary"]}`}>
                 Read More &rarr;
               </Link>
             </div>
