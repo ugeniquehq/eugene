@@ -26,6 +26,17 @@ const dayStep = (dayNumber: number): TemperatureStep => ({
   title: `Day ${dayNumber}`,
   fields: [
     {
+      key: `day${dayNumber}.date`,
+      label: "Date",
+      type: "date",
+    },
+    {
+      key: `day${dayNumber}.cycleDay`,
+      label: "Day of menstrual cycle (if applicable)",
+      helper: "Day 1 = first day of your period. Leave blank if not applicable.",
+      type: "text",
+    },
+    {
       key: `day${dayNumber}.wakingTime`,
       label: "Waking temperature — time",
       helper: "Immediately upon waking, before getting out of bed if possible, and before eating, drinking, showering or exercising.",
