@@ -2,6 +2,19 @@ import { redirect } from "next/navigation";
 import { auth, signOut } from "@/auth";
 import { getDocumentsForUser, ClientDocument } from "@/lib/db";
 
+// Same brand dots used in the homepage and about page heroes, for visual
+// consistency across the public site and the portal.
+const HERO_DOTS = [
+  "/branding/dots/dot-1-card.png",
+  "/branding/dots/dot-2-accent-soft.png",
+  "/branding/dots/dot-3-copper.png",
+  "/branding/dots/dot-4-accent.png",
+  "/branding/dots/dot-5-ink.png",
+  "/branding/dots/dot-6-forest.png",
+  "/branding/dots/dot-7-maroon.png",
+  "/branding/dots/dot-8-bg.png",
+];
+
 // Parses "Food Diary" -> 1 and "Food Diary — Round 3" -> 3, so the rounds
 // of a repeatable document (Food Diary, Temperature Record) can be listed
 // oldest-to-newest regardless of when each was actually saved.
@@ -62,28 +75,95 @@ export default async function DashboardPage() {
   ];
 
   return (
-    <section
-      style={{
-        display: "grid",
-        gridTemplateColumns: "1.2fr 1fr",
-        minHeight: "calc(100vh - var(--header-height) - var(--footer-height))",
-      }}
-    >
-      {/* Left: content panel */}
-      <div
+    <>
+      {/* ---------- Hero ---------- */}
+      <section
         style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          padding: "var(--space-xl)",
+          position: "relative",
+          overflow: "hidden",
+          height: "20rem",
         }}
       >
-        <div style={{ maxWidth: "40rem", width: "100%", marginInline: "auto", textAlign: "center" }}>
-          <p className="eyebrow" style={{ color: "var(--color-accent)" }}>Client Portal</p>
-          <h1 style={{ fontSize: "var(--step2)", marginBottom: "var(--space-md)" }}>
-            Welcome back, {session.user.name}
-          </h1>
+        {/* Full-bleed hero photo */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            backgroundImage: "url(/grid2/photo-ocean-legs.jpg)",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        />
 
+        {/* Dark scrim for text legibility, fading out toward the right */}
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            background: "linear-gradient(to right, rgba(20,17,14,0.6) 0%, rgba(20,17,14,0.35) 38%, rgba(20,17,14,0) 65%)",
+          }}
+        />
+
+        {/* Overlaid content: dots + copy */}
+        <div
+          style={{
+            position: "relative",
+            zIndex: 1,
+            display: "flex",
+            alignItems: "stretch",
+            height: "100%",
+          }}
+        >
+          {/* Vertical stack of brand dots */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "0.6rem",
+              paddingTop: "var(--space-xl)",
+              paddingLeft: "var(--space-md)",
+            }}
+          >
+            {HERO_DOTS.map((src) => (
+              <img key={src} src={src} alt="" style={{ width: "0.85rem", height: "0.85rem", borderRadius: "50%", display: "block" }} />
+            ))}
+          </div>
+
+          {/* Copy */}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              paddingTop: "var(--space-xl)",
+              paddingBottom: "var(--space-xl)",
+              paddingLeft: "var(--space-md)",
+              paddingRight: "var(--space-md)",
+              maxWidth: "32rem",
+            }}
+          >
+            <p className="eyebrow" style={{ color: "var(--color-card)" }}>Client Portal</p>
+            <h1 style={{ lineHeight: 1.02, color: "var(--color-card)" }}>Welcome back, {session.user.name}</h1>
+            <p style={{ fontSize: "var(--step1)", color: "var(--color-card)", opacity: 0.85, marginTop: "var(--space-sm)" }}>
+              The story only your biology can tell.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* ---------- Content ---------- */}
+      <section
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1.4fr 1fr",
+          gap: "var(--space-xl)",
+          padding: "var(--space-xl)",
+          alignItems: "start",
+        }}
+      >
+        {/* Left: documents */}
+        <div>
           <p
             style={{
               fontFamily: "var(--font-mono)",
@@ -217,51 +297,25 @@ export default async function DashboardPage() {
             </button>
           </form>
         </div>
-      </div>
 
-      {/* Right: photo panel, echoes login/hero */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "flex-start",
-          justifyContent: "center",
-          padding: "var(--space-xl)",
-        }}
-      >
+        {/* Right: reserved for the programme stage tracker (coming soon) */}
         <div
           style={{
-            position: "relative",
-            width: "100%",
-            maxWidth: "26rem",
-            aspectRatio: "4 / 3",
+            border: "1px dashed var(--color-line)",
             borderRadius: "var(--radius)",
-            overflow: "hidden",
-            backgroundImage: "url(/grid2/photo-ocean-legs.jpg)",
-            backgroundSize: "cover",
-            backgroundPosition: "center",
+            padding: "var(--space-lg)",
+            minHeight: "12rem",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            textAlign: "center",
           }}
         >
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background: "linear-gradient(to top, rgba(20,17,14,0.5) 0%, rgba(20,17,14,0.05) 55%)",
-            }}
-          />
-          <p
-            style={{
-              position: "absolute",
-              bottom: "var(--space-md)",
-              left: "var(--space-md)",
-              right: "var(--space-md)",
-              color: "var(--color-card)",
-              fontSize: "var(--step0)",
-            }}
-          >
-            The story only your biology can tell.
+          <p style={{ color: "var(--color-ink-soft)", fontSize: "var(--step-1)", margin: 0 }}>
+            Your progress tracker is coming soon.
           </p>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
