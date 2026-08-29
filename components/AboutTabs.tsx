@@ -98,7 +98,19 @@ export default function AboutTabs() {
         ) : (
           <div>
             <p className="eyebrow" style={{ color: "var(--color-accent)" }}>Our Founder</p>
-            <h2 style={{ marginTop: 0 }}>Jennifer Barham-Floreani D.C.</h2>
+            <p
+              style={{
+                fontFamily: "var(--font-mono)",
+                fontSize: "var(--step-1)",
+                letterSpacing: "0.04em",
+                textTransform: "uppercase",
+                fontWeight: 700,
+                marginTop: 0,
+                marginBottom: "var(--space-sm)",
+              }}
+            >
+              Jennifer Barham-Floreani D.C.
+            </p>
             <p>
               For more than 27 years, Jennifer Barham-Floreani has been asking a deceptively simple
               question: why can two people do all the same &ldquo;healthy&rdquo; things and experience
