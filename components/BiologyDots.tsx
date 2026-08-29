@@ -219,7 +219,7 @@ export default function BiologyDots() {
             ))}
 
             <Link
-              href="/about"
+              href="/about/story"
               className="btn btn-secondary"
               style={{ marginTop: "var(--space-sm)", display: "inline-flex" }}
               onClick={() => setOpenIndex(null)}
