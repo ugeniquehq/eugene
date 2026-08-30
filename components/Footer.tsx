@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function Footer() {
   return (
     <footer
@@ -29,7 +31,24 @@ export default function Footer() {
       >
         <span>&copy; {new Date().getFullYear()} The Biology of You</span>
         <span style={{ textAlign: "center" }}>The story only your biology can tell.</span>
-        <span />
+        <nav style={{ display: "flex", justifyContent: "flex-end", gap: "var(--space-sm)" }}>
+          <Link href="/contact" style={{ color: "var(--color-ink-soft)", textDecoration: "none" }}>
+            Contact
+          </Link>
+          <Link href="/partnerships" style={{ color: "var(--color-ink-soft)", textDecoration: "none" }}>
+            Partnerships
+          </Link>
+          {/* TODO: swap "#" for the real Instagram URL once Andrea sends the handle */}
+          <a
+            href="#"
+            target="_blank"
+            rel="noreferrer"
+            style={{ color: "var(--color-ink-soft)", textDecoration: "none" }}
+          >
+            Instagram
+          </a>
+          {/* Facebook link intentionally held back until that page exists, per Jen's note */}
+        </nav>
       </div>
     </footer>
   );

@@ -77,7 +77,7 @@ export default function SignatureExperiencePage() {
               supplements, lifestyle and physiology to understand the bigger picture of you.
             </p>
             <p>Because collecting more health information isn&rsquo;t the answer.</p>
-            <p className={styles.heading}>Understanding what it means for you is.</p>
+            <p style={{ fontWeight: 700 }}>Understanding what it means for you is.</p>
             <p>
               Rather than analysing each piece independently, The Biology of You Method™ connects the
               dots — identifying meaningful patterns, understanding your biological individuality and
@@ -256,11 +256,11 @@ export default function SignatureExperiencePage() {
               <p>More understanding of your body.</p>
               <p>More confidence in the decisions you make.</p>
               <p>More clarity about what matters now — and what doesn&rsquo;t.</p>
-              <p className={styles.heading}>And a health strategy designed around the biology of you.</p>
+              <p style={{ fontWeight: 700 }}>And a health strategy designed around the biology of you.</p>
             </div>
 
             <div className={styles.ctaRow}>
-              <Link href="/contact" className={`${styles.btn} ${styles["btn--primary"]}`}>
+              <Link href="/begin-your-journey" className={`${styles.btn} ${styles["btn--primary"]}`}>
                 Begin Your Journey
               </Link>
               <Link href="/about" className={`${styles.btn} ${styles["btn--ghost"]}`}>

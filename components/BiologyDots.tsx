@@ -139,6 +139,22 @@ export default function BiologyDots() {
               {item.title}
             </span>
             <span style={{ display: "block", fontSize: "var(--step-1)", color: "var(--color-ink-soft)" }}>{item.desc}</span>
+            <span
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.3rem",
+                fontFamily: "var(--font-mono)",
+                fontSize: "0.7rem",
+                letterSpacing: "0.06em",
+                textTransform: "uppercase",
+                color: "var(--color-accent)",
+                opacity: 0.85,
+              }}
+            >
+              <span aria-hidden="true" style={{ fontSize: "0.9rem", lineHeight: 1 }}>+</span>
+              Tap to Explore
+            </span>
           </button>
         ))}
       </div>

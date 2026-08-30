@@ -21,7 +21,7 @@ export default function AboutPage() {
           style={{
             position: "relative",
             overflow: "hidden",
-            height: "28rem",
+            height: "38rem",
           }}
         >
           {/* Full-bleed hero photo */}
@@ -35,23 +35,27 @@ export default function AboutPage() {
             }}
           />
 
-          {/* Dark scrim for text legibility, fading out toward the right */}
+          {/* Dark scrim for text legibility — his face/body sit on the left of
+              the photo, so the scrim now sits on the right, under the copy,
+              fading out toward the left where the water is clearest */}
           <div
             style={{
               position: "absolute",
               inset: 0,
               background:
-                "linear-gradient(to right, rgba(20,17,14,0.6) 0%, rgba(20,17,14,0.35) 38%, rgba(20,17,14,0) 65%)",
+                "linear-gradient(to left, rgba(20,17,14,0.6) 0%, rgba(20,17,14,0.35) 38%, rgba(20,17,14,0) 65%)",
             }}
           />
 
-          {/* Overlaid content: dots + copy */}
+          {/* Overlaid content: dots + copy — shifted to the right so his face
+              reads on the left, wording sits over the water on the right */}
           <div
             style={{
               position: "relative",
               zIndex: 1,
               display: "flex",
               alignItems: "stretch",
+              justifyContent: "flex-end",
               height: "100%",
             }}
           >
@@ -61,8 +65,8 @@ export default function AboutPage() {
                 display: "flex",
                 flexDirection: "column",
                 alignItems: "center",
+                justifyContent: "center",
                 gap: "0.6rem",
-                paddingTop: "var(--space-xl)",
                 paddingLeft: "var(--space-md)",
               }}
             >

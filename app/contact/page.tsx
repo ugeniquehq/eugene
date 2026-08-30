@@ -42,9 +42,10 @@ export default function ContactPage() {
     <section className="section">
       <div className="container" style={{ maxWidth: "34rem" }}>
         <p className="eyebrow">Contact</p>
-        <h1>Begin Your Journey </h1>
+        <h1>Got A Question For Us?</h1>
         <p>
-                 </p>
+          Reach out and we&apos;ll get back to you — no pressure, no sales pitch, just answers.
+        </p>
 
         {status === "sent" ? (
           <div className="card" style={{ marginTop: "var(--space-md)" }}>
@@ -77,7 +78,7 @@ export default function ContactPage() {
               />
             </div>
             <div className="field">
-              <label htmlFor="message">What brings you in?</label>
+              <label htmlFor="message">Got a question for us?</label>
               <textarea
                 id="message"
                 name="message"

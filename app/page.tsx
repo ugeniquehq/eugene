@@ -309,7 +309,16 @@ export default function HomePage() {
             to understand what your body needs to thrive.
           </p>
           <div style={{ marginTop: "0.5rem" }}>
-            <Link href="/portal/login" className="btn btn-primary">
+            <Link
+              href="/signature-experience"
+              className="btn btn-primary"
+              style={{
+                fontSize: "var(--step1)",
+                padding: "1.1rem 2.25rem",
+                background: "var(--color-accent)",
+                color: "var(--color-bg)",
+              }}
+            >
               Discover Your Biology
             </Link>
           </div>
