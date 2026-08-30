@@ -190,8 +190,9 @@ export default async function DashboardPage() {
                   style={{
                     border: "1px solid var(--color-line)",
                     borderRadius: "var(--radius)",
-                    padding: "var(--space-lg) var(--space-sm)",
-                    minHeight: "6rem",
+                    padding: "var(--space-md) var(--space-sm)",
+                    height: "6.5rem",
+                    overflowY: "auto",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
@@ -213,11 +214,13 @@ export default async function DashboardPage() {
                   className="btn"
                   style={{
                     justifyContent: "center",
+                    textAlign: "center",
                     background: item.doc ? "var(--color-accent-soft)" : "var(--color-ink)",
                     color: item.doc ? "var(--color-ink)" : "var(--color-bg)",
                     border: item.doc ? "1px solid var(--color-ink)" : "1px solid transparent",
                     fontSize: "var(--step-1)",
                     padding: "0.75rem 1rem",
+                    minHeight: "4.25rem",
                   }}
                 >
                   {item.doc ? item.updateLabel : item.startLabel}
@@ -232,7 +235,8 @@ export default async function DashboardPage() {
                     border: "1px solid var(--color-line)",
                     borderRadius: "var(--radius)",
                     padding: "var(--space-md) var(--space-sm)",
-                    minHeight: "6rem",
+                    height: "6.5rem",
+                    overflowY: "auto",
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
@@ -258,11 +262,13 @@ export default async function DashboardPage() {
                   className="btn"
                   style={{
                     justifyContent: "center",
+                    textAlign: "center",
                     background: item.rounds.length > 0 ? "var(--color-accent-soft)" : "var(--color-ink)",
                     color: item.rounds.length > 0 ? "var(--color-ink)" : "var(--color-bg)",
                     border: item.rounds.length > 0 ? "1px solid var(--color-ink)" : "1px solid transparent",
                     fontSize: "var(--step-1)",
                     padding: "0.75rem 1rem",
+                    minHeight: "4.25rem",
                   }}
                 >
                   {item.rounds.length > 0 ? item.continueLabel : item.startLabel}
@@ -274,8 +280,10 @@ export default async function DashboardPage() {
                     className="btn btn-secondary"
                     style={{
                       justifyContent: "center",
-                      fontSize: "var(--step-2)",
+                      textAlign: "center",
+                      fontSize: "var(--step-1)",
                       padding: "0.5rem 1rem",
+                      minHeight: "3.75rem",
                     }}
                   >
                     {item.newLabel}
