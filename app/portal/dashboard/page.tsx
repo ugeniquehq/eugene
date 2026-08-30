@@ -220,7 +220,7 @@ export default async function DashboardPage() {
                     border: item.doc ? "1px solid var(--color-ink)" : "1px solid transparent",
                     fontSize: "var(--step-1)",
                     padding: "0.75rem 1rem",
-                    minHeight: "4.25rem",
+                    minHeight: "5rem",
                   }}
                 >
                   {item.doc ? item.updateLabel : item.startLabel}
@@ -268,7 +268,7 @@ export default async function DashboardPage() {
                     border: item.rounds.length > 0 ? "1px solid var(--color-ink)" : "1px solid transparent",
                     fontSize: "var(--step-1)",
                     padding: "0.75rem 1rem",
-                    minHeight: "4.25rem",
+                    minHeight: "5rem",
                   }}
                 >
                   {item.rounds.length > 0 ? item.continueLabel : item.startLabel}
@@ -283,7 +283,7 @@ export default async function DashboardPage() {
                       textAlign: "center",
                       fontSize: "var(--step-1)",
                       padding: "0.5rem 1rem",
-                      minHeight: "3.75rem",
+                      minHeight: "5.5rem",
                     }}
                   >
                     {item.newLabel}
