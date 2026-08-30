@@ -59,6 +59,9 @@ export default function Nav() {
           <Link href="/signature-experience" style={{ textDecoration: "none" }}>
             Your Signature Experience
           </Link>
+          <Link href="/is-this-for-you" style={{ textDecoration: "none" }}>
+            Is This For You?
+          </Link>
           <Link href="/contact" style={{ textDecoration: "none" }}>
             Contact
           </Link>

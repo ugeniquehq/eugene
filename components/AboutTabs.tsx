@@ -155,14 +155,14 @@ export default function AboutTabs() {
           <div>
             <p className="eyebrow" style={{ color: "var(--color-accent)" }}>Is This For You?</p>
             <p>
-              This tab is still being written up — full content coming soon. In the meantime, if
+              Wondering whether The Biology of You Signature Experience is right for you? If
               you&rsquo;re tired of guessing, tired of generic advice, and ready to understand what your
               own biology is telling you, it probably is.
             </p>
 
             <div className={styles.ctaRow}>
-              <Link href="/signature-experience" className={`${styles.btn} ${styles["btn--primary"]}`}>
-                Explore Your Signature Experience &rarr;
+              <Link href="/is-this-for-you" className={`${styles.btn} ${styles["btn--primary"]}`}>
+                Read More &rarr;
               </Link>
             </div>
           </div>
