@@ -9,7 +9,7 @@ export default function HomePage() {
         style={{
           position: "relative",
           overflow: "hidden",
-          height: "28rem",
+          height: "38rem",
         }}
       >
         {/* Full-bleed hero photo */}
@@ -48,8 +48,8 @@ export default function HomePage() {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              justifyContent: "center",
               gap: "0.6rem",
-              paddingTop: "var(--space-xl)",
               paddingLeft: "var(--space-md)",
             }}
           >
@@ -86,7 +86,11 @@ export default function HomePage() {
               The story only your biology can tell.
             </p>
             <div style={{ marginTop: "var(--space-md)", marginBottom: "var(--space-lg)" }}>
-              <Link href="/contact" className="btn btn-primary">
+              <Link
+                href="/signature-experience"
+                className="btn btn-primary"
+                style={{ fontSize: "var(--step1)", padding: "1.1rem 2.25rem" }}
+              >
                 Begin Your Journey
               </Link>
             </div>
@@ -149,6 +153,23 @@ export default function HomePage() {
             <p style={{ margin: 0, opacity: 0.85 }}>
               Health should give you more life not more rules.
             </p>
+            <Link
+              href="/about"
+              style={{
+                marginTop: "0.25rem",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.35rem",
+                color: "var(--color-card)",
+                fontFamily: "var(--font-mono)",
+                fontSize: "var(--step-1)",
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                textDecoration: "none",
+              }}
+            >
+              Read More <span aria-hidden="true">&rarr;</span>
+            </Link>
           </div>
           <div
             style={{
@@ -174,6 +195,23 @@ export default function HomePage() {
             <p style={{ margin: 0, opacity: 0.85 }}>
               No one else has your biology. Your plan shouldn&apos;t be one-size-fits-all.
             </p>
+            <Link
+              href="/signature-experience"
+              style={{
+                marginTop: "0.25rem",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.35rem",
+                color: "var(--color-card)",
+                fontFamily: "var(--font-mono)",
+                fontSize: "var(--step-1)",
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                textDecoration: "none",
+              }}
+            >
+              Read More <span aria-hidden="true">&rarr;</span>
+            </Link>
           </div>
         </div>
 
@@ -216,6 +254,23 @@ export default function HomePage() {
             <p style={{ margin: 0, color: "var(--color-ink-soft)" }}>
               We turn complex science into clarity you can use.
             </p>
+            <Link
+              href="/about/story"
+              style={{
+                marginTop: "0.25rem",
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "0.35rem",
+                color: "var(--color-ink)",
+                fontFamily: "var(--font-mono)",
+                fontSize: "var(--step-1)",
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                textDecoration: "none",
+              }}
+            >
+              Read More <span aria-hidden="true">&rarr;</span>
+            </Link>
           </div>
           <div
             style={{

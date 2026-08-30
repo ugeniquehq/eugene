@@ -40,35 +40,29 @@ export default function Nav() {
           />
         </Link>
 
-        {/* RHS: nav links + Client Portal CTA */}
-        <div style={{ display: "flex", alignItems: "center", gap: "1.75rem" }}>
-          <nav
-            style={{
-              display: "flex",
-              gap: "var(--space-md)",
-              alignItems: "center",
-              fontFamily: "var(--font-mono)",
-              fontSize: "0.85rem",
-              letterSpacing: "0.04em",
-              textTransform: "uppercase",
-            }}
-          >
-            <Link href="/about" style={{ textDecoration: "none" }}>
-              About
-            </Link>
-            <Link href="/contact" style={{ textDecoration: "none" }}>
-              Contact
-            </Link>
-          </nav>
-
-          <Link
-            href="/portal/login"
-            className="btn btn-secondary"
-            style={{ textTransform: "none", fontFamily: "var(--font-body)", fontSize: "0.9rem" }}
-          >
+        {/* RHS: nav tabs */}
+        <nav
+          style={{
+            display: "flex",
+            gap: "var(--space-md)",
+            alignItems: "center",
+            fontFamily: "var(--font-mono)",
+            fontSize: "0.85rem",
+            letterSpacing: "0.04em",
+            textTransform: "uppercase",
+            flexWrap: "wrap",
+          }}
+        >
+          <Link href="/about" style={{ textDecoration: "none" }}>
+            About
+          </Link>
+          <Link href="/contact" style={{ textDecoration: "none" }}>
+            Contact
+          </Link>
+          <Link href="/portal/login" style={{ textDecoration: "none" }}>
             Client Portal
           </Link>
-        </div>
+        </nav>
       </div>
     </header>
   );

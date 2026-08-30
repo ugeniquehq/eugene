@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import styles from "@/app/about/about.module.css";
 
-type TabId = "who-we-are" | "our-founder" | "signature-experience";
+type TabId = "who-we-are" | "our-founder" | "signature-experience" | "is-this-for-you";
 
 export default function AboutTabs() {
   const [active, setActive] = useState<TabId>("who-we-are");
@@ -28,6 +28,7 @@ export default function AboutTabs() {
               { id: "who-we-are", label: "01 Who We Are" },
               { id: "our-founder", label: "02 Our Founder" },
               { id: "signature-experience", label: "03 Your Signature Experience" },
+              { id: "is-this-for-you", label: "04 Is This For You?" },
             ] as { id: TabId; label: string }[]
           ).map((tab) => (
             <button
@@ -133,7 +134,7 @@ export default function AboutTabs() {
               </Link>
             </div>
           </div>
-        ) : (
+        ) : active === "signature-experience" ? (
           <div>
             <p className="eyebrow" style={{ color: "var(--color-accent)" }}>Your Signature Experience</p>
             <p>
@@ -147,6 +148,21 @@ export default function AboutTabs() {
             <div className={styles.ctaRow}>
               <Link href="/signature-experience" className={`${styles.btn} ${styles["btn--primary"]}`}>
                 Read More &rarr;
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <p className="eyebrow" style={{ color: "var(--color-accent)" }}>Is This For You?</p>
+            <p>
+              This tab is still being written up — full content coming soon. In the meantime, if
+              you&rsquo;re tired of guessing, tired of generic advice, and ready to understand what your
+              own biology is telling you, it probably is.
+            </p>
+
+            <div className={styles.ctaRow}>
+              <Link href="/signature-experience" className={`${styles.btn} ${styles["btn--primary"]}`}>
+                Explore Your Signature Experience &rarr;
               </Link>
             </div>
           </div>
